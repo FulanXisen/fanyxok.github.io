@@ -17,7 +17,7 @@ The first post of hugo
 ###### Six?
  amazing
 
-A math equation: $c^2 = a^2 + b^2$
+A math equation: \\(c^2 = a^2 + b^2\\)
 
 full line equation:
 $$ e^e = \pi 
@@ -29,18 +29,12 @@ $$
 | b  | b  |
 
 ## A complex latex equation
-$$
-\mathbb{E}(X) = \int x d F(x) =
-\left\{ \begin{aligned} \sum_x x f(x) \; & \text{ if } X \text{ is discrete}
-\\ \int x f(x) dx \; & \text{ if } X \text{ is continuous }
-\end{aligned} \right.
-$$
+$$\begin{array}{cc}
+   a & b \\\
+   c & d
+\end{array}$$
 
-$$
-\begin{equation}
-\begin{split}   
-a &=b+c\\
-&=e+f
-\end{split}
-\end{equation}
-$$
+$$\begin{bmatrix}
+   a & b \newline
+   c & d
+\end{bmatrix}$$
