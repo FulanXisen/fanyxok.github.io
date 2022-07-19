@@ -1,4 +1,4 @@
-baseURL = 'http://yuxinfan.github.io'
+baseURL = 'https://yuxinfan.github.io'
 languageCode = 'en-us'
 title = 'My Website'
 theme = "PaperMod"
