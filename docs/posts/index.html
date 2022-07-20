@@ -149,6 +149,33 @@ $$\begin{bmatrix} a &amp; b \newline c &amp; d \end{bmatrix}$$</p>
   <footer class="entry-footer"><span title='2022-07-19 19:03:35 +0800 CST'>July 19, 2022</span></footer>
   <a class="entry-link" aria-label="post link to My First Post" href="https://YuXinFan.github.io/posts/my-first-post/"></a>
 </article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Oblivious Transfer and Cyclic Group
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Cyclic Group 定义 $$\langle\mathbb{G},q,g \rangle$$
+\(\mathbb{G}=\langle \mathbb{Z}_{n}, \cdot \rangle\)
+\(\mathbb{Z}_{n} \)是一个集合, {$0$…$n-1$}.
+\(\cdot\)是集合中的运算符.
+对\(\mathbb{G}\)中的元素$a$进行$k$次幂运算表示为\(a^{k}=a \cdot a …\cdot a\), 即$k$个$a$进行$\cdot$运算.
+若群$\mathbb{G}$的每一个元素都是$\mathbb{G}$的某一个固定元素$a$的幂，则称$\mathbb{G}$为循环群.
+$q$是$\mathbb{G}$的order, $q$的值等于$\mathbb{G}$中元素的个数, 也记为$|\mathbb{G}|$.
+$g$是$\mathbb{G}$的generator(生成元), $\mathbb{G}$中的所有元素都能由$g$通过幂运算生成.
+由群$\mathbb{G}$, 阶$q$和生成元$g$, 即可定义一个循环群.
+如何寻找一个生成元 如果$\mathbb{G}$有素数阶$p$, 则$\mathbb{G}$中除了identity之外的所有元素都是$\mathbb{G}$的生成元.
+如果$p$是素数, 则$\mathbb{Z}_{p}^{*}$是阶为$p-1$的循环群.
+假设$\mathbb{G}$阶非素数$p$, 可以均匀的从$\mathbb{G}$中采样元素, 直到这个元素是一个生成元.
+$\mathbb{G}$的阶$q$有素数因数$\{p_{i}\}^k_{i=1}$, 检查元素$h$是否为生成元
+for $i = 1$ to $k$ : if $h^{q/p_{i}}=1$ return “$h$ is not a generator” return “$h$ is a generator” $\mathbb{G}$有阶$q$,生成元$g$, 则任意一个元素可以表示为$h=g^{x}$.
+当gcd($x,q$)=1时, $h$也是$\mathbb{G}$的一个生成元. Oblivious Transfer from Cyclic Group Reference:
+More efficient oblivious transfer and extensions for faster secure computation...</p>
+  </div>
+  <footer class="entry-footer"><span title='2022-07-19 19:03:35 +0800 CST'>July 19, 2022</span></footer>
+  <a class="entry-link" aria-label="post link to Oblivious Transfer and Cyclic Group" href="https://YuXinFan.github.io/posts/oblivious-transfer-and-cyclic-group/"></a>
+</article>
     </main>
     
 <footer class="footer">
