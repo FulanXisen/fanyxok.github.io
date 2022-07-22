@@ -2,19 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://YuXinFan.github.io/posts/ieee745/</loc>
+    <lastmod>2022-07-22T10:44:05+08:00</lastmod>
+  </url><url>
+    <loc>https://YuXinFan.github.io/</loc>
+    <lastmod>2022-07-22T10:44:05+08:00</lastmod>
+  </url><url>
+    <loc>https://YuXinFan.github.io/posts/</loc>
+    <lastmod>2022-07-22T10:44:05+08:00</lastmod>
+  </url><url>
+    <loc>https://YuXinFan.github.io/posts/aes/</loc>
+    <lastmod>2022-07-21T17:31:28+08:00</lastmod>
+  </url><url>
     <loc>https://YuXinFan.github.io/posts/my-first-post/</loc>
     <lastmod>2022-07-19T19:03:35+08:00</lastmod>
   </url><url>
-    <loc>https://YuXinFan.github.io/</loc>
-    <lastmod>2022-07-19T19:03:35+08:00</lastmod>
-  </url><url>
-    <loc>https://YuXinFan.github.io/posts/oblivious-transfer-and-cyclic-group/</loc>
-    <lastmod>2022-07-19T19:03:35+08:00</lastmod>
-  </url><url>
-    <loc>https://YuXinFan.github.io/posts/</loc>
+    <loc>https://YuXinFan.github.io/posts/otandcylicgroup/</loc>
     <lastmod>2022-07-19T19:03:35+08:00</lastmod>
   </url><url>
     <loc>https://YuXinFan.github.io/categories/</loc>
+  </url><url>
+    <loc>https://YuXinFan.github.io/search/</loc>
   </url><url>
     <loc>https://YuXinFan.github.io/tags/</loc>
   </url>
