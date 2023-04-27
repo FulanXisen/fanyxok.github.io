@@ -1,12 +1,36 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>My Website</title>
     <link>https://YuXinFan.github.io/</link>
     <description>Recent content on My Website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 22 Jul 2022 10:44:05 +0800</lastBuildDate><atom:link href="https://YuXinFan.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 27 Apr 2023 21:21:59 +0800</lastBuildDate>
+    
+	<atom:link href="https://YuXinFan.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>ARM Cortex-M RTOS Context Switching</title>
+      <link>https://YuXinFan.github.io/posts/p02-cortex-m-context-switching/</link>
+      <pubDate>Thu, 27 Apr 2023 21:21:59 +0800</pubDate>
+      
+      <guid>https://YuXinFan.github.io/posts/p02-cortex-m-context-switching/</guid>
+      <description>ARM Cortex-M RTOS Context Switching 30 Oct 2019 by Chris Coleman
+Many embedded systems reach a level of complexity where having a basic set of scheduling primitives and ability to run different tasks can be helpful. The operation of switching from one task to another is known as a context switch. A Real Time Operating System (RTOS) will typically provide this functionality. Having a foundational knowledge of how the core of an RTOS works can be a valuable skill set for an embedded engineer to have.</description>
+    </item>
+    
+    <item>
+      <title>How to debug a HardFault on an ARM Cortex-M MCU</title>
+      <link>https://YuXinFan.github.io/posts/p01-cortex-m-fault/</link>
+      <pubDate>Thu, 27 Apr 2023 21:21:59 +0800</pubDate>
+      
+      <guid>https://YuXinFan.github.io/posts/p01-cortex-m-fault/</guid>
+      <description>How to debug a HardFault on an ARM Cortex-M MCU 20 Nov 2019 by Chris Coleman
+Faults happen on embedded devices all the time for a variety of reasons – ranging from something as simple as a NULL pointer dereference to something more unexpected like running a faulty code path only when in a zero-g environment on the Tower of Terror in Disneyland1. It’s important for any embedded engineer to understand how to debug and resolve this class of issue quickly.</description>
+    </item>
+    
     <item>
       <title>IEEE745浮点数表示法</title>
       <link>https://YuXinFan.github.io/posts/ieee745/</link>
@@ -15,7 +39,7 @@
       <guid>https://YuXinFan.github.io/posts/ieee745/</guid>
       <description>32-bit 表示一个单精度浮点数 float
 $V=(-1)^s \times M \times 2^E$ 32-bit 分为3部分： S, E, M
-S: 符号位，1bit，0 表示正数， -1 表示负数 E: 指数位，8bit，取值[-127, 128]. M: 尾数位，23bit，取值[0, $2^{23}-1$]. 指数的底固定为2，指数有正数也有负数，但指数部分没有符号位，取一个中间值，小于中间值的表示负数，等于中间值的表示0，大于中间值的表示正数，中间值的定义如下：Bias=$2^{k-1}$-1, k表示E的bit数。实际的E为E-Bias.
+ S: 符号位，1bit，0 表示正数， -1 表示负数 E: 指数位，8bit，取值[-127, 128]. M: 尾数位，23bit，取值[0, $2^{23}-1$].  指数的底固定为2，指数有正数也有负数，但指数部分没有符号位，取一个中间值，小于中间值的表示负数，等于中间值的表示0，大于中间值的表示正数，中间值的定义如下：Bias=$2^{k-1}$-1, k表示E的bit数。实际的E为E-Bias.
 尾数部分隐藏了小数点前的1，实际为1.M。M转换为十进制从高位开始计算： $1+b_{22}\times\frac{1}{2}+b_{21}\times\frac{1}{4}+&amp;hellip;+b_{0}\times\frac{1}{2^{23}}$
 规格化的表示，E不是全0，也不是全1，M任意取值
 E全为0时，表示+0.0, -0.0和接近0.0的值
@@ -39,7 +63,7 @@ AES的区块长度固定为128比特，密钥长度则可以是128，192或256�
 初始化向量与密钥相比有不同的安全性需求，因此IV通常无须保密，然而在大多数情况中，不应当在使用同一密钥的情况下两次使用同一个IV. 对于CBC和CFB，重用IV会导致泄露明文首个块的某些信息，亦包括两个不同消息中相同的前缀。 对于OFB和CTR而言，重用IV会导致完全失去安全性。
 在CBC模式中，IV在加密时必须是无法预测的. SSL2.0使用的采用上一个消息的最后一块密文作为下一个消息的IV，是不安全的
 Padding ECB和CBC需要最后一块在加密前进行填充
-在明文的最后填充空字符以使其长度为块长度的整数倍 在数据后添加一个1位，再添加足够的0位直到满足块长度的要求 添加一个值为128的字节（十六进制的80），再以0字节填满最后一个块 向最后一个块填充n个值均为n的字节 密文窃取 等等 常用模式 电子密码本（ECB） 需要加密的消息按照块密码的块大小被分为数个块，并对每个块进行独立加密。
+ 在明文的最后填充空字符以使其长度为块长度的整数倍 在数据后添加一个1位，再添加足够的0位直到满足块长度的要求 添加一个值为128的字节（十六进制的80），再以0字节填满最后一个块 向最后一个块填充n个值均为n的字节 密文窃取 等等  常用模式 电子密码本（ECB） 需要加密的消息按照块密码的块大小被分为数个块，并对每个块进行独立加密。
 缺点在于同样的明文块会被加密成相同的密文块；它不能很好的隐藏数据模式。在某些场合，这种方法不能提供严格的数据保密性，因此并不推荐用于密码协议中。
 易受到重放攻击的影响，因为每个块是以完全相同的方式解密的.
 密码块链接（CBC） 每个明文块先与前一个密文块进行异或后，再进行加密. 为了保证每条消息的唯一性，在第一个块中需要使用初始化向量。
@@ -62,7 +86,8 @@ Padding ECB和CBC需要最后一块在加密前进行填充
 This is a second header The third The fouth Fifty Six? amazing
 A math equation: \(c^2 = a^2 + b^2\)
 full line equation: $$ e^e = \pi $$
-A Table a a b b A complex latex equation $$\begin{array}{cc} a &amp;amp; b \\ c &amp;amp; d \end{array}$$
+A Table    a a     b b    A complex latex equation $$\begin{array}{cc} a &amp;amp; b \
+c &amp;amp; d \end{array}$$
 $$\begin{bmatrix} a &amp;amp; b \newline c &amp;amp; d \end{bmatrix}$$</description>
     </item>
     
@@ -84,12 +109,19 @@ $g$是$\mathbb{G}$的generator(生成元), $\mathbb{G}$中的所有元素都能�
 如何寻找一个生成元 如果$\mathbb{G}$有素数阶$p$, 则$\mathbb{G}$中除了identity之外的所有元素都是$\mathbb{G}$的生成元.
 如果$p$是素数, 则$\mathbb{Z}_{p}^{*}$是阶为$p-1$的循环群.
 假设$\mathbb{G}$阶非素数$p$, 可以均匀的从$\mathbb{G}$中采样元素, 直到这个元素是一个生成元.
-$\mathbb{G}$的阶$q$有素数因数$\{p_{i}\}^k_{i=1}$, 检查元素$h$是否为生成元
-for $i = 1$ to $k$ : if $h^{q/p_{i}}=1$ return &amp;ldquo;$h$ is not a generator&amp;rdquo; return &amp;ldquo;$h$ is a generator&amp;rdquo; $\mathbb{G}$有阶$q$,生成元$g$, 则任意一个元素可以表示为$h=g^{x}$.
-当gcd($x,q$)=1时, $h$也是$\mathbb{G}$的一个生成元. Oblivious Transfer from Cyclic Group Reference:
-More efficient oblivious transfer and extensions for faster secure computation</description>
+  $\mathbb{G}$的阶$q$有素数因数$\{p_{i}\}^k_{i=1}$, 检查元素$h$是否为生成元
+ for $i = 1$ to $k$ : if $h^{q/p_{i}}=1$ return &amp;ldquo;$h$ is not a generator&amp;rdquo; return &amp;ldquo;$h$ is a generator&amp;rdquo;    $\mathbb{G}$有阶$q$,生成元$g$, 则任意一个元素可以表示为$h=g^{x}$.
+ 当gcd($x,q$)=1时, $h$也是$\mathbb{G}$的一个生成元.    Oblivious Transfer from Cyclic Group Reference:</description>
     </item>
     
+    <item>
+      <title>Search</title>
+      <link>https://YuXinFan.github.io/search/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://YuXinFan.github.io/search/</guid>
+      <description>search</description>
+    </item>
     
   </channel>
 </rss>

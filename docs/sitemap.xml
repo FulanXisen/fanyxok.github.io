@@ -1,29 +1,57 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://YuXinFan.github.io/posts/p02-cortex-m-context-switching/</loc>
+    <lastmod>2023-04-27T21:21:59+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://YuXinFan.github.io/posts/p01-cortex-m-fault/</loc>
+    <lastmod>2023-04-27T21:21:59+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://YuXinFan.github.io/</loc>
+    <lastmod>2023-04-27T21:21:59+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://YuXinFan.github.io/posts/</loc>
+    <lastmod>2023-04-27T21:21:59+08:00</lastmod>
+  </url>
+  
   <url>
     <loc>https://YuXinFan.github.io/posts/ieee745/</loc>
     <lastmod>2022-07-22T10:44:05+08:00</lastmod>
-  </url><url>
-    <loc>https://YuXinFan.github.io/</loc>
-    <lastmod>2022-07-22T10:44:05+08:00</lastmod>
-  </url><url>
-    <loc>https://YuXinFan.github.io/posts/</loc>
-    <lastmod>2022-07-22T10:44:05+08:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://YuXinFan.github.io/posts/aes/</loc>
     <lastmod>2022-07-21T17:31:28+08:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://YuXinFan.github.io/posts/my-first-post/</loc>
     <lastmod>2022-07-19T19:03:35+08:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://YuXinFan.github.io/posts/otandcylicgroup/</loc>
     <lastmod>2022-07-19T19:03:35+08:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://YuXinFan.github.io/categories/</loc>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://YuXinFan.github.io/search/</loc>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://YuXinFan.github.io/tags/</loc>
   </url>
+  
 </urlset>

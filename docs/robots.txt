@@ -1,3 +1,5 @@
 User-agent: *
-Disallow:
-Sitemap: https://YuXinFan.github.io/sitemap.xml
+# robotstxt.org - if ENV production variable is false robots will be disallowed.
+
+Disallow: /
+
