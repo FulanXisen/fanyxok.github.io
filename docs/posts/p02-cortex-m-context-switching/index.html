@@ -1,128 +1,179 @@
 <!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    
-    <title>ARM Cortex-M RTOS Context Switching | My Website</title>
-    <meta name="viewport" content="width=device-width,minimum-scale=1">
-    <meta name="description" content="ARM Cortex-M RTOS Context Switching 30 Oct 2019 by Chris Coleman
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>ARM Cortex-M RTOS Context Switching | My Website</title>
+<meta name="keywords" content="">
+<meta name="description" content="ARM Cortex-M RTOS Context Switching 30 Oct 2019 by Chris Coleman
 Many embedded systems reach a level of complexity where having a basic set of scheduling primitives and ability to run different tasks can be helpful. The operation of switching from one task to another is known as a context switch. A Real Time Operating System (RTOS) will typically provide this functionality. Having a foundational knowledge of how the core of an RTOS works can be a valuable skill set for an embedded engineer to have.">
-    <meta name="generator" content="Hugo 0.68.3" />
-    
-    
-    
-    
-      <meta name="robots" content="noindex, nofollow">
-    
+<meta name="author" content="">
+<link rel="canonical" href="https://YuXinFan.github.io/posts/p02-cortex-m-context-switching/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.2ecb636e9b21e5eac16fef8b38e32754f5e0e9fdbc9b0eb88f02b2dac89e33d1.css" integrity="sha256-Lstjbpsh5erBb&#43;&#43;LOOMnVPXg6f28mw64jwKy2sieM9E=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://YuXinFan.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://YuXinFan.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://YuXinFan.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://YuXinFan.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://YuXinFan.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
 
-    
-<link rel="stylesheet" href="/ananke/css/main.min.css" >
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
 
+            .list {
+                background: var(--theme);
+            }
 
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
 
-    
-    
-    
-      
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
 
+    </style>
+</noscript><head>
     
-
-    
-    
-    <meta property="og:title" content="ARM Cortex-M RTOS Context Switching" />
+</head><meta property="og:title" content="ARM Cortex-M RTOS Context Switching" />
 <meta property="og:description" content="ARM Cortex-M RTOS Context Switching 30 Oct 2019 by Chris Coleman
 Many embedded systems reach a level of complexity where having a basic set of scheduling primitives and ability to run different tasks can be helpful. The operation of switching from one task to another is known as a context switch. A Real Time Operating System (RTOS) will typically provide this functionality. Having a foundational knowledge of how the core of an RTOS works can be a valuable skill set for an embedded engineer to have." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://YuXinFan.github.io/posts/p02-cortex-m-context-switching/" />
-<meta property="article:published_time" content="2023-04-27T21:21:59+08:00" />
-<meta property="article:modified_time" content="2023-04-27T21:21:59+08:00" />
-<meta itemprop="name" content="ARM Cortex-M RTOS Context Switching">
-<meta itemprop="description" content="ARM Cortex-M RTOS Context Switching 30 Oct 2019 by Chris Coleman
-Many embedded systems reach a level of complexity where having a basic set of scheduling primitives and ability to run different tasks can be helpful. The operation of switching from one task to another is known as a context switch. A Real Time Operating System (RTOS) will typically provide this functionality. Having a foundational knowledge of how the core of an RTOS works can be a valuable skill set for an embedded engineer to have.">
-<meta itemprop="datePublished" content="2023-04-27T21:21:59&#43;08:00" />
-<meta itemprop="dateModified" content="2023-04-27T21:21:59&#43;08:00" />
-<meta itemprop="wordCount" content="6572">
+<meta property="og:url" content="https://YuXinFan.github.io/posts/p02-cortex-m-context-switching/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-04-27T21:21:59&#43;08:00" />
+<meta property="article:modified_time" content="2023-04-27T21:21:59&#43;08:00" />
 
-
-
-<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="ARM Cortex-M RTOS Context Switching"/>
 <meta name="twitter:description" content="ARM Cortex-M RTOS Context Switching 30 Oct 2019 by Chris Coleman
 Many embedded systems reach a level of complexity where having a basic set of scheduling primitives and ability to run different tasks can be helpful. The operation of switching from one task to another is known as a context switch. A Real Time Operating System (RTOS) will typically provide this functionality. Having a foundational knowledge of how the core of an RTOS works can be a valuable skill set for an embedded engineer to have."/>
 
-	
-  </head>
 
-  <body class="ma0 avenir bg-near-white">
-
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "ARM Cortex-M RTOS Context Switching",
+      "item": "https://YuXinFan.github.io/posts/p02-cortex-m-context-switching/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "ARM Cortex-M RTOS Context Switching",
+  "name": "ARM Cortex-M RTOS Context Switching",
+  "description": "ARM Cortex-M RTOS Context Switching 30 Oct 2019 by Chris Coleman\nMany embedded systems reach a level of complexity where having a basic set of scheduling primitives and ability to run different tasks can be helpful. The operation of switching from one task to another is known as a context switch. A Real Time Operating System (RTOS) will typically provide this functionality. Having a foundational knowledge of how the core of an RTOS works can be a valuable skill set for an embedded engineer to have.",
+  "keywords": [
     
-   
-  
+  ],
+  "articleBody": "ARM Cortex-M RTOS Context Switching 30 Oct 2019 by Chris Coleman\nMany embedded systems reach a level of complexity where having a basic set of scheduling primitives and ability to run different tasks can be helpful. The operation of switching from one task to another is known as a context switch. A Real Time Operating System (RTOS) will typically provide this functionality. Having a foundational knowledge of how the core of an RTOS works can be a valuable skill set for an embedded engineer to have.\nIn this article we will explore how context switching works on ARM Cortex-M MCUs. We will discuss how the hardware was designed to support this operation, features that impact the context switching implementation such as the Floating Point Unit (FPU), and common pitfalls seen when porting an RTOS to a platform. We will also walk through a practical example of analyzing the FreeRTOS context switcher, xPortPendSVHandler, utilizing gdb to strengthen our understanding.\n If you’d rather listen to me present this information and see some demos in action, watch this webinar recording.\n Like Interrupt? Subscribe to get our latest posts straight to your mailbox.\nTable of Contents  Cortex-M ARM MCU Features  Cortex-M Operation Modes Registers Stack Pointers Context State Stacking   RTOS Context Switching Demystifying the FreeRTOS Context Switcher  The Port Compiling the code and launching it with GDB Context Switching Starting the FreeRTOS Scheduler   Closing Reference Links  Cortex-M ARM MCU Features To understand how RTOS context switching works for ARM Cortex-M MCUs, it’s critical to have foundational knowledge about the primitives the architecture provides to make it possible.\nIn this section we go through these building blocks by distilling down the information spread across the ARM Cortex-M reference manuals and the ARM Architecture Procedure Calling Standard (AAPCS)1 which defines the Application Binary Interface (ABI) a compiler must abide by for ARM.\n NOTE: If you already have a good understanding of these concepts, feel free to switch over this section (pun intended).\n Cortex-M Operation Modes When a Cortex-M based MCU is running from an exception handler such as an Interrupt Service Routine (ISR), it is known as running in Handler Mode. The rest of the time the MCU runs in Thread Mode.\nThe core can operate at either a privileged or unprivileged level. Certain instructions and operations are only allowed when the software is executing as privileged. For example, unpriviledged code may not access NVIC registers. In Handler Mode, the core is always privileged. In Thread Mode, the software can execute at either level.\nSwitching Thread Mode from the unprivileged to privileged level can only happen when running from Handler Mode.\nThese different configurations enable use cases where certain application code, such as the RTOS kernel, can be better sandboxed from one another. We will cycle back to this terminology throughout the article.\nRegisters Core Registers Every Cortex-M MCU is comprised of 16, 32-bit Core Registers\nSection 5.1.1 of the AAPCS1 defines the roles and names of the registers:\n   Register Alternative Names Role in the procedure call standard     r15 PC The Program Counter (Current Instruction)   r14 LR The Link Register (Return Address)   r13 SP The Stack Pointer   r12 IP The Intra-Procedure-call scratch register   r11 v8 Variable-register 8   r10 v7 Variable-register 7   r9 v6, SB, TR Variable-register 6 or Platform Register   r8, r7, r6, r5, r4 v5, v4, v3, v2, v1 Variable-register 5 - Variable-register 1   r3, r2, r1, r0 a4, a3, a2, a1 Argument / scratch register 4 - Argument / scratch register 1     Fun Facts: Many compilers will accept any of the alternative names when accessing registers using assembly. For example, with GCC setting r0 to zero could be achieved with either __asm(\"mov r0, #0\") or __asm(\"mov a1, #0\"). In the AAPCS specification, “upper case is used when the register has a fixed role in the procedure call standard” so PC is more correct than pc, which is why certain names in the table are capitalized and others are not.\n r12 Intra-Procedure-call Scratch Register The address space for ARM Cortex-M devices is 32 bits. However, it’s not possible for a branch and link (bl) instruction to jump across the entire address region (because some bits encode the instruction itself). In this situation, a jump to a function that is far away in the address space may require passing through a shim function generated by the linker known as a veneer. r12 is the only register that may be used within the veneer without needing to preserve the original state.\nr9 as Platform Register In a vast majority of applications, r9 is just used as another variable register within a function. However, the additional platform-specific use cases merit further clarification. In both of these situations the state of the register may need to be preserved across function calls.\nOne application is to use r9 as a static base (SB). Normally when code is compiled, the code is dependent on the position it runs from. That is, functions are linked together based on the fact that the code and data will always be located at a specific location. However, for some applications you may want the ability to run code from arbitrary locations. For example, maybe you want to load a function from flash into RAM for faster execution. In these situations you will need to generate Position Independent Code (PIC). When executing PIC, the address of global \u0026 static data needs to be looked up. These addresses are stored in a table known as the Global Offset Table. The base of this table can be stored in r9 and then functions will reference this register to look it up. For example, this behavior will be triggered for ARM Cortex-M devices when compiling with the -fpic and -msingle-pic-base compiler options.\nAnother application is to use r9 as the thread register (TR). In this situation, the register holds a pointer to the current thread-local storage context\nFloating Point (FP) registers Cortex-M4, Cortex-M7 and Cortex-M33s can implement an optional unit to natively support floating point operations, known as the Floating Point (FP) extension.\n Fun fact: The FP extension is itself based off implementations originally defined for ARMv7-A and ARMv7-R architectures, known as VFPv4-D16. Consequently, you will sometimes see the implementation referred to by its legacy name, VFP extension.\n There are technically two floating point extensions a Cortex-M device may implement, FPv4-SP \u0026 FPv5 but a full discussion is outside the scope of this article.\nBoth extensions expose the same set of registers for FPU operations. They can be addressed in two ways:\n As thirty-two 32 bit (single-word) registers (s0 - s31) As sixteen 64 bit (double-word) registers (d0 - d16)  where, s0 and s1 make up d0, s2 and s3 make up d1, … and so on.\nWhen a FP extension is present, there is also one special register, FPSCR, which allows for configuration and control of floating point system options.\nBy default, even if an MCU implements the FP extension, when the device is reset, the feature is disabled. To enable it, a write to the Coprocessor Access Control Register (CPACR) located at address 0xE000ED88 must take place.\nThe layout can be found in the ARMv7 Reference Manual2:\nwhere, CP10 and CP11 are used to control floating point availability. Both fields are 2 bits and must be identical to correctly configure the FPU.\n   bit 1 bit 0 CP10 \u0026 CP11 FPU Configuration     0 0 FPU Disabled (default). Any access generates a UsageFault.   0 1 Privileged access only. Any unprivileged access generates a UsageFault.   1 0 Reserved   1 1 Privileged and unprivileged access allowed.    Special Registers There’s a number of Special Registers which can be written to and read from using the Move to Special Register (MSR) and Move to Register from Special Register (MRS) instructions, respectively.\nA full discussion of all the registers is outside the scope of this article but the ARM Reference Manual documentation about the instruction itself has a great overview 2:\nThere are some special rules about the privilege level needed to read and write to the special registers worth remembering:\nExcerpt from “B5.2.2 MRS”2:\n If unprivileged code attempts to read any stack pointer, the priority masks, or the IPSR, the read returns zero.\n Excerpt from “B5.2.3 MSR”2:\n The processor ignores writes from unprivileged Thread mode to any stack pointer, the EPSR, the IPSR, the masks, or CONTROL. If privileged Thread mode software writes a 1 to the CONTROL.nPRIV bit, the processor switches to unprivileged Thread mode execution, and ignores any further writes to special-purpose registers. After any Thread mode transition from privileged to unprivileged execution, software must issue an ISB instruction to ensure instruction fetch correctness.\n For context switching, one of the most important special registers is the CONTROL register. Bits in the register read-as-zero unless they are implemented. The ARMv8-M architecture3 has the largest number of optional extensions so the most complete assignment set one will see is:\nwhere\n SFPA indicates whether secure floating-point is active or inactive based on whether the bit is set or not. This is only present when the ARMv8-M Security Extension is implemented FPCA indicates whether the floating point context is active. We’ll go into detail below. SPSEL controls what stack pointer is in use. We’ll go into more detail below. nPriv controls whether or not thread mode is operating as privileged or unprivileged. When set to 1, thread mode operates as unprivileged otherwise it operates as privileged  Stack Pointers The Cortex-M architecture implements two stacks known as the Main Stack (tracked in the msp register) and the Process Stack (tracked in the psp register). On reset, the MSP is always active and its initial value is derived from the first word in the vector table. When a stack pointer is “active”, its current value will be returned when the sp register is accessed.\nIn Handler Mode, the msp is always the stack which is used. In Thread Mode, the stack pointer which is used can be controlled in two ways:\n Writes of 1 to the SPSEL bit in the CONTROL register will switch from using the msp to the psp The value placed in EXC_RETURN upon exception return. We will expand on this below.  Context State Stacking In our guide about ARM Cortex-M Exception Handling, we touched upon how the hardware itself implements the AAPCS1 so that interrupts can be implemented as normal C functions. Here we will expand on what that actually means.\nPer the AAPCS1, there is a certain set of registers that a function is responsible for restoring to their original value before returning to the function which called it:\n A subroutine must preserve the contents of the registers r4-r8, r10, r11 and SP (and r9 in PCS variants that designate r9 as v6).\n Conversely, this means it is the responsibility of the calling function to preserve the registers not mentioned, r0 - r3, r12 and LR (r14).\nThe specification also states the “The [C]PSR is a global register” where “the N, Z, C, V and Q bits (bits 27-31) and the GE[3:0] bits (bits 16-19) are undefined on entry to or return from a public interface.” These bits convey state about recent comparisons, etc. This means it’s also the calling functions responsibility to preserve any state it needs in the register.\nThe AAPCS also imposes a requirement that “The stack must be double-word aligned.” for “public interfaces” which means when entering a function the stack should always start off 8-byte aligned.\nTaking all of these factors into account, in order for execution from an interrupt to be ABI compliant, the ARM architecture needs to align the stack and save the register state that a calling function is responsible for preserving. To accomplish this, the ARM Cortex-M core will push that context onto the stack.\n NOTE: The stack data is pushed on is the one which was in use prior to servicing the exception. So for example, if the system was in Thread Mode using the psp and exception takes place, the data will be pushed on the psp. If the core was already servicing another exception and was preempted by a higher priority exception, the data will be pushed on the msp.\n The reference manual has a great picture of what the stack looks like after this automatic context state saving takes place:\n NOTE: On exception entry, the ARM hardware uses bit 9 of the stacked xPSR value to indicate whether 4 bytes of padding was added to align the stack on an 8 byte boundary.\n FP Extension \u0026 Context State Stacking When the FP Extension is in use and active, the AAPCS1 states that s16 - s31 must be preserved across subroutine calls and s0 - s15 do not need to be preserved. Additionally, similar to the PSR register, the state of the FPU needs to be preserved so the FPSCR needs to be stored as well. This means an additional 17 registers (68 bytes) need to be stacked on exception entry!\nFortunately, the folks at ARM realized this could be a performance or memory problem for some use cases so there are several really neat ways to optimize this.\nAs we mentioned above, one option is to completely disable the FPU. In this situation no state needs to be preserved.\nHowever, there’s also some fine granularity controls about how the context is preserved. These can be configured via the Floating Point Context Control Register (FPCCR) located at address 0xE000EF34:\nWith respect to Context State Stacking, the values that are interesting are:\n ASPEN - When set to 1 (default), any execution of a floating point instruction will set the FPCA bit in the control register we mentioned above. LSPEN - When set to 1 (default) enables what is known as a lazy context save4. Basically what this means is on exception entry, space will be reserved on the stack for the caller saved floating point registers (s0-s15 \u0026 FPSCR) but the data will not actually be pushed by default. If and only if a floating point instruction is executed while in the exception, only then will the state be pushed. This is pretty sweet because it means as long as an interrupt does not use the FPU, no extra interrupt latency penalty is incurred!  When the FPU is “in use” (CONTROL.FPCA=1), an extended frame will be saved by the hardware:\n NOTE: If the FPU is enabled but no floating point instructions are executed or ASPEN is disabled (i.e CONTROL.FPCA=0), only the basic frame will be saved. The ARM lazy context save application note4 explores some interesting tricks one can play based on these facts to prevent the extended frame from always needing to be allocated even when the FPU is in use.\n Exception Return Finally, in order for the hardware to figure out what state to restore when exiting an exception, a special value, known as EXC_RETURN needs to be loaded into the link register, lr. Typically, this will just mirror the value in the lr on exception entry. However, a different value can also be manually loaded into the register as well (i.e to change the Thread Mode stack pointer being used like we discussed above).\nOn exception entry, the ARM reference manual pseudocode for the value stored in lr gives the best description5:\nIt describes the current stack frame in use (Extended vs Basic) as well as what the active stack pointer was prior to the exception taking place.\nWhen returning from an exception, the possible values and behavior for EXC_RETURN are:\n   EXC_RETURN Value Mode to Return To Stack to use     0xFFFFFFF1 Handler Mode MSP   0xFFFFFFF9 Thread Mode MSP   0xFFFFFFFD Thread Mode PSP   0xFFFFFFE1 Handler Mode (FPU Extended Frame) MSP   0xFFFFFFE9 Thread Mode (FPU Extended Frame) MSP   0xFFFFFFED Thread Mode (FPU Extended Frame) PSP    RTOS Context Switching An RTOS at its cores offers several basic primitives:\n A scheduler capable of context switching between different tasks. Tasks can usually be prioritized and at a bare minimum a scheduler is usually capable of alternating between tasks when new events arrive (i.e a new accelerometer sample is available) or when the task yields its slot. Very basic Operating System primitives (such as mutexes/semaphores and a way to pass messages between tasks) Configuration operations for sandboxing different code from one another by leveraging the privilege and access control features the hardware offers.  Schedulers usually come in two main varieties:\n Preemptive - A context switch while a task is “running” if something more important comes up. Cooperative - A context switch will never occur while another task is “running”. A task must explicitly yield for another task to run. Tasks must “co-operate” for everyone to get a chance to run.  When an RTOS scheduler decides a different task should be run than what is currently running, it will trigger a context switch. When switching from one task to another, the “state” of the current task needs to be preserved in some way. This includes information such as the execution state of the task (i.e blocked on a mutex, sleeping, etc) and the values of the active hardware registers.\nAs we alluded to in our ARM Cortex-M Exception article, the SVCall, PendSV, and SysTick interrupts integrated into every Cortex-M device were explicitly designed to make task management simple. Consequently, the context switching logic winds up looking extremely similar regardless of the RTOS in use. So if you understand how one works, you will be able to pretty easily learn how any other one works!\nIn the sections that follow we will walk through step-by-step how the context switcher within FreeRTOS6 works for Cortex-M devices. FreeRTOS is a very popular (and open source!) RTOS found in numerous commercial products. It has a great track record and has been around since ~2003 by Real Time Engineers Ltd. In 2017 the company was acquired by Amazon, who now manages the project.\nDemystifying the FreeRTOS Context Switcher For this setup we will use:\n a nRF52840-DK7 (ARM Cortex-M4F) as our development board SEGGER JLinkGDBServer8 as our GDB Server. GCC 8.3.1 / GNU Arm Embedded Toolchain as our compiler9 GNU make as our build system  All the code can be found on the Interrupt Github page with more details in the README in the directory linked.\nThe example application itself is very basic: it creates a “Ping” FreeRTOS task and a “Pong” FreeRTOS task. The “Ping” task sends a message to the “Pong” task once per second and each time the event loop in a task runs, I’ve added a breakpoint instruction so we can confirm with the debugger the tasks are switching between each other.\nThe Port FreeRTOS has excellent documentation10 about creating a new project. If you are trying to port FreeRTOS to your own platform, I’d strongly recommend reading through those docs. For context, the approximate steps I followed for the minimal port to the Cortex-M4 are:\n Set up a build system and startup sequence for your MCU. Extensive details about what these steps look like can be found in our zero to main() series. Compile the core source files included in the FreeRTOS Kernel11 (tasks.c, queue.c, list.c, timers.c) Choose a “port”. A port is the platform specific files needed for the architecture in use. Since ports often wind up having assembly and assembly syntax is compiler specific there will often be ports per compiler for a given architecture. The FreeRTOS Kernel 11 already has a default port for pretty much any architecture imaginable so usually you can just choose one from there. In our case, we want a port for a Cortex-M4F which can be found in portable/GCC/ARM_CM4F/. Once you find the “port” you will need to add port.c to your compilation list. Chose a FreeRTOS heap implementation12. I went with the most basic one for the example, portable/MemMang/heap_1.c Add the port directory (in our case portable/GCC) and the root directory of the kernel as include paths to the build system. Create a FreeRTOSConfig.h13 with the configuration settings for your particular application Create some tasks (xTaskCreate), start the scheduler (vTaskStartScheduler), and you are ready to go!  Compiling the code and launching it with GDB # Compile the code $ make Compiling main.c Compiling startup.c Compiling freertos_kernel/tasks.c Compiling freertos_kernel/queue.c Compiling freertos_kernel/list.c Compiling freertos_kernel/timers.c Compiling freertos_kernel/portable/GCC/ARM_CM4F/port.c Compiling freertos_kernel/portable/MemMang/heap_1.c Linking library Generated build/nrf52.elf # In one terminal, start a GDB Server $ JLinkGDBServer -if swd -device nRF52840_xxAA SEGGER J-Link GDB Server V6.52a Command Line Version # Flash the code on the NRF52 and start gdb $ arm-none-eabi-gdb-py --eval-command=\"target remote localhost:2331\" --ex=\"mon reset\" --ex=\"load\" --ex=\"mon reset\" --se=build/nrf52.elf GNU gdb (GNU Tools for Arm Embedded Processors 8-2019-q3-update) 8.3.0.20190703-git Copyright (C) 2019 Free Software Foundation, Inc. [...] Resetting target Loading section .interrupts, size 0x40 lma 0x0 Loading section .text, size 0x194d lma 0x40 Loading section .data, size 0x4 lma 0x1990 Start address 0x40, load size 6545 Transfer rate: 2130 KB/sec, 2181 bytes/write. Resetting target (gdb)  Context Switching Let’s start by looking at the code that deals with context switching itself. Once we understand that, we will cycle back to how the scheduler itself is started and tasks are created.\nThe FreeRTOS scheduler works by utilizing the built in SysTick and PendSV interrupts. The SysTick is configured to fire periodically. Each time it fires, a check is performed to see if a context switch is required by calling xTaskIncrementTick:\nvoid xPortSysTickHandler( void ) { /* The SysTick runs at the lowest interrupt priority, so when this interrupt executes all interrupts must be unmasked. There is therefore no need to save and then restore the interrupt mask value as its value is already known. */ portDISABLE_INTERRUPTS(); { /* Increment the RTOS tick. */ if( xTaskIncrementTick() != pdFALSE ) { /* A context switch is required. Context switching is performed in the PendSV interrupt. Pend the PendSV interrupt. */ portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT; } } portENABLE_INTERRUPTS(); }  A context switch may also occur outside of this if a task decides to yield (portYIELD).\nBoth of these paths trigger the PendSV exception, where the real magic happens:\n// FreeRTOSConfig.h #define vPortSVCHandler SVC_Handler #define xPortPendSVHandler PendSV_Handler #define xPortSysTickHandler SysTick_Handler // port.c void xPortPendSVHandler( void ) { /* This is a naked function. */ __asm volatile ( \" mrs r0, psp \\n\" \" isb \\n\" \" \\n\" \" ldr r3, pxCurrentTCBConst \\n\" /* Get the location of the current TCB. */ \" ldr r2, [r3] \\n\" \" \\n\" \" tst r14, #0x10 \\n\" /* Is the task using the FPU context? If so, push high vfp registers. */ \" it eq \\n\" \" vstmdbeq r0!, {s16-s31} \\n\" \" \\n\" \" stmdb r0!, {r4-r11, r14} \\n\" /* Save the core registers. */ \" str r0, [r2] \\n\" /* Save the new top of stack into the first member of the TCB. */ \" \\n\" \" stmdb sp!, {r0, r3} \\n\" \" mov r0, %0 \\n\" \" msr basepri, r0 \\n\" \" dsb \\n\" \" isb \\n\" \" bl vTaskSwitchContext \\n\" \" mov r0, #0 \\n\" \" msr basepri, r0 \\n\" \" ldmia sp!, {r0, r3} \\n\" \" \\n\" \" ldr r1, [r3] \\n\" /* The first item in pxCurrentTCB is the task top of stack. */ \" ldr r0, [r1] \\n\" \" \\n\" \" ldmia r0!, {r4-r11, r14} \\n\" /* Pop the core registers. */ \" \\n\" \" tst r14, #0x10 \\n\" /* Is the task using the FPU context? If so, pop the high vfp registers too. */ \" it eq \\n\" \" vldmiaeq r0!, {s16-s31} \\n\" \" \\n\" \" msr psp, r0 \\n\" \" isb \\n\" \" \\n\" \" \\n\" \" bx r14 \\n\" \" \\n\" \" .align 4 \\n\" \"pxCurrentTCBConst: .word pxCurrentTCB \\n\" ::\"i\"(configMAX_SYSCALL_INTERRUPT_PRIORITY) ); }  Let’s halt the debugger in this function and step through instruction by instruction discussing what is actually happening.\n(gdb) mon reset Resetting target (gdb) c Continuing. Program received signal SIGTRAP, Trace/breakpoint trap. prvQueuePingTask (pvParameters=) at main.c:33 33 __asm(\"bkpt 1\"); (gdb) break PendSV_Handler Breakpoint 2 at 0x1430: file freertos_kernel/portable/GCC/ARM_CM4F/port.c, line 435. (gdb) n 34 xQueueSend(xQueue, \u0026ulValueToSend, 0U); (gdb) c Continuing. Breakpoint 2, PendSV_Handler () at freertos_kernel/portable/GCC/ARM_CM4F/port.c:435 435\t__asm volatile  Great, we are halted on the first line of the context switcher. As we discussed above, the hardware will automatically save registers on exception entry for us. We can figure out how things are stacked by looking at the current lr value which encodes this information.\n(gdb) p/x $lr $7 = 0xfffffffd  Using this info we know that the code was executing in thread mode and using the psp for it’s stack. We also know that the FPU context was not active.\nThis tells us a basic frame was saved by the hardware on the psp. We can walk up the stack using x/a with gdb to dump the register values. I’ve annotated the registers being read inline below:\n(gdb) x/a $psp // top of stack will be $r0 0x200005a0 :\t0x1  (gdb) 0x200005a4 :\t0x200003b4  (gdb) 0x200005a8 :\t0x10000000 (gdb) 0x200005ac :\t0x0  (gdb) 0x200005b0 :\t0x200001a8  (gdb) 0x200005b4 :\t0xbd1  (gdb) 0x200005b8 :\t0x1422  (gdb) // notice bit 9 is not set so there is no padding byte 0x200005bc :\t0x6100f000  Now we are ready to walk through the assembly code that makes up the context switcher. First we have:\n \" mrs r0, psp \\n\" \" isb \\n\"  We see that the current location of the psp (the stack that was in use prior to exception entry) is loaded into r0 using the mrs instruction detailed above. This is followed by an isb (Instruction Synchronization Barrier) which flushes the instruction pipeline guaranteeing any instruction which follows will be re-fetched. Technically it doesn’t really serve any purpose here and shouldn’t be required at all14.\n// step over the first two instructions (can also type \"si 2\" for short) (gdb) step instruction 2  Moving on we have:\n \" ldr r3, pxCurrentTCBConst \\n\" /* Get the location of the current TCB. */ \" ldr r2, [r3] \\n\" [...] \"pxCurrentTCBConst: .word pxCurrentTCB \\n\"  What’s happening here is a label with the location of the C variable, pxCurrentTCB, is loaded into $r3. Then the value of pxCurrentTCB gets loaded into $r2. We can confirm this by stepping through the two instructions and comparing the registers with the C types.\n(gdb) step instruction (gdb) p/x $r3 $23 = 0x20000008 (gdb) p \u0026pxCurrentTCB $24 = (TCB_t * volatile *) 0x20000008  (gdb) step instruction (gdb) p/x $r2 $25 = 0x20000610 (gdb) p pxCurrentTCB $26 = (TCB_t * volatile) 0x20000610   Next we have:\n \" tst r14, #0x10 \\n\" /* Is the task using the FPU context? If so, push high vfp registers. */ \" it eq \\n\" \" vstmdbeq r0!, {s16-s31} \\n\"  This set of instructions checks to see if the FPU Context was active prior to exception entry. This can be resolved by reading the information passed via the $lr register on exception entry (more details above). If bit 5 is 0, the FPU is active, otherwise it is not. The tst (Test) instruction performs a logical AND operation between the register and the immediate value provided (so in this case r14 \u0026 0x10). It then populates condition flags in the PSR register based on the result. Condition flags available include a “Zero condition flag” which means the result of the AND was zero.\nThe it (If-Then) instruction is then used to conditionally execute further instructions based on the current state in the condition flags. it eq is shorthand for “if the result of the last comparison was zero then execute the instruction that follows”. The following instruction pushes the callee-saved floating point registers onto the psp (currently stored in r0). In our case the result is not zero so this instruction should be skipped. We should see the psp remains unchanged from the value we originally dumped:\n(gdb) p/x $r0 $1 = 0x200005a0 (gdb) si 4 (gdb) x/i $pc = 0x1446 :\tstmdb\tr0!, {r4, r5, r6, r7, r8, r9, r10, r11, lr} (gdb) p/x $r0 $1 = 0x200005a0   WARNING: Over the years I’ve seen a lot of nasty stack overflows arise here which can be tricky to track down. As soon as an FPU instruction is used an additional 132 bytes will be pushed on the stack, which can lead to unexpected overflows of small embedded stacks\n This brings us to the next part which is pretty self explanatory:\n \" stmdb r0!, {r4-r11, r14} \\n\" /* Save the core registers. */ \" str r0, [r2] \\n\" /* Save the new top of stack into the first member of the TCB. */  We push all the callee-saved core registers onto psp using the stmdb (Store Multiple Decrement Before stores multiple registers) instruction and then update the first word in our pxCurrentTCB pointer with the updated stack location (stored in r0).\npxCurrentTCB is a FreeRTOS symbol that is always populated with the running task. A TCB (Task Control Block) contains various state associated with the task. Looking at the source code we see the first word is:\ntypedef struct tskTaskControlBlock /_ The old naming convention is used to prevent breaking kernel aware debuggers. _/ { volatile StackType_t _pxTopOfStack; /_ We can also look confirm this is what is happening by comparing the C types with register values within gdb:\n(gdb) si 0x0000144a\t435\t__asm volatile (gdb) p/x $r0 $2 = 0x2000057c (gdb) x/i $pc = 0x144a :\tstr\tr0, [r2, #0] (gdb) p/x pxCurrentTCB-pxTopOfStack $3 = 0x200005a4 (gdb) si 0x0000144c\t435\t__asm volatile (gdb) p/x pxCurrentTCB-pxTopOfStack $4 = 0x2000057c  Awesome! At this point we have saved all the register state of the original task and recorded that location within the task specific TCB context. Now it’s time to actually context switch over to a new task:\n \" stmdb sp!, {r0, r3} \\n\" \" mov r0, %0 \\n\" \" msr basepri, r0 \\n\" \" dsb \\n\" \" isb \\n\" \" bl vTaskSwitchContext \\n\" [...] ::\"i\"(configMAX_SYSCALL_INTERRUPT_PRIORITY)  We see the port uses a GCC feature known as Extended Asm15 to mix C macros with ARM assembly. This block prepares to call the context switch logic, vTaskSwitchContext, a C function which determines the next task to run. First the “argument” registers are saved on the active stack (always msp for exceptions). Next interrupts below configMAX_SYSCALL_INTERRUPT_PRIORITY are disabled since it is only safe to access the data structures accessed by vTaskSwitchContext without interruption. If interrupts were not disabled, the context switching code could be preempted and a call to a FreeRTOS *_FromISR() API could corrupt the data structure.\nWhen lowering the effective execution level, an isb instruction is required for the new priority to be visible for future instructions. The dsb instruction shouldn’t be explicitly necessary here16. Finally we call the C function. From FreeRTOS documentation we can conclude what will happen:\n/* * THIS FUNCTION MUST NOT BE USED FROM APPLICATION CODE. IT IS ONLY * INTENDED FOR USE WHEN IMPLEMENTING A PORT OF THE SCHEDULER AND IS * AN INTERFACE WHICH IS FOR THE EXCLUSIVE USE OF THE SCHEDULER. * * Sets the pointer to the current TCB to the TCB of the highest priority task * that is ready to run. */ portDONT_DISCARD void vTaskSwitchContext( void ) PRIVILEGED_FUNCTION;  So when the function returns pxCurrentTCB should be populated with the new task to switch to. Let’s try it out!\n// display the name (gdb) p pxCurrentTCB-pcTaskName $6 = \"Ping\", '\\000' (gdb) si 5 0x00001460\t435\t__asm volatile (gdb) x/i $pc = 0x1460 :\tbl\t0x760  // step over the function call using \"next instruction\" (\"ni\") (gdb) ni 0x00001464\t435\t__asm volatile (gdb) x/i $pc = 0x1464 :\tmov.w\tr0, #0 (gdb) p pxCurrentTCB-pcTaskName $7 = \"Pong\", '\\000'  We see that the pxCurrentTCB has changed from the “Ping” task to the “Pong” task.\nUpon return from the function call, all interrupts are re-enabled by resetting basepri to 0 and the initial values of the argument registers ($r0-$r3) prior to the function invocation are restored by popping them off the stack. No synchronization instructions are required for the msr call because the ARM core will actually take care of this for you when the execution priority increases 17. Let’s step over this block:\n \" mov r0, #0 \\n\" \" msr basepri, r0 \\n\" \" ldmia sp!, {r0, r3} \\n\" (gdb) si 3 0x0000146e in PendSV_Handler () at freertos_kernel/portable/GCC/ARM_CM4F/port.c:435 435\t__asm volatile (gdb) x/i $pc = 0x146e :\tldr\tr1, [r3, #0]  Now it’s time to actually start up the new task. Recall when we saved the “Ping” task state above, we placed the location of the task stack in pxTopOfStack. So to recover the task state of the “Pong” task we just need to do the opposite. First this requires loading up the new TCB_t that pxCurrentTCB points to:\n \" ldr r1, [r3] \\n\" /* The first item in pxCurrentTCB is the task top of stack. */ \" ldr r0, [r1] \\n\" (gdb) p/x pxCurrentTCB $8 = 0x200003b0 (gdb) si 0x00001470\t435\t__asm volatile (gdb) p/x $r1 $11 = 0x200003b0 (gdb) p/x pxCurrentTCB-pxTopOfStack $12 = 0x20000324 (gdb) si 0x00001472\t435\t__asm volatile (gdb) p/x $r0 $13 = 0x20000324  r0 now holds a pointer to the top of the stack for the task we want to switch to. First we pop the callee-saved core registers using the ldmia (Load Multiple Increment After) instruction, then we check the restored value in the $lr / $r14 register to determine if there is any FPU state which needs to be restored as well (in our case, it does not):\n \" ldmia r0!, {r4-r11, r14} \\n\" /* Pop the core registers. */ \" \\n\" \" tst r14, #0x10 \\n\" /* Is the task using the FPU context? If so, pop the high vfp registers too. */ \" it eq \\n\" \" vldmiaeq r0!, {s16-s31} \\n\" \" \\n\" (gdb) si 4 0x00001480\t435\t__asm volatile (gdb) x/i $pc = 0x1480 :\tmsr\tPSP, r0  Now r0 points to the location of the program stack exactly as it was when the “Pong” task originally got context switched out via the PendSV exception handler! Let’s take a look at the stack just like we did on exception entry:\n(gdb) x/a $r0 // contains $r0 value for \"Pong\" task 0x20000348 :\t0x0  (gdb) 0x2000034c :\t0x200003b4  (gdb) 0x20000350 :\t0x20000000  (gdb) 0x20000354 :\t0x10000000 (gdb) 0x20000358 :\t0x0  (gdb) 0x2000035c :\t0x5d9  (gdb) 0x20000360 :\t0xe2a  (gdb) 0x20000364 :\t0x61000000  The last thing we need to do is change the location of the psp to match the value in r0 and populate the link register (r14) with the special EXC_RETURN value we just recovered from the “Pong” task stack with the ldmia instruction. This will tell the hardware how return to Thread Mode and restore the context state that was automatically saved correctly:\n \" msr psp, r0 \\n\" \" isb \\n\" \" \\n\" \" \\n\" \" bx r14 \\n\" \" \\n\"  Based on the dump of the top of the “Pong” stack we did above, we expect to see $sp=0x20000368, $pc=0xe2a, $lr=0x5d9 after the branch to r14. Let’s give it a try:\n// state prior to branching (gdb) info reg [...] sp 0x20002a88 0x20002a88 lr 0xfffffffd 4294967293 pc 0x1480 0x1480  xpsr 0x2100000e 553648142 msp 0x20002a88 536881800 psp 0x200005a0 536872352 [...] (gdb) si 3 // state after branching xQueueReceive (xQueue=0x20000160 , pvBuffer=pvBuffer@entry=0x2000039c , xTicksToWait=, xTicksToWait@entry=4294967295) at freertos_kernel/queue.c:1378 1378\tportYIELD_WITHIN_API(); (gdb) info reg sp 0x20000368 0x20000368  lr 0x5d9 1497 pc 0xe2a 0xe2a  xpsr 0x61000000 1627389952 msp 0x20002a88 536881800 psp 0x20000368 536871784 (gdb) bt #0 xQueueReceive (xQueue=0x20000160 , pvBuffer=pvBuffer@entry=0x2000039c , xTicksToWait=, xTicksToWait@entry=4294967295) at freertos_kernel/queue.c:1378 #1 0x00000084 in prvQueuePongTask (pvParameters=) at main.c:41 #2 0x00001334 in ?? () at freertos_kernel/portable/GCC/ARM_CM4F/port.c:703  They values match! We’ve successfully completed a context switch and are running the pong task!\nStarting the FreeRTOS Scheduler The astute observer reader may wonder how the scheduler starts in the first place. What happens if a PendSV gets triggered but there isn’t a currently running task because the system just booted?!\nThere are several different strategies but a common pattern an RTOS will follow when creating a new task is to initialize the task stack to look like it had been context switched out by the scheduler. Then to start the scheduler itself by triggering a SVC exception with the svc instruction. This way starting a thread is nearly identical to context switching to a thread.\nDuring initialization you will also usually find a couple extra configuration settings such as:\n  Configuration as to whether or not tasks operate at privileged or unprivileged level\n  FP Extension configuration (i.e whether or not the FPU is enabled and what context stacking schema to use). For example, the port used in the example does the following FPU configuration:\nstatic void vPortEnableVFP( void ) { __asm volatile ( \"\tldr.w r0, =0xE000ED88\t\\n” /* The FPU enable bits are in the CPACR. */ \"\tldr r1, [r0]\t\\n” \"\t\\n” \"\torr r1, r1, #( 0xf « 20 )\t\\n” /* Enable CP10 and CP11 coprocessors, then save back. */ \"\tstr r1, [r0]\t\\n” \"\tbx r14\t\" ); } […] BaseType_t xPortStartScheduler( void ) { […] /* Ensure the VFP is enabled - it should be anyway. */ vPortEnableVFP();\n/* Lazy save always. */ *( portFPCCR ) |= portASPEN_AND_LSPEN_BITS;  […]\n  To start FreeRTOS and get tasks to runvTaskStartScheduler needs to be called. If you are interested in taking a closer look at this logic, I’d recommend looking at are pxPortInitialiseStack, xPortStartScheduler, and vPortSVCHandler functions in port.c.\nClosing We hope you learned something interesting about how the ARM Cortex-M architecture hardware helps to enable multi-tasking and developed a better understanding of how the FreeRTOS implementation works.\nWe’d love to hear interesting RTOS bugs you have tracked down or other topics you would like to see covered on the topic. Let me know in the discussion area below!\n Interested in learning more about debugging HardFaults? Watch this webinar recording..\n See anything you’d like to change? Submit a pull request or open an issue at GitHub\nReference Links   ARM Architecture Procedure Calling Standard(AAPCS) ↩ ↩2 ↩3 ↩4 ↩5\n  ARMv7-M Architecture Reference Manual ↩ ↩2 ↩3 ↩4\n  ARMv8-M link ↩\n  Cortex-M4F Lazy Stacking and Context Switch App note ↩ ↩2\n  See B1.5.6 Exception entry behavior ↩\n  FreeRTOS ↩\n  nRF52840 Development Kit ↩\n  JLinkGDBServer ↩\n  GNU ARM Embedded toolchain for download ↩\n  Creating a FreeRTOS Project ↩\n  Github FreeRTOS Kernel ↩ ↩2\n  FreeRTOS Heap documentation ↩\n  FreeRTOSConfig.h documentation ↩\n  ISB after mrs ↩\n  Extended Asm ↩\n  Discussion about DSB in FreeRTOS port ↩\n  See “Visibility of changes in execution priority resulting from executing an MSR instruction” ↩\n  Chris Coleman is a founder and CTO at Memfault. Prior to founding Memfault, Chris worked on the embedded software teams at Sun, Pebble, and Fitbit.\n\nDiscourseEmbed = { discourseUrl: ‘https://community.memfault.com/', discourseEmbedUrl: ‘https://interrupt.memfault.com/blog/cortex-m-rtos-context-switching' }; (function() { var d = document.createElement(‘script’); d.type = ‘text/javascript’; d.async = true; d.src = DiscourseEmbed.discourseUrl + ‘javascripts/embed.js’; (document.getElementsByTagName(‘head’)[0] || document.getElementsByTagName(‘body’)[0]).appendChild(d); })(); anchors.options.visible = ‘hover’; anchors.add('.post-content  h1, h2, h3, h4, h5, h6’);\n",
+  "wordCount" : "6572",
+  "inLanguage": "en",
+  "datePublished": "2023-04-27T21:21:59+08:00",
+  "dateModified": "2023-04-27T21:21:59+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://YuXinFan.github.io/posts/p02-cortex-m-context-switching/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "My Website",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://YuXinFan.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
 
-  <header>
-    <div class="bg-black">
-      <nav class="pv3 ph3 ph4-ns" role="navigation">
-  <div class="flex-l justify-between items-center center">
-    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
-      
-        My Website
-      
-    </a>
-    <div class="flex-l items-center">
-      
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
 
-      
-      
-<div class="ananke-socials">
-  
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://YuXinFan.github.io" accesskey="h" title="My Website (Alt + H)">My Website</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      ARM Cortex-M RTOS Context Switching
+    </h1>
+    <div class="post-meta"><span title='2023-04-27 21:21:59 +0800 CST'>April 27, 2023</span>&nbsp;·&nbsp;31 min
+
 </div>
-
-    </div>
-  </div>
-</nav>
-
-    </div>
-  </header>
-
-
-
-    <main class="pb7" role="main">
-      
-  
-  <article class="flex-l flex-wrap justify-between mw8 center ph3">
-    <header class="mt4 w-100">
-      <aside class="instapaper_ignoref b helvetica tracked">
-          
-        POSTS
-      </aside>
-      
-
-
-
-
-
-
-
-
-
-
-  <div id="sharing" class="mt3 ananke-socials">
-    
-  </div>
-
-
-      <h1 class="f1 athelas mt3 mb1">ARM Cortex-M RTOS Context Switching</h1>
-      
-      
-      
-      <time class="f6 mv4 dib tracked" datetime="2023-04-27T21:21:59+08:00">April 27, 2023</time>
-      
-
-      
-      
-    </header>
-    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h2 id="arm-cortex-m-rtos-context-switchingarm-cortex-m-rtos-context-switching">ARM Cortex-M RTOS Context Switching<a href="#arm-cortex-m-rtos-context-switching"></a></h2>
+  </header> 
+  <div class="post-content"><h2 id="arm-cortex-m-rtos-context-switchingarm-cortex-m-rtos-context-switching">ARM Cortex-M RTOS Context Switching<a href="#arm-cortex-m-rtos-context-switching"></a><a hidden class="anchor" aria-hidden="true" href="#arm-cortex-m-rtos-context-switchingarm-cortex-m-rtos-context-switching">#</a></h2>
 <p>30 Oct 2019 by <a href="/authors/chris">Chris Coleman</a></p>
 <p>Many embedded systems reach a level of complexity where having a basic set of scheduling primitives and ability to run different tasks can be helpful. The operation of switching from one task to another is known as a <strong>context switch</strong>. A <em>Real Time Operating System</em> (<strong>RTOS</strong>) will typically provide this functionality. Having a foundational knowledge of how the core of an <strong>RTOS</strong> works can be a valuable skill set for an embedded engineer to have.</p>
 <p>In this article we will explore how <strong>context switching</strong> works on ARM Cortex-M MCUs. We will discuss how the hardware was designed to support this operation, features that impact the context switching implementation such as the Floating Point Unit (FPU), and common pitfalls seen when porting an RTOS to a platform. We will also walk through a practical example of analyzing the <strong>FreeRTOS</strong> context switcher, <code>xPortPendSVHandler</code>, utilizing <code>gdb</code> to strengthen our understanding.</p>
@@ -130,7 +181,7 @@ Many embedded systems reach a level of complexity where having a basic set of sc
 <p>If you’d rather listen to me present this information and see some demos in action, <a href="https://go.memfault.com/debugging-arm-cortex-m-mcu-webinar?utm_campaign=Debugging%20Cortex%20M%20Webinar&amp;utm_source=blog&amp;utm_medium=Interrupt&amp;utm_term=Debug">watch this webinar recording.</a></p>
 </blockquote>
 <p>Like Interrupt? <a href="https://go.memfault.com/interrupt-subscribe">Subscribe</a> to get our latest posts straight to your mailbox.</p>
-<h2 id="table-of-contentstable-of-contents">Table of Contents<a href="#table-of-contents"></a></h2>
+<h2 id="table-of-contentstable-of-contents">Table of Contents<a href="#table-of-contents"></a><a hidden class="anchor" aria-hidden="true" href="#table-of-contentstable-of-contents">#</a></h2>
 <ul>
 <li><a href="#cortex-m-arm-mcu-features">Cortex-M ARM MCU Features</a>
 <ul>
@@ -152,19 +203,19 @@ Many embedded systems reach a level of complexity where having a basic set of sc
 <li><a href="#closing">Closing</a></li>
 <li><a href="#reference-links">Reference Links</a></li>
 </ul>
-<h2 id="cortex-m-arm-mcu-featurescortex-m-arm-mcu-features">Cortex-M ARM MCU Features<a href="#cortex-m-arm-mcu-features"></a></h2>
+<h2 id="cortex-m-arm-mcu-featurescortex-m-arm-mcu-features">Cortex-M ARM MCU Features<a href="#cortex-m-arm-mcu-features"></a><a hidden class="anchor" aria-hidden="true" href="#cortex-m-arm-mcu-featurescortex-m-arm-mcu-features">#</a></h2>
 <p>To understand how RTOS context switching works for ARM Cortex-M MCUs, it’s critical to have foundational knowledge about the primitives the architecture provides to make it possible.</p>
 <p>In this section we go through these building blocks by distilling down the information spread across the ARM Cortex-M reference manuals and the <em>ARM Architecture Procedure Calling Standard</em> (<strong>AAPCS</strong>)<a href="#fn:1">1</a> which defines the <em>Application Binary Interface</em> (<strong>ABI</strong>) a compiler must abide by for ARM.</p>
 <blockquote>
 <p>NOTE: If you already have a good understanding of these concepts, feel free to <a href="#context-switching">switch over</a> this section (pun intended).</p>
 </blockquote>
-<h3 id="cortex-m-operation-modescortex-m-operation-modes">Cortex-M Operation Modes<a href="#cortex-m-operation-modes"></a></h3>
+<h3 id="cortex-m-operation-modescortex-m-operation-modes">Cortex-M Operation Modes<a href="#cortex-m-operation-modes"></a><a hidden class="anchor" aria-hidden="true" href="#cortex-m-operation-modescortex-m-operation-modes">#</a></h3>
 <p>When a Cortex-M based MCU is running from an exception handler such as an <em>Interrupt Service Routine</em> (<strong>ISR</strong>), it is known as running in <strong>Handler Mode</strong>. The rest of the time the MCU runs in <strong>Thread Mode</strong>.</p>
 <p>The core can operate at either a <strong>privileged</strong> or <strong>unprivileged</strong> level. Certain instructions and operations are only allowed when the software is executing as privileged. For example, unpriviledged code may not access NVIC registers. In Handler Mode, the core is <em>always</em> privileged. In Thread Mode, the software can execute at either level.</p>
 <p>Switching Thread Mode from the unprivileged to privileged level can <em>only</em> happen when running from Handler Mode.</p>
 <p>These different configurations enable use cases where certain application code, such as the RTOS kernel, can be better sandboxed from one another. We will cycle back to this terminology throughout the article.</p>
-<h3 id="registersregisters">Registers<a href="#registers"></a></h3>
-<h4 id="core-registerscore-registers">Core Registers<a href="#core-registers"></a></h4>
+<h3 id="registersregisters">Registers<a href="#registers"></a><a hidden class="anchor" aria-hidden="true" href="#registersregisters">#</a></h3>
+<h4 id="core-registerscore-registers">Core Registers<a href="#core-registers"></a><a hidden class="anchor" aria-hidden="true" href="#core-registerscore-registers">#</a></h4>
 <p>Every Cortex-M MCU is comprised of 16, 32-bit <strong>Core Registers</strong></p>
 <p>Section 5.1.1 of the <strong>AAPCS</strong><a href="#fn:1">1</a> defines the roles and names of the registers:</p>
 <table>
@@ -226,13 +277,13 @@ Many embedded systems reach a level of complexity where having a basic set of sc
 <blockquote>
 <p>Fun Facts: Many compilers will accept any of the alternative names when accessing registers using assembly. For example, with GCC setting r0 to zero could be achieved with either <code>__asm(&quot;mov r0, #0&quot;)</code> or <code>__asm(&quot;mov a1, #0&quot;</code>). In the AAPCS specification, “upper case is used when the register has a fixed role in the procedure call standard” so <code>PC</code> is more correct than <code>pc</code>, which is why certain names in the table are capitalized and others are not.</p>
 </blockquote>
-<h5 id="r12-intra-procedure-call-scratch-registerip-register"><code>r12</code> Intra-Procedure-call Scratch Register<a href="#ip-register"></a></h5>
+<h5 id="r12-intra-procedure-call-scratch-registerip-register"><code>r12</code> Intra-Procedure-call Scratch Register<a href="#ip-register"></a><a hidden class="anchor" aria-hidden="true" href="#r12-intra-procedure-call-scratch-registerip-register">#</a></h5>
 <p>The address space for ARM Cortex-M devices is 32 bits. However, it’s not possible for a branch and link (<code>bl</code>) instruction to jump across the entire address region (because some bits encode the instruction itself). In this situation, a jump to a function that is far away in the address space may require passing through a shim function generated by the linker known as a <strong>veneer</strong>. <code>r12</code> is the <em>only</em> register that may be used within the <strong>veneer</strong> without needing to preserve the original state.</p>
-<h5 id="r9-as-platform-registerr9-platform-register"><code>r9</code> as Platform Register<a href="#r9-platform-register"></a></h5>
+<h5 id="r9-as-platform-registerr9-platform-register"><code>r9</code> as Platform Register<a href="#r9-platform-register"></a><a hidden class="anchor" aria-hidden="true" href="#r9-as-platform-registerr9-platform-register">#</a></h5>
 <p>In a vast majority of applications, <code>r9</code> is just used as another variable register within a function. However, the additional platform-specific use cases merit further clarification. In both of these situations the state of the register may need to be preserved across function calls.</p>
 <p>One application is to use <code>r9</code> as a <em>static base</em> (<strong>SB</strong>). Normally when code is compiled, the code is <em>dependent</em> on the position it runs from. That is, functions are linked together based on the fact that the code and data will always be located at a specific location. However, for some applications you may want the ability to run code from arbitrary locations. For example, maybe you want to load a function from flash into RAM for faster execution. In these situations you will need to generate <em>Position Independent Code</em> (<strong>PIC</strong>). When executing <strong>PIC</strong>, the address of global &amp; static data needs to be looked up. These addresses are stored in a table known as the <strong>Global Offset Table</strong>. The base of this table <em>can</em> be stored in <code>r9</code> and then functions will reference this register to look it up. For example, this behavior will be triggered for ARM Cortex-M devices when compiling with the <code>-fpic</code> and <code>-msingle-pic-base</code> compiler options.</p>
 <p>Another application is to use <code>r9</code> as the <em>thread register</em> (<strong>TR</strong>). In this situation, the register holds a pointer to the current thread-local storage context</p>
-<h4 id="floating-point-fp-registersfloating-point-fp-registers">Floating Point (FP) registers<a href="#floating-point-fp-registers"></a></h4>
+<h4 id="floating-point-fp-registersfloating-point-fp-registers">Floating Point (FP) registers<a href="#floating-point-fp-registers"></a><a hidden class="anchor" aria-hidden="true" href="#floating-point-fp-registersfloating-point-fp-registers">#</a></h4>
 <p>Cortex-M4, Cortex-M7 and Cortex-M33s can implement an optional unit to natively support floating point operations, known as the <em>Floating Point</em> (<strong>FP</strong>) extension.</p>
 <blockquote>
 <p>Fun fact: The <strong>FP</strong> extension is itself based off implementations originally defined for ARMv7-A and ARMv7-R architectures, known as <code>VFPv4-D16</code>. Consequently, you will sometimes see the implementation referred to by its legacy name, <strong>VFP extension</strong>.</p>
@@ -247,7 +298,8 @@ Many embedded systems reach a level of complexity where having a basic set of sc
 <p>When a <strong>FP extension</strong> is present, there is also one special register, <code>FPSCR</code>, which allows for configuration and control of floating point system options.</p>
 <p>By default, even if an MCU implements the <strong>FP extension</strong>, when the device is reset, the feature is <em>disabled</em>. To enable it, a write to the <em>Coprocessor Access Control Register</em> (<strong>CPACR</strong>) located at address <code>0xE000ED88</code> must take place.</p>
 <p>The layout can be found in the ARMv7 Reference Manual<a href="#fn:2">2</a>:</p>
-<p><img src="/posts/p02/cpacr-reg-layout.png" alt=""></p>
+<p><img loading="lazy" src="/posts/p02/cpacr-reg-layout.png" alt=""  />
+</p>
 <p>where, <code>CP10</code> and <code>CP11</code> are used to control floating point availability. Both fields are 2 bits and must be identical to correctly configure the FPU.</p>
 <table>
 <thead>
@@ -280,10 +332,11 @@ Many embedded systems reach a level of complexity where having a basic set of sc
 </tr>
 </tbody>
 </table>
-<h4 id="special-registersspecial-registers">Special Registers<a href="#special-registers"></a></h4>
+<h4 id="special-registersspecial-registers">Special Registers<a href="#special-registers"></a><a hidden class="anchor" aria-hidden="true" href="#special-registersspecial-registers">#</a></h4>
 <p>There’s a number of <strong>Special Registers</strong> which can be written to and read from using the <em>Move to Special Register</em> (<strong>MSR</strong>) and <em>Move to Register from Special Register</em> (<strong>MRS</strong>) instructions, respectively.</p>
 <p>A full discussion of all the registers is outside the scope of this article but the ARM Reference Manual documentation about the instruction itself has a great overview <a href="#fn:2">2</a>:</p>
-<p><img src="/posts/p02/mrs-msr-registers.png" alt=""></p>
+<p><img loading="lazy" src="/posts/p02/mrs-msr-registers.png" alt=""  />
+</p>
 <p>There <em>are</em> some special rules about the privilege level needed to read and write to the special registers worth remembering:</p>
 <p>Excerpt from “B5.2.2 MRS”<a href="#fn:2">2</a>:</p>
 <blockquote>
@@ -294,7 +347,8 @@ Many embedded systems reach a level of complexity where having a basic set of sc
 <p>The processor ignores writes from unprivileged Thread mode to any stack pointer, the EPSR, the IPSR, the masks, or CONTROL. If privileged Thread mode software writes a 1 to the CONTROL.nPRIV bit, the processor switches to unprivileged Thread mode execution, and ignores any further writes to special-purpose registers. After any Thread mode transition from privileged to unprivileged execution, software must issue an ISB instruction to ensure instruction fetch correctness.</p>
 </blockquote>
 <p>For context switching, one of the most important special registers is the <code>CONTROL</code> register. Bits in the register read-as-zero unless they are implemented. The ARMv8-M architecture<a href="#fn:4">3</a> has the largest number of optional extensions so the most complete assignment set one will see is:</p>
-<p><img src="/posts/p02/control-reg.png" alt=""></p>
+<p><img loading="lazy" src="/posts/p02/control-reg.png" alt=""  />
+</p>
 <p>where</p>
 <ul>
 <li><code>SFPA</code> indicates whether secure floating-point is active or inactive based on whether the bit is set or not. This is only present when the ARMv8-M <strong>Security Extension</strong> is implemented</li>
@@ -302,14 +356,14 @@ Many embedded systems reach a level of complexity where having a basic set of sc
 <li><code>SPSEL</code> controls what stack pointer is in use. We’ll go into more detail <a href="#stack-pointers-and-usage">below</a>.</li>
 <li><code>nPriv</code> controls whether or not thread mode is operating as privileged or unprivileged. When set to 1, thread mode operates as unprivileged otherwise it operates as privileged</li>
 </ul>
-<h3 id="stack-pointersstack-pointers-and-usage">Stack Pointers<a href="#stack-pointers-and-usage"></a></h3>
+<h3 id="stack-pointersstack-pointers-and-usage">Stack Pointers<a href="#stack-pointers-and-usage"></a><a hidden class="anchor" aria-hidden="true" href="#stack-pointersstack-pointers-and-usage">#</a></h3>
 <p>The Cortex-M architecture implements two stacks known as the <em>Main Stack</em> (tracked in the <code>msp</code> register) and the <em>Process Stack</em> (tracked in the <code>psp</code> register). On reset, the <strong>MSP</strong> is always active and its initial value is derived from the first word in the vector table. When a stack pointer is “active”, its current value will be returned when the <code>sp</code> register is accessed.</p>
 <p>In Handler Mode, the <code>msp</code> is always the stack which is used. In Thread Mode, the stack pointer which is used can be controlled in two ways:</p>
 <ul>
 <li>Writes of 1 to the <code>SPSEL</code> bit in the <code>CONTROL</code> register will switch from using the <code>msp</code> to the <code>psp</code></li>
 <li>The value placed in <code>EXC_RETURN</code> upon exception return. We will expand on this <a href="#exc-return-info">below</a>.</li>
 </ul>
-<h3 id="context-state-stackingcontext-state-stacking">Context State Stacking<a href="#context-state-stacking"></a></h3>
+<h3 id="context-state-stackingcontext-state-stacking">Context State Stacking<a href="#context-state-stacking"></a><a hidden class="anchor" aria-hidden="true" href="#context-state-stackingcontext-state-stacking">#</a></h3>
 <p>In our <a href="/blog/arm-cortex-m-exceptions-and-nvic#exception-entry--exit">guide</a> about ARM Cortex-M Exception Handling, we touched upon how the hardware itself implements the AAPCS<a href="#fn:1">1</a> so that interrupts can be implemented as normal C functions. Here we will expand on what that actually means.</p>
 <p>Per the AAPCS<a href="#fn:1">1</a>, there is a certain set of registers that a function is responsible for restoring to their original value before returning to the function which called it:</p>
 <blockquote>
@@ -323,30 +377,34 @@ Many embedded systems reach a level of complexity where having a basic set of sc
 <p>NOTE: The stack data is pushed on is the one which was in use prior to servicing the exception. So for example, if the system was in Thread Mode using the <code>psp</code> and exception takes place, the data will be pushed on the <code>psp</code>. If the core was already servicing another exception and was preempted by a higher priority exception, the data will be pushed on the <code>msp</code>.</p>
 </blockquote>
 <p>The reference manual has a great picture of what the stack looks like after this automatic context state saving takes place:</p>
-<p><img src="/posts/p02/context-state-stacking-basic.png" alt=""></p>
+<p><img loading="lazy" src="/posts/p02/context-state-stacking-basic.png" alt=""  />
+</p>
 <blockquote>
 <p>NOTE: On exception entry, the ARM hardware uses bit 9 of the stacked xPSR value to indicate whether 4 bytes of padding was added to align the stack on an 8 byte boundary.</p>
 </blockquote>
-<h4 id="fp-extension--context-state-stackingfp-extension--context-state-stacking">FP Extension &amp; Context State Stacking<a href="#fp-extension--context-state-stacking"></a></h4>
+<h4 id="fp-extension--context-state-stackingfp-extension--context-state-stacking">FP Extension &amp; Context State Stacking<a href="#fp-extension--context-state-stacking"></a><a hidden class="anchor" aria-hidden="true" href="#fp-extension--context-state-stackingfp-extension--context-state-stacking">#</a></h4>
 <p>When the <strong>FP Extension</strong> is in use <em>and</em> active, the <strong>AAPCS</strong><a href="#fn:1">1</a> states that <code>s16</code> - <code>s31</code> must be preserved across subroutine calls and <code>s0</code> - <code>s15</code> do not need to be preserved. Additionally, similar to the <code>PSR</code> register, the state of the FPU needs to be preserved so the <code>FPSCR</code> needs to be stored as well. This means an additional 17 registers (68 bytes) need to be stacked on exception entry!</p>
 <p>Fortunately, the folks at ARM realized this could be a performance or memory problem for some use cases so there are several really neat ways to optimize this.</p>
 <p>As we mentioned <a href="#fpu-config-options">above</a>, one option is to completely disable the FPU. In this situation no state needs to be preserved.</p>
 <p>However, there’s also some fine granularity controls about how the context is preserved. These can be configured via the <em>Floating Point Context Control Register</em> (<code>FPCCR</code>) located at address <code>0xE000EF34</code>:</p>
-<p><img src="/posts/p02/fpccr-reg.png" alt=""></p>
+<p><img loading="lazy" src="/posts/p02/fpccr-reg.png" alt=""  />
+</p>
 <p>With respect to <em>Context State Stacking</em>, the values that are interesting are:</p>
 <ul>
 <li><code>ASPEN</code> - When set to <code>1</code> (default), any execution of a floating point instruction will set the <code>FPCA</code> bit in the control register we mentioned <a href="#control-register">above</a>.</li>
 <li><code>LSPEN</code> - When set to <code>1</code> (default) enables what is known as a <strong>lazy context save</strong><a href="#fn:5">4</a>. Basically what this means is on exception entry, space will be reserved on the stack for the caller saved floating point registers (<code>s0</code>-<code>s15</code> &amp; <code>FPSCR</code>) but the data will not actually be pushed by default. If and only if a floating point instruction is executed while in the exception, only then will the state be pushed. This is pretty sweet because it means as long as an interrupt does not use the FPU, no extra interrupt latency penalty is incurred!</li>
 </ul>
 <p>When the FPU is “in use” (CONTROL.FPCA=1), an <strong>extended frame</strong> will be saved by the hardware:</p>
-<p><img src="/posts/p02/context-state-stacking-extended-frame.png" alt=""></p>
+<p><img loading="lazy" src="/posts/p02/context-state-stacking-extended-frame.png" alt=""  />
+</p>
 <blockquote>
 <p>NOTE: If the FPU is enabled but no floating point instructions are executed or ASPEN is disabled (i.e CONTROL.FPCA=0), only the <strong>basic frame</strong> will be saved. The ARM <strong>lazy context save</strong> application note<a href="#fn:5">4</a> explores some interesting tricks one can play based on these facts to prevent the extended frame from always needing to be allocated even when the FPU is in use.</p>
 </blockquote>
-<h4 id="exception-returnexc-return-info">Exception Return<a href="#exc-return-info"></a></h4>
+<h4 id="exception-returnexc-return-info">Exception Return<a href="#exc-return-info"></a><a hidden class="anchor" aria-hidden="true" href="#exception-returnexc-return-info">#</a></h4>
 <p>Finally, in order for the hardware to figure out what state to restore when exiting an exception, a special value, known as <code>EXC_RETURN</code> needs to be loaded into the link register, <code>lr</code>. Typically, this will just mirror the value in the <code>lr</code> on exception entry. However, a different value can also be manually loaded into the register as well (i.e to change the Thread Mode stack pointer being used like we discussed <a href="#stack-pointers-and-usage">above</a>).</p>
 <p>On exception entry, the ARM reference manual pseudocode for the value stored in <code>lr</code> gives the best description<a href="#fn:6">5</a>:</p>
-<p><img src="/posts/p02/lr-exc-return-exception-entry.png" alt=""></p>
+<p><img loading="lazy" src="/posts/p02/lr-exc-return-exception-entry.png" alt=""  />
+</p>
 <p>It describes the current stack frame in use (<strong>Extended</strong> vs <strong>Basic</strong>) as well as what the active stack pointer was prior to the exception taking place.</p>
 <p>When returning from an exception, the possible values and behavior for <code>EXC_RETURN</code> are:</p>
 <table>
@@ -390,7 +448,7 @@ Many embedded systems reach a level of complexity where having a basic set of sc
 </tr>
 </tbody>
 </table>
-<h2 id="rtos-context-switchingcontext-switching">RTOS Context Switching<a href="#context-switching"></a></h2>
+<h2 id="rtos-context-switchingcontext-switching">RTOS Context Switching<a href="#context-switching"></a><a hidden class="anchor" aria-hidden="true" href="#rtos-context-switchingcontext-switching">#</a></h2>
 <p>An RTOS at its cores offers several basic primitives:</p>
 <ul>
 <li>A <strong>scheduler</strong> capable of <strong>context switching</strong> between different <strong>tasks</strong>. <strong>Tasks</strong> can usually be prioritized and at a bare minimum a <strong>scheduler</strong> is usually capable of alternating between <strong>tasks</strong> when new events arrive (i.e a new accelerometer sample is available) or when the <strong>task</strong> <strong>yields</strong> its slot.</li>
@@ -405,7 +463,7 @@ Many embedded systems reach a level of complexity where having a basic set of sc
 <p>When an RTOS scheduler decides a different task should be run than what is currently running, it will trigger a <strong>context switch</strong>. When switching from one task to another, the “state” of the current task needs to be preserved in some way. This includes information such as the execution state of the task (i.e blocked on a mutex, sleeping, etc) and the values of the active hardware registers.</p>
 <p>As we alluded to in our <a href="/blog/arm-cortex-m-exceptions-and-nvic#built-in-exceptions">ARM Cortex-M Exception</a> article, the <code>SVCall</code>, <code>PendSV</code>, and <code>SysTick</code> interrupts integrated into every Cortex-M device were explicitly designed to make task management simple. Consequently, the context switching logic winds up looking extremely similar regardless of the RTOS in use. So if you understand how one works, you will be able to pretty easily learn how any other one works!</p>
 <p>In the sections that follow we will walk through step-by-step how the context switcher within <strong>FreeRTOS</strong><a href="#fn:3">6</a> works for Cortex-M devices. <strong>FreeRTOS</strong> is a very popular (and open source!) RTOS found in numerous commercial products. It has a great track record and has been around since ~2003 by Real Time Engineers Ltd. In 2017 the company was acquired by Amazon, who now manages the project.</p>
-<h2 id="demystifying-the-freertos-context-switcherdemystifying-the-freertos-context-switcher">Demystifying the FreeRTOS Context Switcher<a href="#demystifying-the-freertos-context-switcher"></a></h2>
+<h2 id="demystifying-the-freertos-context-switcherdemystifying-the-freertos-context-switcher">Demystifying the FreeRTOS Context Switcher<a href="#demystifying-the-freertos-context-switcher"></a><a hidden class="anchor" aria-hidden="true" href="#demystifying-the-freertos-context-switcherdemystifying-the-freertos-context-switcher">#</a></h2>
 <p>For this setup we will use:</p>
 <ul>
 <li>a nRF52840-DK<a href="#fn:7">7</a> (ARM Cortex-M4F) as our development board</li>
@@ -415,7 +473,7 @@ Many embedded systems reach a level of complexity where having a basic set of sc
 </ul>
 <p>All the code can be found on the <a href="https://github.com/memfault/interrupt/tree/master/example/freertos-example">Interrupt Github page</a> with more details in the <code>README</code> in the directory linked.</p>
 <p>The example application itself is very basic: it creates a “Ping” <strong>FreeRTOS</strong> task and a “Pong” <strong>FreeRTOS</strong> task. The “Ping” task sends a message to the “Pong” task once per second and each time the event loop in a task runs, I’ve added a breakpoint instruction so we can confirm with the debugger the tasks are switching between each other.</p>
-<h3 id="the-portthe-port">The Port<a href="#the-port"></a></h3>
+<h3 id="the-portthe-port">The Port<a href="#the-port"></a><a hidden class="anchor" aria-hidden="true" href="#the-portthe-port">#</a></h3>
 <p><strong>FreeRTOS</strong> has excellent documentation<a href="#fn:10">10</a> about creating a new project. If you are trying to port FreeRTOS to your own platform, I’d strongly recommend reading through those docs. For context, the approximate steps I followed for the minimal port to the Cortex-M4 are:</p>
 <ol>
 <li>Set up a build system and startup sequence for your MCU. Extensive details about what these steps look like can be found in our <a href="/tag/zero-to-main">zero to main() series</a>.</li>
@@ -426,7 +484,7 @@ Many embedded systems reach a level of complexity where having a basic set of sc
 <li>Create a <code>FreeRTOSConfig.h</code><a href="#fn:13">13</a> with the configuration settings for your particular application</li>
 <li>Create some tasks (<code>xTaskCreate</code>), start the scheduler (<code>vTaskStartScheduler</code>), and you are ready to go!</li>
 </ol>
-<h3 id="compiling-the-code-and-launching-it-with-gdbcompiling-the-code-and-launching-it-with-gdb">Compiling the code and launching it with GDB<a href="#compiling-the-code-and-launching-it-with-gdb"></a></h3>
+<h3 id="compiling-the-code-and-launching-it-with-gdbcompiling-the-code-and-launching-it-with-gdb">Compiling the code and launching it with GDB<a href="#compiling-the-code-and-launching-it-with-gdb"></a><a hidden class="anchor" aria-hidden="true" href="#compiling-the-code-and-launching-it-with-gdbcompiling-the-code-and-launching-it-with-gdb">#</a></h3>
 <pre><code># Compile the code
 $ make
 Compiling main.c
@@ -459,7 +517,7 @@ Transfer rate: 2130 KB/sec, 2181 bytes/write.
 Resetting target
 (gdb)
 </code></pre>
-<h3 id="context-switchingcontext-switching">Context Switching<a href="#context-switching"></a></h3>
+<h3 id="context-switchingcontext-switching">Context Switching<a href="#context-switching"></a><a hidden class="anchor" aria-hidden="true" href="#context-switchingcontext-switching">#</a></h3>
 <p>Let’s start by looking at the code that deals with context switching itself. Once we understand that, we will cycle back to how the scheduler itself is started and tasks are created.</p>
 <p>The <strong>FreeRTOS</strong> scheduler works by utilizing the built in <strong>SysTick</strong> and <strong>PendSV</strong> interrupts. The <strong>SysTick</strong> is configured to fire periodically. Each time it fires, a check is performed to see if a context switch is required by calling <code>xTaskIncrementTick</code>:</p>
 <pre><code>void xPortSysTickHandler( void )
@@ -790,7 +848,7 @@ psp            0x20000368          536871784
 #2  0x00001334 in ?? () at freertos_kernel/portable/GCC/ARM_CM4F/port.c:703
 </code></pre>
 <p>They values match! We’ve successfully completed a context switch and are running the pong task!</p>
-<h3 id="starting-the-freertos-schedulerstarting-the-freertos-scheduler">Starting the FreeRTOS Scheduler<a href="#starting-the-freertos-scheduler"></a></h3>
+<h3 id="starting-the-freertos-schedulerstarting-the-freertos-scheduler">Starting the FreeRTOS Scheduler<a href="#starting-the-freertos-scheduler"></a><a hidden class="anchor" aria-hidden="true" href="#starting-the-freertos-schedulerstarting-the-freertos-scheduler">#</a></h3>
 <p>The astute observer reader may wonder how the scheduler starts in the first place. What happens if a <strong>PendSV</strong> gets triggered but there isn’t a currently running task because the system just booted?!</p>
 <p>There are several different strategies but a common pattern an RTOS will follow when creating a new task is to initialize the task stack to look like it had been context switched out by the scheduler. Then to start the scheduler itself by triggering a SVC exception with the <code>svc</code> instruction. This way starting a thread is nearly identical to context switching to a thread.</p>
 <p>During initialization you will also usually find a couple extra configuration settings such as:</p>
@@ -825,14 +883,14 @@ vPortEnableVFP();</p>
 </li>
 </ul>
 <p>To start <strong>FreeRTOS</strong> and get tasks to run<code>vTaskStartScheduler</code> needs to be called. If you are interested in taking a closer look at this logic, I’d recommend looking at are <code>pxPortInitialiseStack</code>, <code>xPortStartScheduler</code>, and <code>vPortSVCHandler</code> functions in <code>port.c</code>.</p>
-<h2 id="closingclosing">Closing<a href="#closing"></a></h2>
+<h2 id="closingclosing">Closing<a href="#closing"></a><a hidden class="anchor" aria-hidden="true" href="#closingclosing">#</a></h2>
 <p>We hope you learned something interesting about how the ARM Cortex-M architecture hardware helps to enable multi-tasking and developed a better understanding of how the <strong>FreeRTOS</strong> implementation works.</p>
 <p>We’d love to hear interesting RTOS bugs you have tracked down or other topics you would like to see covered on the topic. Let me know in the discussion area below!</p>
 <blockquote>
 <p>Interested in learning more about debugging HardFaults? <a href="https://go.memfault.com/debugging-arm-cortex-m-mcu-webinar?utm_campaign=Debugging%20Cortex%20M%20Webinar&amp;utm_source=blog&amp;utm_medium=Interrupt&amp;utm_term=Debug">Watch this webinar recording.</a>.</p>
 </blockquote>
 <p>See anything you&rsquo;d like to change? Submit a pull request or open an issue at <a href="https://github.com/memfault/interrupt">GitHub</a></p>
-<h2 id="reference-linksreference-links">Reference Links<a href="#reference-links"></a></h2>
+<h2 id="reference-linksreference-links">Reference Links<a href="#reference-links"></a><a hidden class="anchor" aria-hidden="true" href="#reference-linksreference-links">#</a></h2>
 <ol>
 <li>
 <p><a href="http://infocenter.arm.com/help/topic/com.arm.doc.ihi0042f/IHI0042F_aapcs.pdf">ARM Architecture Procedure Calling Standard(AAPCS)</a> <a href="#fnref:1">↩</a> <a href="#fnref:1:1">↩2</a> <a href="#fnref:1:2">↩3</a> <a href="#fnref:1:3">↩4</a> <a href="#fnref:1:4">↩5</a></p>
@@ -886,40 +944,89 @@ vPortEnableVFP();</p>
 <p><a href="https://static.docs.arm.com/ddi0403/eb/DDI0403E_B_armv7m_arm.pdf">See “Visibility of changes in execution priority resulting from executing an MSR instruction”</a> <a href="#fnref:17">↩</a></p>
 </li>
 </ol>
-<p><img src="/img/author/chris.jpg" alt=""> <a href="/authors/chris">Chris Coleman</a> is a founder and CTO at Memfault. Prior to founding Memfault, Chris worked on the embedded software teams at Sun, Pebble, and Fitbit.<br>
+<p><img loading="lazy" src="/img/author/chris.jpg" alt=""  />
+ <a href="/authors/chris">Chris Coleman</a> is a founder and CTO at Memfault. Prior to founding Memfault, Chris worked on the embedded software teams at Sun, Pebble, and Fitbit.<br>
 <a href="https://www.linkedin.com/in/christopher-coleman-812aa06b/"></a><a href="https://github.com/chrisc11"></a></p>
 <p>DiscourseEmbed = { discourseUrl: &lsquo;<a href="https://community.memfault.com/',">https://community.memfault.com/',</a> discourseEmbedUrl: &lsquo;<a href="https://interrupt.memfault.com/blog/cortex-m-rtos-context-switching'">https://interrupt.memfault.com/blog/cortex-m-rtos-context-switching'</a> }; (function() { var d = document.createElement(&lsquo;script&rsquo;); d.type = &lsquo;text/javascript&rsquo;; d.async = true; d.src = DiscourseEmbed.discourseUrl + &lsquo;javascripts/embed.js&rsquo;; (document.getElementsByTagName(&lsquo;head&rsquo;)[0] || document.getElementsByTagName(&lsquo;body&rsquo;)[0]).appendChild(d); })(); anchors.options.visible = &lsquo;hover&rsquo;; anchors.add('.post-content &gt; h1, h2, h3, h4, h5, h6&rsquo;);</p>
-<ul class="pa0">
-  
-</ul>
-<div class="mt6 instapaper_ignoref">
-      
-      
-      </div>
-    </div>
-
-    <aside class="w-30-l mt6-l">
 
 
-
-
-</aside>
-
-  </article>
-
-    </main>
-    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
-  <div class="flex justify-between">
-  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://YuXinFan.github.io" >
-    &copy;  My Website 2023 
-  </a>
-    <div>
-<div class="ananke-socials">
-  
-</div>
-</div>
   </div>
-</footer>
 
-  </body>
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://YuXinFan.github.io">My Website</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
 </html>

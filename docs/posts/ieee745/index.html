@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    
-    <title>IEEE745浮点数表示法 | My Website</title>
-    <meta name="viewport" content="width=device-width,minimum-scale=1">
-    <meta name="description" content="32-bit 表示一个单精度浮点数 float
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>IEEE745浮点数表示法 | My Website</title>
+<meta name="keywords" content="">
+<meta name="description" content="32-bit 表示一个单精度浮点数 float
 $V=(-1)^s \times M \times 2^E$ 32-bit 分为3部分： S, E, M
  S: 符号位，1bit，0 表示正数， -1 表示负数 E: 指数位，8bit，取值[-127, 128]. M: 尾数位，23bit，取值[0, $2^{23}-1$].  指数的底固定为2，指数有正数也有负数，但指数部分没有符号位，取一个中间值，小于中间值的表示负数，等于中间值的表示0，大于中间值的表示正数，中间值的定义如下：Bias=$2^{k-1}$-1, k表示E的bit数。实际的E为E-Bias.
 尾数部分隐藏了小数点前的1，实际为1.M。M转换为十进制从高位开始计算： $1&#43;b_{22}\times\frac{1}{2}&#43;b_{21}\times\frac{1}{4}&#43;&hellip;&#43;b_{0}\times\frac{1}{2^{23}}$
@@ -14,29 +15,72 @@ $V=(-1)^s \times M \times 2^E$ 32-bit 分为3部分： S, E, M
 E全为0时，表示&#43;0.0, -0.0和接近0.0的值
 E全为1，M全为0时，表示无穷，符号位区分正无穷和负无穷
 E全为1，M不全为0时，表示NaN，不是一个数。">
-    <meta name="generator" content="Hugo 0.68.3" />
-    
-    
-    
-    
-      <meta name="robots" content="noindex, nofollow">
-    
+<meta name="author" content="">
+<link rel="canonical" href="https://YuXinFan.github.io/posts/ieee745/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.2ecb636e9b21e5eac16fef8b38e32754f5e0e9fdbc9b0eb88f02b2dac89e33d1.css" integrity="sha256-Lstjbpsh5erBb&#43;&#43;LOOMnVPXg6f28mw64jwKy2sieM9E=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://YuXinFan.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://YuXinFan.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://YuXinFan.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://YuXinFan.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://YuXinFan.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
 
-    
-<link rel="stylesheet" href="/ananke/css/main.min.css" >
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
 
+            .list {
+                background: var(--theme);
+            }
 
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
 
-    
-    
-    
-      
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
 
+    </style>
+</noscript><head>
     
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
 
-    
-    
-    <meta property="og:title" content="IEEE745浮点数表示法" />
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+          delimiters: [
+              {left: "$$", right: "$$", display: true},
+              {left: "$", right: "$", display: false}
+          ]
+      });
+  });
+</script>
+</head><meta property="og:title" content="IEEE745浮点数表示法" />
 <meta property="og:description" content="32-bit 表示一个单精度浮点数 float
 $V=(-1)^s \times M \times 2^E$ 32-bit 分为3部分： S, E, M
  S: 符号位，1bit，0 表示正数， -1 表示负数 E: 指数位，8bit，取值[-127, 128]. M: 尾数位，23bit，取值[0, $2^{23}-1$].  指数的底固定为2，指数有正数也有负数，但指数部分没有符号位，取一个中间值，小于中间值的表示负数，等于中间值的表示0，大于中间值的表示正数，中间值的定义如下：Bias=$2^{k-1}$-1, k表示E的bit数。实际的E为E-Bias.
@@ -46,25 +90,11 @@ E全为0时，表示&#43;0.0, -0.0和接近0.0的值
 E全为1，M全为0时，表示无穷，符号位区分正无穷和负无穷
 E全为1，M不全为0时，表示NaN，不是一个数。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://YuXinFan.github.io/posts/ieee745/" />
-<meta property="article:published_time" content="2022-07-22T10:44:05+08:00" />
-<meta property="article:modified_time" content="2022-07-22T10:44:05+08:00" />
-<meta itemprop="name" content="IEEE745浮点数表示法">
-<meta itemprop="description" content="32-bit 表示一个单精度浮点数 float
-$V=(-1)^s \times M \times 2^E$ 32-bit 分为3部分： S, E, M
- S: 符号位，1bit，0 表示正数， -1 表示负数 E: 指数位，8bit，取值[-127, 128]. M: 尾数位，23bit，取值[0, $2^{23}-1$].  指数的底固定为2，指数有正数也有负数，但指数部分没有符号位，取一个中间值，小于中间值的表示负数，等于中间值的表示0，大于中间值的表示正数，中间值的定义如下：Bias=$2^{k-1}$-1, k表示E的bit数。实际的E为E-Bias.
-尾数部分隐藏了小数点前的1，实际为1.M。M转换为十进制从高位开始计算： $1&#43;b_{22}\times\frac{1}{2}&#43;b_{21}\times\frac{1}{4}&#43;&hellip;&#43;b_{0}\times\frac{1}{2^{23}}$
-规格化的表示，E不是全0，也不是全1，M任意取值
-E全为0时，表示&#43;0.0, -0.0和接近0.0的值
-E全为1，M全为0时，表示无穷，符号位区分正无穷和负无穷
-E全为1，M不全为0时，表示NaN，不是一个数。">
-<meta itemprop="datePublished" content="2022-07-22T10:44:05&#43;08:00" />
-<meta itemprop="dateModified" content="2022-07-22T10:44:05&#43;08:00" />
-<meta itemprop="wordCount" content="33">
+<meta property="og:url" content="https://YuXinFan.github.io/posts/ieee745/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-22T10:44:05&#43;08:00" />
+<meta property="article:modified_time" content="2022-07-22T10:44:05&#43;08:00" />
 
-
-
-<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="IEEE745浮点数表示法"/>
 <meta name="twitter:description" content="32-bit 表示一个单精度浮点数 float
 $V=(-1)^s \times M \times 2^E$ 32-bit 分为3部分： S, E, M
@@ -75,80 +105,111 @@ E全为0时，表示&#43;0.0, -0.0和接近0.0的值
 E全为1，M全为0时，表示无穷，符号位区分正无穷和负无穷
 E全为1，M不全为0时，表示NaN，不是一个数。"/>
 
-	
-  </head>
 
-  <body class="ma0 avenir bg-near-white">
-
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "IEEE745浮点数表示法",
+      "item": "https://YuXinFan.github.io/posts/ieee745/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "IEEE745浮点数表示法",
+  "name": "IEEE745浮点数表示法",
+  "description": "32-bit 表示一个单精度浮点数 float\n$V=(-1)^s \\times M \\times 2^E$ 32-bit 分为3部分： S, E, M\n S: 符号位，1bit，0 表示正数， -1 表示负数 E: 指数位，8bit，取值[-127, 128]. M: 尾数位，23bit，取值[0, $2^{23}-1$].  指数的底固定为2，指数有正数也有负数，但指数部分没有符号位，取一个中间值，小于中间值的表示负数，等于中间值的表示0，大于中间值的表示正数，中间值的定义如下：Bias=$2^{k-1}$-1, k表示E的bit数。实际的E为E-Bias.\n尾数部分隐藏了小数点前的1，实际为1.M。M转换为十进制从高位开始计算： $1+b_{22}\\times\\frac{1}{2}+b_{21}\\times\\frac{1}{4}+\u0026hellip;+b_{0}\\times\\frac{1}{2^{23}}$\n规格化的表示，E不是全0，也不是全1，M任意取值\nE全为0时，表示+0.0, -0.0和接近0.0的值\nE全为1，M全为0时，表示无穷，符号位区分正无穷和负无穷\nE全为1，M不全为0时，表示NaN，不是一个数。",
+  "keywords": [
     
-   
-  
+  ],
+  "articleBody": "32-bit 表示一个单精度浮点数 float\n$V=(-1)^s \\times M \\times 2^E$ 32-bit 分为3部分： S, E, M\n S: 符号位，1bit，0 表示正数， -1 表示负数 E: 指数位，8bit，取值[-127, 128]. M: 尾数位，23bit，取值[0, $2^{23}-1$].  指数的底固定为2，指数有正数也有负数，但指数部分没有符号位，取一个中间值，小于中间值的表示负数，等于中间值的表示0，大于中间值的表示正数，中间值的定义如下：Bias=$2^{k-1}$-1, k表示E的bit数。实际的E为E-Bias.\n尾数部分隐藏了小数点前的1，实际为1.M。M转换为十进制从高位开始计算： $1+b_{22}\\times\\frac{1}{2}+b_{21}\\times\\frac{1}{4}+…+b_{0}\\times\\frac{1}{2^{23}}$\n规格化的表示，E不是全0，也不是全1，M任意取值\nE全为0时，表示+0.0, -0.0和接近0.0的值\nE全为1，M全为0时，表示无穷，符号位区分正无穷和负无穷\nE全为1，M不全为0时，表示NaN，不是一个数。\n",
+  "wordCount" : "33",
+  "inLanguage": "en",
+  "datePublished": "2022-07-22T10:44:05+08:00",
+  "dateModified": "2022-07-22T10:44:05+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://YuXinFan.github.io/posts/ieee745/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "My Website",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://YuXinFan.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
 
-  <header>
-    <div class="bg-black">
-      <nav class="pv3 ph3 ph4-ns" role="navigation">
-  <div class="flex-l justify-between items-center center">
-    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
-      
-        My Website
-      
-    </a>
-    <div class="flex-l items-center">
-      
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
 
-      
-      
-<div class="ananke-socials">
-  
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://YuXinFan.github.io" accesskey="h" title="My Website (Alt + H)">My Website</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      IEEE745浮点数表示法
+    </h1>
+    <div class="post-meta"><span title='2022-07-22 10:44:05 +0800 CST'>July 22, 2022</span>&nbsp;·&nbsp;1 min
+
 </div>
-
-    </div>
-  </div>
-</nav>
-
-    </div>
-  </header>
-
-
-
-    <main class="pb7" role="main">
-      
-  
-  <article class="flex-l flex-wrap justify-between mw8 center ph3">
-    <header class="mt4 w-100">
-      <aside class="instapaper_ignoref b helvetica tracked">
-          
-        POSTS
-      </aside>
-      
-
-
-
-
-
-
-
-
-
-
-  <div id="sharing" class="mt3 ananke-socials">
-    
-  </div>
-
-
-      <h1 class="f1 athelas mt3 mb1">IEEE745浮点数表示法</h1>
-      
-      
-      
-      <time class="f6 mv4 dib tracked" datetime="2022-07-22T10:44:05+08:00">July 22, 2022</time>
-      
-
-      
-      
-    </header>
-    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><p>32-bit 表示一个单精度浮点数 float</p>
+  </header> 
+  <div class="post-content"><p>32-bit 表示一个单精度浮点数 float</p>
 <p>$V=(-1)^s \times M \times 2^E$
-<img src="/content/posts/IEEE745/float.png" alt="bits"></p>
+<img loading="lazy" src="/content/posts/IEEE745/float.png" alt="bits"  />
+</p>
 <p>32-bit 分为3部分： S, E, M</p>
 <ul>
 <li>S: 符号位，1bit，0 表示正数， -1 表示负数</li>
@@ -161,37 +222,85 @@ E全为1，M不全为0时，表示NaN，不是一个数。"/>
 <p>E全为0时，表示+0.0, -0.0和接近0.0的值</p>
 <p>E全为1，M全为0时，表示无穷，符号位区分正无穷和负无穷</p>
 <p>E全为1，M不全为0时，表示NaN，不是一个数。</p>
-<ul class="pa0">
-  
-</ul>
-<div class="mt6 instapaper_ignoref">
-      
-      
-      </div>
-    </div>
-
-    <aside class="w-30-l mt6-l">
 
 
-
-
-</aside>
-
-  </article>
-
-    </main>
-    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
-  <div class="flex justify-between">
-  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://YuXinFan.github.io" >
-    &copy;  My Website 2023 
-  </a>
-    <div>
-<div class="ananke-socials">
-  
-</div>
-</div>
   </div>
-</footer>
 
-  </body>
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://YuXinFan.github.io">My Website</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
 </html>
