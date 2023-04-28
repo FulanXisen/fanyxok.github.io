@@ -1,7 +1,7 @@
 baseURL: "https://YuXinFan.github.io"
 languageCode: 'en-us'
 title: 'My Website'
-theme: "PaperMod"
+theme: "ananke"
 publishDir: "docs"
 
 enableRobotsTXT: true
