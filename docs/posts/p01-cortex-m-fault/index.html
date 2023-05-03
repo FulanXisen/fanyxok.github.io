@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width,minimum-scale=1">
     <meta name="description" content="How to debug a HardFault on an ARM Cortex-M MCU 20 Nov 2019 by Chris Coleman
 Faults happen on embedded devices all the time for a variety of reasons – ranging from something as simple as a NULL pointer dereference to something more unexpected like running a faulty code path only when in a zero-g environment on the Tower of Terror in Disneyland1. It’s important for any embedded engineer to understand how to debug and resolve this class of issue quickly.">
-    <meta name="generator" content="Hugo 0.68.3" />
+    <meta name="generator" content="Hugo 0.111.3">
     
     
     
@@ -34,18 +34,14 @@ Faults happen on embedded devices all the time for a variety of reasons – rang
 <meta property="og:description" content="How to debug a HardFault on an ARM Cortex-M MCU 20 Nov 2019 by Chris Coleman
 Faults happen on embedded devices all the time for a variety of reasons – ranging from something as simple as a NULL pointer dereference to something more unexpected like running a faulty code path only when in a zero-g environment on the Tower of Terror in Disneyland1. It’s important for any embedded engineer to understand how to debug and resolve this class of issue quickly." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://YuXinFan.github.io/posts/p01-cortex-m-fault/" />
+<meta property="og:url" content="https://YuXinFan.github.io/posts/p01-cortex-m-fault/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2023-04-27T21:21:59+08:00" />
 <meta property="article:modified_time" content="2023-04-27T21:21:59+08:00" />
 <meta itemprop="name" content="How to debug a HardFault on an ARM Cortex-M MCU">
 <meta itemprop="description" content="How to debug a HardFault on an ARM Cortex-M MCU 20 Nov 2019 by Chris Coleman
-Faults happen on embedded devices all the time for a variety of reasons – ranging from something as simple as a NULL pointer dereference to something more unexpected like running a faulty code path only when in a zero-g environment on the Tower of Terror in Disneyland1. It’s important for any embedded engineer to understand how to debug and resolve this class of issue quickly.">
-<meta itemprop="datePublished" content="2023-04-27T21:21:59&#43;08:00" />
-<meta itemprop="dateModified" content="2023-04-27T21:21:59&#43;08:00" />
+Faults happen on embedded devices all the time for a variety of reasons – ranging from something as simple as a NULL pointer dereference to something more unexpected like running a faulty code path only when in a zero-g environment on the Tower of Terror in Disneyland1. It’s important for any embedded engineer to understand how to debug and resolve this class of issue quickly."><meta itemprop="datePublished" content="2023-04-27T21:21:59+08:00" />
+<meta itemprop="dateModified" content="2023-04-27T21:21:59+08:00" />
 <meta itemprop="wordCount" content="6527">
-
-
-
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="How to debug a HardFault on an ARM Cortex-M MCU"/>
 <meta name="twitter:description" content="How to debug a HardFault on an ARM Cortex-M MCU 20 Nov 2019 by Chris Coleman
@@ -394,34 +390,34 @@ $ python setup.py install
 (gdb) svd
 Available Peripherals:
     ...
-    SCB:        System control block
+	SCB:        System control block
     ...
 (gdb) svd SCB
 Registers in SCB:
     ...
-    CFSR_UFSR_BFSR_MMFSR:      524288  Configurable fault status register
+	CFSR_UFSR_BFSR_MMFSR:      524288  Configurable fault status register
     ...
 (gdb) svd SCB CFSR_UFSR_BFSR_MMFSR
 Fields in SCB CFSR_UFSR_BFSR_MMFSR:
-    IACCVIOL:     0  Instruction access violation flag
-    DACCVIOL:     0  Data access violation flag
-    MUNSTKERR:    0  Memory manager fault on unstacking for a return from exception
-    MSTKERR:      0  Memory manager fault on stacking for exception entry.
-    MLSPERR:      0
-    MMARVALID:    0  Memory Management Fault Address Register (MMAR) valid flag
-    IBUSERR:      1  Instruction bus error
-    PRECISERR:    0  Precise data bus error
-    IMPRECISERR:  0  Imprecise data bus error
-    UNSTKERR:     0  Bus fault on unstacking for a return from exception
-    STKERR:       0  Bus fault on stacking for exception entry
-    LSPERR:       0  Bus fault on floating-point lazy state preservation
-    BFARVALID:    0  Bus Fault Address Register (BFAR) valid flag
-    UNDEFINSTR:   0  Undefined instruction usage fault
-    INVSTATE:     1  Invalid state usage fault
-    INVPC:        0  Invalid PC load usage fault
-    NOCP:         0  No coprocessor usage fault.
-    UNALIGNED:    0  Unaligned access usage fault
-    DIVBYZERO:    0  Divide by zero usage fault
+	IACCVIOL:     0  Instruction access violation flag
+	DACCVIOL:     0  Data access violation flag
+	MUNSTKERR:    0  Memory manager fault on unstacking for a return from exception
+	MSTKERR:      0  Memory manager fault on stacking for exception entry.
+	MLSPERR:      0
+	MMARVALID:    0  Memory Management Fault Address Register (MMAR) valid flag
+	IBUSERR:      1  Instruction bus error
+	PRECISERR:    0  Precise data bus error
+	IMPRECISERR:  0  Imprecise data bus error
+	UNSTKERR:     0  Bus fault on unstacking for a return from exception
+	STKERR:       0  Bus fault on stacking for exception entry
+	LSPERR:       0  Bus fault on floating-point lazy state preservation
+	BFARVALID:    0  Bus Fault Address Register (BFAR) valid flag
+	UNDEFINSTR:   0  Undefined instruction usage fault
+	INVSTATE:     1  Invalid state usage fault
+	INVPC:        0  Invalid PC load usage fault
+	NOCP:         0  No coprocessor usage fault.
+	UNALIGNED:    0  Unaligned access usage fault
+	DIVBYZERO:    0  Divide by zero usage fault
 </code></pre>
 <h3 id="postmortem-analysispostmortem-analysis">Postmortem Analysis<a href="#postmortem-analysis"></a></h3>
 <p>The previous two approaches are only helpful if we have a debug or physical connection to the device. Once the product has shipped and is out in the field these strategies will not help to triage what went wrong on devices.</p>
@@ -539,7 +535,7 @@ Program received signal SIGTRAP, Trace/breakpoint trap.
 $3 = 0x1
 (gdb) svd SCB CFSR_UFSR_BFSR_MMFSR
 Fields in SCB CFSR_UFSR_BFSR_MMFSR:
-    IACCVIOL:     1  Instruction access violation flag
+	IACCVIOL:     1  Instruction access violation flag
 [...]
 </code></pre>
 <p>That’s interesting! We hit a Memory Management instruction access violation fault even though we haven’t enabled any MPU regions. From the CFSR, we know that the stacked frame is valid so we can take a look at that to see what it reveals:</p>
@@ -593,7 +589,7 @@ Fields in SCB CFSR_UFSR_BFSR_MMFSR:
 <p>Great, we have a precise bus fault which means the return address in the stack frame holds the instruction which triggered the fault and that we can read BFAR to determine what memory access triggered the fault!</p>
 <pre><code>(gdb) svd/x SCB BFAR
 Fields in SCB BFAR:
-    BFAR:  0x0BADCAFE  Bus fault address
+	BFAR:  0x0BADCAFE  Bus fault address
 
 (gdb) p/a *frame
 $16 = {
@@ -658,7 +654,7 @@ $13 = 0x8200
 (gdb) svd SCB CFSR_UFSR_BFSR_MMFSR
 Fields in SCB CFSR_UFSR_BFSR_MMFSR:
 [...]
-    NOCP:         1  No coprocessor usage fault.
+	NOCP:         1  No coprocessor usage fault.
 [...]
 </code></pre>
 <p>We see it was a coprocessor UsageFault which tells us we either issued an instruction to a non-existent or disabled Cortex-M coprocessor. We know the frame contents are valid so we can inspect that to figure out where the fault originated:</p>
@@ -715,7 +711,7 @@ $31 = 0x400
 (gdb) svd SCB CFSR_UFSR_BFSR_MMFSR
 Fields in SCB CFSR_UFSR_BFSR_MMFSR:
 [...]
-    IMPRECISERR:  1  Imprecise data bus error
+	IMPRECISERR:  1  Imprecise data bus error
 [...]
 </code></pre>
 <p>Yikes, the error is imprecise. This means the stack frame will point to the general area where the fault occurred but <strong>not</strong> the exact instruction!</p>
@@ -820,7 +816,7 @@ $39 = 0x1000
 (gdb) svd SCB CFSR_UFSR_BFSR_MMFSR
 Fields in SCB CFSR_UFSR_BFSR_MMFSR:
 [...]
-    STKERR:       1  Bus fault on stacking for exception entry
+	STKERR:       1  Bus fault on stacking for exception entry
 </code></pre>
 <h4 id="debug-tips-when-dealing-with-a-stkerrdebug-tips-when-dealing-with-a-stkerr">Debug Tips when dealing with a STKERR<a href="#debug-tips-when-dealing-with-a-stkerr"></a></h4>
 <p>There are two really important things to note when a stacking exception occurs:</p>
@@ -998,7 +994,7 @@ Breakpoint 12, recover_from_task_fault () at ./cortex-m-fault-debug/main.c:181
 </ol>
 <p><img src="/img/author/chris.jpg" alt=""> <a href="/authors/chris">Chris Coleman</a> is a founder and CTO at Memfault. Prior to founding Memfault, Chris worked on the embedded software teams at Sun, Pebble, and Fitbit.<br>
 <a href="https://www.linkedin.com/in/christopher-coleman-812aa06b/"></a><a href="https://github.com/chrisc11"></a></p>
-<p>DiscourseEmbed = { discourseUrl: &lsquo;<a href="https://community.memfault.com/',">https://community.memfault.com/',</a> discourseEmbedUrl: &lsquo;<a href="https://interrupt.memfault.com/blog/cortex-m-hardfault-debug'">https://interrupt.memfault.com/blog/cortex-m-hardfault-debug'</a> }; (function() { var d = document.createElement(&lsquo;script&rsquo;); d.type = &lsquo;text/javascript&rsquo;; d.async = true; d.src = DiscourseEmbed.discourseUrl + &lsquo;javascripts/embed.js&rsquo;; (document.getElementsByTagName(&lsquo;head&rsquo;)[0] || document.getElementsByTagName(&lsquo;body&rsquo;)[0]).appendChild(d); })(); anchors.options.visible = &lsquo;hover&rsquo;; anchors.add('.post-content &gt; h1, h2, h3, h4, h5, h6&rsquo;);</p>
+<p>DiscourseEmbed = { discourseUrl: &lsquo;<a href="https://community.memfault.com/'">https://community.memfault.com/'</a>, discourseEmbedUrl: &lsquo;<a href="https://interrupt.memfault.com/blog/cortex-m-hardfault-debug'">https://interrupt.memfault.com/blog/cortex-m-hardfault-debug'</a> }; (function() { var d = document.createElement(&lsquo;script&rsquo;); d.type = &rsquo;text/javascript&rsquo;; d.async = true; d.src = DiscourseEmbed.discourseUrl + &lsquo;javascripts/embed.js&rsquo;; (document.getElementsByTagName(&lsquo;head&rsquo;)[0] || document.getElementsByTagName(&lsquo;body&rsquo;)[0]).appendChild(d); })(); anchors.options.visible = &lsquo;hover&rsquo;; anchors.add(&rsquo;.post-content &gt; h1, h2, h3, h4, h5, h6&rsquo;);</p>
 <ul class="pa0">
   
 </ul>

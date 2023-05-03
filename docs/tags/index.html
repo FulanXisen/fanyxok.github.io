@@ -7,7 +7,7 @@
     <title>My Website</title>
     <meta name="viewport" content="width=device-width,minimum-scale=1">
     <meta name="description" content="">
-    <meta name="generator" content="Hugo 0.68.3" />
+    <meta name="generator" content="Hugo 0.111.3">
     
     
     
@@ -38,7 +38,6 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://YuXinFan.github.io/tags/" />
-<meta property="og:updated_time" content="2023-04-28T15:45:15+08:00" />
 <meta itemprop="name" content="Tags">
 <meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tags"/>
@@ -95,6 +94,56 @@
     <section class="ph4">
       
         <h2 class="f1">
+          <a href="/tags/arm" class="link blue hover-black">
+            Tag: arm
+          </a>
+        </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/p04-using-psp-msp-limit-registers-for-stack-overflow/" class="link black dim">
+        A Guide to Using ARM Stack Limit Registers
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      A Guide to Using ARM Stack Limit Registers 14 Feb 2023 by Jon Kurtz
+堆栈溢出一直是开发过程中的一个严重问题。它们经常没有被检测到，并以难以理解的方式出现。我们已经实施了软件机制来保护它们，但这些机制有限，并且仍不能保护所有条件。
+随着ARM架构的成熟，使用一个百分百可靠的机制来检测溢出难道不是更好吗？
+我们将探索在ARM Cortex-M33架构上使用MSP Limit和PSP Limit寄存器来检测堆栈溢出。我们将在Renesas DA1469x上进行实现，并查看检测堆栈溢出的实际示例。此外，我们还将查看MSPLIM和PSPLIM功能不足的情况下的补充选项。
+Table of Contents Basic Terminology How does it work? Implementing the Limit Registers Initializing the MSPLIM Register Initializing the PSPLIM Register Setting up the UsageFault_Handler Testing our Implementation Limitations and Further Improvements Stack Canary FreeRTOS Buffer Overflow protection Compiler Enabled Overflow Detection GCC SSP Example Practical implementations for GCC stack Canaries Closing References Basic Terminology The ARM Cortex-M33 introduced two new stack limit registers, PSPLIM and MSPLIM 1.
+    </div>
+  </div>
+</div>
+
+        
+      
+        <h2 class="f1">
+          <a href="/tags/cmake" class="link blue hover-black">
+            Tag: cmake
+          </a>
+        </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/p05-example-of-embedded-cmakelists-files/" class="link black dim">
+        Example of Embedded CMakeLists Files
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      The most thoroughly commented embedded CMakeLists file January 05, 2023 - CMake Build System Embedded STM32
+Many embedded software engineers have had to deal with build systems that are either non cross-platform or a part of the IDE they are using, don&rsquo;t offer easy composability or per-library configuration, provide no testing support or ways to generate or package files without using a third party scripting language.
+CMake is a build system that offers solutions to many of those problems and is already well adopted in the world of traditional software development.
+    </div>
+  </div>
+</div>
+
+        
+      
+        <h2 class="f1">
           <a href="/tags/first" class="link blue hover-black">
             Tag: first
           </a>
@@ -110,7 +159,33 @@
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
       Yao&rsquo;s Protocol Theory Impl Yao&rsquo;s Protocol in MPCFGO Type Struct Let&rsquo;s declare a struct to represent a Yao&rsquo;s Protocol variable.
-// Yshare The label and pointer are stored in a []byte, [0:len-1]byte, is the label, and [len-1]byte is the pointer type Yshare struct { // Yshare is a share of l bit, Plaintext is a l-bit number 	Plaintext pub.PubNum wValue [][]byte // wValue[i] is the i-th bit&#39;s label and pointer, activated 	wTable [][2][]byte // wValue[i][0] is the i-th bit&#39;s label and pointer of value 0, wValue[i][1] of value 1 } Yshare contains three fields:
+// Yshare The label and pointer are stored in a []byte, [0:len-1]byte, is the label, and [len-1]byte is the pointer type Yshare struct { // Yshare is a share of l bit, Plaintext is a l-bit number Plaintext pub.PubNum wValue [][]byte // wValue[i] is the i-th bit&#39;s label and pointer, activated wTable [][2][]byte // wValue[i][0] is the i-th bit&#39;s label and pointer of value 0, wValue[i][1] of value 1 } Yshare contains three fields:
+    </div>
+  </div>
+</div>
+
+        
+      
+        <h2 class="f1">
+          <a href="/tags/stack-over-flow" class="link blue hover-black">
+            Tag: stack-over-flow
+          </a>
+        </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/p04-using-psp-msp-limit-registers-for-stack-overflow/" class="link black dim">
+        A Guide to Using ARM Stack Limit Registers
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      A Guide to Using ARM Stack Limit Registers 14 Feb 2023 by Jon Kurtz
+堆栈溢出一直是开发过程中的一个严重问题。它们经常没有被检测到，并以难以理解的方式出现。我们已经实施了软件机制来保护它们，但这些机制有限，并且仍不能保护所有条件。
+随着ARM架构的成熟，使用一个百分百可靠的机制来检测溢出难道不是更好吗？
+我们将探索在ARM Cortex-M33架构上使用MSP Limit和PSP Limit寄存器来检测堆栈溢出。我们将在Renesas DA1469x上进行实现，并查看检测堆栈溢出的实际示例。此外，我们还将查看MSPLIM和PSPLIM功能不足的情况下的补充选项。
+Table of Contents Basic Terminology How does it work? Implementing the Limit Registers Initializing the MSPLIM Register Initializing the PSPLIM Register Setting up the UsageFault_Handler Testing our Implementation Limitations and Further Improvements Stack Canary FreeRTOS Buffer Overflow protection Compiler Enabled Overflow Detection GCC SSP Example Practical implementations for GCC stack Canaries Closing References Basic Terminology The ARM Cortex-M33 introduced two new stack limit registers, PSPLIM and MSPLIM 1.
     </div>
   </div>
 </div>

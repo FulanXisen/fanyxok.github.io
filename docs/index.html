@@ -7,7 +7,7 @@
     <title>My Website</title>
     <meta name="viewport" content="width=device-width,minimum-scale=1">
     <meta name="description" content="">
-    <meta name="generator" content="Hugo 0.68.3" />
+    <meta name="generator" content="Hugo 0.111.3">
     
     
     
@@ -38,7 +38,6 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://YuXinFan.github.io/" />
-<meta property="og:updated_time" content="2023-04-28T15:45:15+08:00" />
 <meta itemprop="name" content="My Website">
 <meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="My Website"/>
@@ -119,65 +118,69 @@
       
       <div class="blah w-100">
         <h1 class="f3 fw1 athelas mt0 lh-title">
+          <a href="/posts/p05-example-of-embedded-cmakelists-files/" class="color-inherit dim link">
+            Example of Embedded CMakeLists Files
+            </a>
+        </h1>
+        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
+          The most thoroughly commented embedded CMakeLists file January 05, 2023 - CMake Build System Embedded STM32
+Many embedded software engineers have had to deal with build systems that are either non cross-platform or a part of the IDE they are using, don&rsquo;t offer easy composability or per-library configuration, provide no testing support or ways to generate or package files without using a third party scripting language.
+CMake is a build system that offers solutions to many of those problems and is already well adopted in the world of traditional software development.
+        </div>
+          <a href="/posts/p05-example-of-embedded-cmakelists-files/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+        
+      </div>
+    </div>
+  </div>
+</article>
+
+          </div>
+        
+          <div class="relative w-100 mb4">
+            
+<article class="bb b--black-10">
+  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
+    <div class="flex flex-column flex-row-ns">
+      
+      <div class="blah w-100">
+        <h1 class="f3 fw1 athelas mt0 lh-title">
+          <a href="/posts/p04-using-psp-msp-limit-registers-for-stack-overflow/" class="color-inherit dim link">
+            A Guide to Using ARM Stack Limit Registers
+            </a>
+        </h1>
+        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
+          A Guide to Using ARM Stack Limit Registers 14 Feb 2023 by Jon Kurtz
+堆栈溢出一直是开发过程中的一个严重问题。它们经常没有被检测到，并以难以理解的方式出现。我们已经实施了软件机制来保护它们，但这些机制有限，并且仍不能保护所有条件。
+随着ARM架构的成熟，使用一个百分百可靠的机制来检测溢出难道不是更好吗？
+我们将探索在ARM Cortex-M33架构上使用MSP Limit和PSP Limit寄存器来检测堆栈溢出。我们将在Renesas DA1469x上进行实现，并查看检测堆栈溢出的实际示例。此外，我们还将查看MSPLIM和PSPLIM功能不足的情况下的补充选项。
+Table of Contents Basic Terminology How does it work? Implementing the Limit Registers Initializing the MSPLIM Register Initializing the PSPLIM Register Setting up the UsageFault_Handler Testing our Implementation Limitations and Further Improvements Stack Canary FreeRTOS Buffer Overflow protection Compiler Enabled Overflow Detection GCC SSP Example Practical implementations for GCC stack Canaries Closing References Basic Terminology The ARM Cortex-M33 introduced two new stack limit registers, PSPLIM and MSPLIM 1.
+        </div>
+          <a href="/posts/p04-using-psp-msp-limit-registers-for-stack-overflow/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+        
+      </div>
+    </div>
+  </div>
+</article>
+
+          </div>
+        
+          <div class="relative w-100 mb4">
+            
+<article class="bb b--black-10">
+  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
+    <div class="flex flex-column flex-row-ns">
+      
+      <div class="blah w-100">
+        <h1 class="f3 fw1 athelas mt0 lh-title">
           <a href="/posts/p03-yao-impl/" class="color-inherit dim link">
             Yao&#39;s Protocol Impl in MPCFGO
             </a>
         </h1>
         <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
           Yao&rsquo;s Protocol Theory Impl Yao&rsquo;s Protocol in MPCFGO Type Struct Let&rsquo;s declare a struct to represent a Yao&rsquo;s Protocol variable.
-// Yshare The label and pointer are stored in a []byte, [0:len-1]byte, is the label, and [len-1]byte is the pointer type Yshare struct { // Yshare is a share of l bit, Plaintext is a l-bit number 	Plaintext pub.PubNum wValue [][]byte // wValue[i] is the i-th bit&#39;s label and pointer, activated 	wTable [][2][]byte // wValue[i][0] is the i-th bit&#39;s label and pointer of value 0, wValue[i][1] of value 1 } Yshare contains three fields:
+// Yshare The label and pointer are stored in a []byte, [0:len-1]byte, is the label, and [len-1]byte is the pointer type Yshare struct { // Yshare is a share of l bit, Plaintext is a l-bit number Plaintext pub.PubNum wValue [][]byte // wValue[i] is the i-th bit&#39;s label and pointer, activated wTable [][2][]byte // wValue[i][0] is the i-th bit&#39;s label and pointer of value 0, wValue[i][1] of value 1 } Yshare contains three fields:
         </div>
           <a href="/posts/p03-yao-impl/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-        
-      </div>
-    </div>
-  </div>
-</article>
-
-          </div>
-        
-          <div class="relative w-100 mb4">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
-    <div class="flex flex-column flex-row-ns">
-      
-      <div class="blah w-100">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/posts/p02-cortex-m-context-switching/" class="color-inherit dim link">
-            ARM Cortex-M RTOS Context Switching
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          ARM Cortex-M RTOS Context Switching 30 Oct 2019 by Chris Coleman
-Many embedded systems reach a level of complexity where having a basic set of scheduling primitives and ability to run different tasks can be helpful. The operation of switching from one task to another is known as a context switch. A Real Time Operating System (RTOS) will typically provide this functionality. Having a foundational knowledge of how the core of an RTOS works can be a valuable skill set for an embedded engineer to have.
-        </div>
-          <a href="/posts/p02-cortex-m-context-switching/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-        
-      </div>
-    </div>
-  </div>
-</article>
-
-          </div>
-        
-          <div class="relative w-100 mb4">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
-    <div class="flex flex-column flex-row-ns">
-      
-      <div class="blah w-100">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/posts/p01-cortex-m-fault/" class="color-inherit dim link">
-            How to debug a HardFault on an ARM Cortex-M MCU
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          How to debug a HardFault on an ARM Cortex-M MCU 20 Nov 2019 by Chris Coleman
-Faults happen on embedded devices all the time for a variety of reasons – ranging from something as simple as a NULL pointer dereference to something more unexpected like running a faulty code path only when in a zero-g environment on the Tower of Terror in Disneyland1. It’s important for any embedded engineer to understand how to debug and resolve this class of issue quickly.
-        </div>
-          <a href="/posts/p01-cortex-m-fault/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
         
       </div>
     </div>
@@ -194,6 +197,18 @@ Faults happen on embedded devices all the time for a variety of reasons – rang
         
         
           <h2 class="f5 fw4 mb4 dib mr3">
+            <a href="/posts/p02-cortex-m-context-switching/" class="link black dim">
+              ARM Cortex-M RTOS Context Switching
+            </a>
+          </h2>
+        
+          <h2 class="f5 fw4 mb4 dib mr3">
+            <a href="/posts/p01-cortex-m-fault/" class="link black dim">
+              How to debug a HardFault on an ARM Cortex-M MCU
+            </a>
+          </h2>
+        
+          <h2 class="f5 fw4 mb4 dib mr3">
             <a href="/posts/ieee745/" class="link black dim">
               IEEE745浮点数表示法
             </a>
@@ -202,18 +217,6 @@ Faults happen on embedded devices all the time for a variety of reasons – rang
           <h2 class="f5 fw4 mb4 dib mr3">
             <a href="/posts/aes/" class="link black dim">
               AES对称加密
-            </a>
-          </h2>
-        
-          <h2 class="f5 fw4 mb4 dib mr3">
-            <a href="/posts/my-first-post/" class="link black dim">
-              My First Post
-            </a>
-          </h2>
-        
-          <h2 class="f5 fw4 mb4 dib mr3">
-            <a href="/posts/otandcylicgroup/" class="link black dim">
-              Oblivious Transfer and Cyclic Group
             </a>
           </h2>
         

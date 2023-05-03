@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Stack Over Flow on My Website</title>
+    <link>https://YuXinFan.github.io/tags/stack-over-flow/</link>
+    <description>Recent content in Stack Over Flow on My Website</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 03 May 2023 14:28:46 +0800</lastBuildDate><atom:link href="https://YuXinFan.github.io/tags/stack-over-flow/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A Guide to Using ARM Stack Limit Registers</title>
+      <link>https://YuXinFan.github.io/posts/p04-using-psp-msp-limit-registers-for-stack-overflow/</link>
+      <pubDate>Wed, 03 May 2023 14:28:46 +0800</pubDate>
+      
+      <guid>https://YuXinFan.github.io/posts/p04-using-psp-msp-limit-registers-for-stack-overflow/</guid>
+      <description>A Guide to Using ARM Stack Limit Registers 14 Feb 2023 by Jon Kurtz
+堆栈溢出一直是开发过程中的一个严重问题。它们经常没有被检测到，并以难以理解的方式出现。我们已经实施了软件机制来保护它们，但这些机制有限，并且仍不能保护所有条件。
+随着ARM架构的成熟，使用一个百分百可靠的机制来检测溢出难道不是更好吗？
+我们将探索在ARM Cortex-M33架构上使用MSP Limit和PSP Limit寄存器来检测堆栈溢出。我们将在Renesas DA1469x上进行实现，并查看检测堆栈溢出的实际示例。此外，我们还将查看MSPLIM和PSPLIM功能不足的情况下的补充选项。
+Table of Contents Basic Terminology How does it work? Implementing the Limit Registers Initializing the MSPLIM Register Initializing the PSPLIM Register Setting up the UsageFault_Handler Testing our Implementation Limitations and Further Improvements Stack Canary FreeRTOS Buffer Overflow protection Compiler Enabled Overflow Detection GCC SSP Example Practical implementations for GCC stack Canaries Closing References Basic Terminology The ARM Cortex-M33 introduced two new stack limit registers, PSPLIM and MSPLIM 1.</description>
+    </item>
+    
+  </channel>
+</rss>

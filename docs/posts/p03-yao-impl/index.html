@@ -7,7 +7,7 @@
     <title>Yao&#39;s Protocol Impl in MPCFGO | My Website</title>
     <meta name="viewport" content="width=device-width,minimum-scale=1">
     <meta name="description" content="Desc Text.">
-    <meta name="generator" content="Hugo 0.68.3" />
+    <meta name="generator" content="Hugo 0.111.3">
     
     
     
@@ -32,17 +32,13 @@
     <meta property="og:title" content="Yao&#39;s Protocol Impl in MPCFGO" />
 <meta property="og:description" content="Desc Text." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://YuXinFan.github.io/posts/p03-yao-impl/" />
+<meta property="og:url" content="https://YuXinFan.github.io/posts/p03-yao-impl/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2023-04-28T15:45:15+08:00" />
 <meta property="article:modified_time" content="2023-04-28T15:45:15+08:00" />
 <meta itemprop="name" content="Yao&#39;s Protocol Impl in MPCFGO">
-<meta itemprop="description" content="Desc Text.">
-<meta itemprop="datePublished" content="2023-04-28T15:45:15&#43;08:00" />
-<meta itemprop="dateModified" content="2023-04-28T15:45:15&#43;08:00" />
+<meta itemprop="description" content="Desc Text."><meta itemprop="datePublished" content="2023-04-28T15:45:15+08:00" />
+<meta itemprop="dateModified" content="2023-04-28T15:45:15+08:00" />
 <meta itemprop="wordCount" content="1814">
-
-
-
 <meta itemprop="keywords" content="first," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Yao&#39;s Protocol Impl in MPCFGO"/>
 <meta name="twitter:description" content="Desc Text."/>
@@ -126,14 +122,14 @@
 <h1 id="impl-yaos-protocol-in-mpcfgo">Impl Yao&rsquo;s Protocol in MPCFGO</h1>
 <h2 id="type-struct">Type Struct</h2>
 <p>Let&rsquo;s declare a struct to represent a Yao&rsquo;s Protocol variable.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// Yshare The label and pointer are stored in a []byte, [0:len-1]byte, is the label, and [len-1]byte is the pointer
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Yshare</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#75715e">// Yshare is a share of l bit, Plaintext is a l-bit number
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Plaintext</span> <span style="color:#a6e22e">pub</span>.<span style="color:#a6e22e">PubNum</span>
-	<span style="color:#a6e22e">wValue</span>    [][]<span style="color:#66d9ef">byte</span>    <span style="color:#75715e">// wValue[i] is the i-th bit&#39;s label and pointer, activated
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">wTable</span>    [][<span style="color:#ae81ff">2</span>][]<span style="color:#66d9ef">byte</span> <span style="color:#75715e">// wValue[i][0] is the i-th bit&#39;s label and pointer of value 0, wValue[i][1] of value 1
-</span><span style="color:#75715e"></span>}
-</code></pre></div><p><code>Yshare</code> contains three fields:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// Yshare The label and pointer are stored in a []byte, [0:len-1]byte, is the label, and [len-1]byte is the pointer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Yshare</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Yshare is a share of l bit, Plaintext is a l-bit number
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Plaintext</span> <span style="color:#a6e22e">pub</span>.<span style="color:#a6e22e">PubNum</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">wValue</span>    [][]<span style="color:#66d9ef">byte</span>    <span style="color:#75715e">// wValue[i] is the i-th bit&#39;s label and pointer, activated
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">wTable</span>    [][<span style="color:#ae81ff">2</span>][]<span style="color:#66d9ef">byte</span> <span style="color:#75715e">// wValue[i][0] is the i-th bit&#39;s label and pointer of value 0, wValue[i][1] of value 1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><p><code>Yshare</code> contains three fields:</p>
 <ul>
 <li><code>Plaintext</code>: a <code>pub.PubNum</code> type, which represents an l-bit plaintext number.If this Yshare variable is created from garbler&rsquo;s input, this instance in garbler side should own the correct value of Plaintext. If this Yshare variable is create from evaluator&rsquo;s input, this instance in evaluator side should own the correct value of Plaintext. Otherwise, this instance do not own the correct value but own a unset value that has the same type with the correct value.</li>
 <li><code>wValue</code>: a two-dimensional byte slice (<code>[][]byte</code>) representing the label and pointer of each bit in the <code>Plaintext</code>. Specifically, <code>wValue[i]</code> contains the label and pointer of the <code>i</code>-th bit of the plaintext. The label and pointer are stored in a <code>[]byte</code>, where <code>[0:len-1]byte</code> represents the label, and <code>[len-1]byte</code> represents the pointer.</li>

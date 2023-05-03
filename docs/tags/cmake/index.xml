@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CMake on My Website</title>
+    <link>https://YuXinFan.github.io/tags/cmake/</link>
+    <description>Recent content in CMake on My Website</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 03 May 2023 23:38:47 +0800</lastBuildDate><atom:link href="https://YuXinFan.github.io/tags/cmake/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Example of Embedded CMakeLists Files</title>
+      <link>https://YuXinFan.github.io/posts/p05-example-of-embedded-cmakelists-files/</link>
+      <pubDate>Wed, 03 May 2023 23:38:47 +0800</pubDate>
+      
+      <guid>https://YuXinFan.github.io/posts/p05-example-of-embedded-cmakelists-files/</guid>
+      <description>The most thoroughly commented embedded CMakeLists file January 05, 2023 - CMake Build System Embedded STM32
+Many embedded software engineers have had to deal with build systems that are either non cross-platform or a part of the IDE they are using, don&amp;rsquo;t offer easy composability or per-library configuration, provide no testing support or ways to generate or package files without using a third party scripting language.
+CMake is a build system that offers solutions to many of those problems and is already well adopted in the world of traditional software development.</description>
+    </item>
+    
+  </channel>
+</rss>
