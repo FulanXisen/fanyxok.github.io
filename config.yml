@@ -1,6 +1,6 @@
 baseURL: "https://YuXinFan.github.io"
 languageCode: 'en-us'
-title: '550X'
+title: '福岚溪森'
 theme: "PaperMod"
 publishDir: "docs"
 
@@ -12,14 +12,14 @@ params:
     defaultTheme: auto
     ShowReadingTime : true
     homeInfoParams:
-        Title: 550X's Blog
-        Content: Meaningful blogs from me and others
+        Title: 福岚溪森's Blog
+        Content: 生命的奇迹
 
     socialIcons: # optional
         - name: "github"
-          url: "https://github.com/YuXinFan"
+          url: "https://github.com/fanyxok"
         - name: "e-mail"
-          url: "fanyx@shanghaitech.edu.cn"
+          url: "xmsszycz@163.com"
     #     - name: "<platform 2>"
     #         url: "<link2>"
             
