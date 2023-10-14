@@ -2,56 +2,72 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://YuXinFan.github.io/tags/cmake/</loc>
+    <loc>uildDrafts/posts/p07-arm-cortex-m-exceptions-and-nvic/</loc>
+    <lastmod>2023-05-24T20:29:59+08:00</lastmod>
+  </url><url>
+    <loc>uildDrafts/tags/arm/</loc>
+    <lastmod>2023-05-24T20:29:59+08:00</lastmod>
+  </url><url>
+    <loc>uildDrafts/tags/exception/</loc>
+    <lastmod>2023-05-24T20:29:59+08:00</lastmod>
+  </url><url>
+    <loc>uildDrafts/posts/</loc>
+    <lastmod>2023-05-24T20:29:59+08:00</lastmod>
+  </url><url>
+    <loc>uildDrafts/tags/</loc>
+    <lastmod>2023-05-24T20:29:59+08:00</lastmod>
+  </url><url>
+    <loc>uildDrafts/</loc>
+    <lastmod>2023-05-24T20:29:59+08:00</lastmod>
+  </url><url>
+    <loc>uildDrafts/tags/linker-script/</loc>
+    <lastmod>2023-05-04T17:58:33+08:00</lastmod>
+  </url><url>
+    <loc>uildDrafts/posts/p06-the-most-thoroughly-commented-linker-script/</loc>
+    <lastmod>2023-05-04T17:58:33+08:00</lastmod>
+  </url><url>
+    <loc>uildDrafts/tags/cmake/</loc>
     <lastmod>2023-05-03T23:38:47+08:00</lastmod>
   </url><url>
-    <loc>https://YuXinFan.github.io/posts/p05-example-of-embedded-cmakelists-files/</loc>
+    <loc>uildDrafts/posts/p05-example-of-embedded-cmakelists-files/</loc>
     <lastmod>2023-05-03T23:38:47+08:00</lastmod>
   </url><url>
-    <loc>https://YuXinFan.github.io/</loc>
-    <lastmod>2023-05-03T23:38:47+08:00</lastmod>
-  </url><url>
-    <loc>https://YuXinFan.github.io/posts/</loc>
-    <lastmod>2023-05-03T23:38:47+08:00</lastmod>
-  </url><url>
-    <loc>https://YuXinFan.github.io/tags/</loc>
-    <lastmod>2023-05-03T23:38:47+08:00</lastmod>
-  </url><url>
-    <loc>https://YuXinFan.github.io/posts/p04-using-psp-msp-limit-registers-for-stack-overflow/</loc>
+    <loc>uildDrafts/posts/p04-using-psp-msp-limit-registers-for-stack-overflow/</loc>
     <lastmod>2023-05-03T14:28:46+08:00</lastmod>
   </url><url>
-    <loc>https://YuXinFan.github.io/tags/arm/</loc>
+    <loc>uildDrafts/tags/stack-over-flow/</loc>
     <lastmod>2023-05-03T14:28:46+08:00</lastmod>
   </url><url>
-    <loc>https://YuXinFan.github.io/tags/stack-over-flow/</loc>
-    <lastmod>2023-05-03T14:28:46+08:00</lastmod>
-  </url><url>
-    <loc>https://YuXinFan.github.io/tags/first/</loc>
+    <loc>uildDrafts/tags/first/</loc>
     <lastmod>2023-04-28T15:45:15+08:00</lastmod>
   </url><url>
-    <loc>https://YuXinFan.github.io/posts/p03-yao-impl/</loc>
+    <loc>uildDrafts/posts/p03-yao-impl/</loc>
     <lastmod>2023-04-28T15:45:15+08:00</lastmod>
   </url><url>
-    <loc>https://YuXinFan.github.io/posts/p02-cortex-m-context-switching/</loc>
+    <loc>uildDrafts/posts/p02-cortex-m-context-switching/</loc>
     <lastmod>2023-04-27T21:21:59+08:00</lastmod>
   </url><url>
-    <loc>https://YuXinFan.github.io/posts/p01-cortex-m-fault/</loc>
+    <loc>uildDrafts/posts/p01-cortex-m-fault/</loc>
     <lastmod>2023-04-27T21:21:59+08:00</lastmod>
   </url><url>
-    <loc>https://YuXinFan.github.io/posts/ieee745/</loc>
+    <loc>uildDrafts/posts/ieee745/</loc>
     <lastmod>2022-07-22T10:44:05+08:00</lastmod>
   </url><url>
-    <loc>https://YuXinFan.github.io/posts/aes/</loc>
+    <loc>uildDrafts/posts/aes/</loc>
     <lastmod>2022-07-21T17:31:28+08:00</lastmod>
   </url><url>
-    <loc>https://YuXinFan.github.io/posts/my-first-post/</loc>
+    <loc>uildDrafts/posts/my-first-post/</loc>
     <lastmod>2022-07-19T19:03:35+08:00</lastmod>
   </url><url>
-    <loc>https://YuXinFan.github.io/posts/otandcylicgroup/</loc>
+    <loc>uildDrafts/posts/otandcylicgroup/</loc>
     <lastmod>2022-07-19T19:03:35+08:00</lastmod>
   </url><url>
-    <loc>https://YuXinFan.github.io/categories/</loc>
+    <loc>uildDrafts/posts/control-bluetooth-device-via-bluetoothctl/</loc>
   </url><url>
-    <loc>https://YuXinFan.github.io/search/</loc>
+    <loc>uildDrafts/posts/linux-kernel-module-programming-guide/</loc>
+  </url><url>
+    <loc>uildDrafts/categories/</loc>
+  </url><url>
+    <loc>uildDrafts/search/</loc>
   </url>
 </urlset>

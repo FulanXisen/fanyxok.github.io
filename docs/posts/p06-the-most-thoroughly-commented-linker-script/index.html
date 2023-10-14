@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>最透彻的链接器脚本注释 | 福岚溪森</title>
+<meta name="keywords" content="Linker Script">
+<meta name="description" content="一份嵌入式固件链接器脚本`.ld`的讲解">
+<meta name="author" content="Me">
+<link rel="canonical" href="https://canonical.url/to/page">
+<link crossorigin="anonymous" href="/uildDrafts/assets/css/stylesheet.8b523f1730c922e314350296d83fd666efa16519ca136320a93df674d00b6325.css" integrity="sha256-i1I/FzDJIuMUNQKW2D/WZu&#43;hZRnKE2MgqT32dNALYyU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/uildDrafts/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="uildDrafts/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="uildDrafts/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="uildDrafts/favicon-32x32.png">
+<link rel="apple-touch-icon" href="uildDrafts/apple-touch-icon.png">
+<link rel="mask-icon" href="uildDrafts/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><head>
+    
+</head><meta property="og:title" content="最透彻的链接器脚本注释" />
+<meta property="og:description" content="一份嵌入式固件链接器脚本`.ld`的讲解" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="uildDrafts/posts/p06-the-most-thoroughly-commented-linker-script/" />
+<meta property="og:image" content="uildDrafts/%3Cimage%20path/url%3E" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-05-04T17:58:33&#43;08:00" />
+<meta property="article:modified_time" content="2023-05-04T17:58:33&#43;08:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="uildDrafts/%3Cimage%20path/url%3E" />
+<meta name="twitter:title" content="最透彻的链接器脚本注释"/>
+<meta name="twitter:description" content="一份嵌入式固件链接器脚本`.ld`的讲解"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "uildDrafts/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "最透彻的链接器脚本注释",
+      "item": "uildDrafts/posts/p06-the-most-thoroughly-commented-linker-script/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "最透彻的链接器脚本注释",
+  "name": "最透彻的链接器脚本注释",
+  "description": "一份嵌入式固件链接器脚本`.ld`的讲解",
+  "keywords": [
+    "Linker Script"
+  ],
+  "articleBody": "Posted by Stargirl Flowers on January 13, 2021 · view all posts\nThe most thoroughly commented linker script (probably) 链接脚本控制着链接器（ld）如何将所有的.o文件合并成一个单独的.elf文件，以及这个.elf文件如何被目标处理器加载。\n本文呈现给你最详尽注释的链接器脚本。\n完整的脚本和注释转录如下.\n/* The Most Thoroughly Commented Linker Script in The World This is a linker script for the Atmel/Microchip SAM D21 with an absolutely obscene amount of documentation. */ /* OUTPUT_FORMAT configures the linker to use a platform-specific BFD backend to generate ELF files. BFD backends instruct the linker on how to properly create the ELF sections for a given platform. The first is the default BFD. The second and third arguments are used when big (-EB) or little (-EL) endian is requested. Since the SAM D series are configured with only little endian support, \"elf32-littlearm\" is used across the board. This option seems to be included by Atmel/Microchip out of an abundance of caution, as arm-none-eabi-ld will do the right thing and use \"elf32-littlearm\" by default. The list of acceptable values can be obtained using `objdump -i`. References: * https://sourceware.org/binutils/docs/ld/Format-Commands.html#Format-Commands * https://sourceware.org/binutils/docs/ld/BFD.html * https://ww1.microchip.com/downloads/en/DeviceDoc/SAM_D21_DA1_Family_DataSheet_DS40001882F.pdf Section 11.1.11, Cortex M0+ Configuration */ OUTPUT_FORMAT(\"elf32-littlearm\", \"elf32-littlearm\", \"elf32-littlearm\") /* CPU memory configuration variables. These variables are used by the following \"MEMORY\" command to define the various memory spaces. For the SAMD21G18A used by this project, the available Flash is 256kB and the available SRAM is 32kB. This project also reserves 8kB for the bootloader and 1kB for \"non-volatile memory\" (NVM) - which is used by the application to store calibration and user settings. Also it's useful to note that you can actually use unit suffixes here: I could have written `FLASH_SIZE = 256KB` instead of `FLASH_SIZE = 0x40000`. However, I generally prefer the hex representation because there's less ambiguity. References: * https://ww1.microchip.com/downloads/en/DeviceDoc/SAM_D21_DA1_Family_DataSheet_DS40001882F.pdf Section 10.2, Physical Memory Map */ FLASH_SIZE = 0x40000; /* 256kB, 262,144 bytes */ BOOTLOADER_SIZE = 0x2000; /* 8kB, 8,192 bytes */ NVM_SIZE = 0x400; /* 1kB, 1,024 bytes */ SRAM_SIZE = 0x8000; /* 32kB, 32,768 bytes */ /* ARM Cortex-M processors use a descending stack and generally require stack space to be set aside in RAM. The application's behavior determines just how much stack space should be reserved. I generally start with 2kB (0x800) of stack space for Cortex-M0+ projects programmed in C . You can analyze stack usage in GCC using the `-fstack-usage` flag and you can enable compiler warnings for stack usage with `-Wstack-usage=STACK_SIZE`. References: * https://embeddedartistry.com/blog/2020/08/17/three-gcc-flags-for-analyzing-memory-usage/ * https://community.arm.com/developer/ip-products/processors/b/processors-ip-blog/posts/how-much-stack-memory-do-i-need-for-my-arm-cortex--m-applications * https://gcc.gnu.org/onlinedocs/gnat_ugn/Static-Stack-Usage-Analysis.html * https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html */ STACK_SIZE = DEFINED(__stack_size__) ? __stack_size__ : 0x800; /* Memory space definition. This section declare blocks of memories for specific purposes. Since an ARM's address space is generally split between Flash, SRAM, peripherals, and other regions, it's necessary to tell the linker where different types of data can go in the address space. These blocks will be used in the \"SECTIONS\" command below. References: * https://sourceware.org/binutils/docs/ld/MEMORY.html#MEMORY * https://ww1.microchip.com/downloads/en/DeviceDoc/SAM_D21_DA1_Family_DataSheet_DS40001882F.pdf Section 10.2, Physical Memory Map */ MEMORY { /* Start with the Flash memory region. On the SAMD21, Flash starts at the beginning of the address space (0x00000000) and is contiguous right up to the size of the Flash. Flash is marked a \"rx\" so that the linker knows that this space is read-only (r) and executable (x). */ /* The \"bootloader\" section allows this firmware to work with the uf2 bootloader. The bootloader takes the first 0x2000 bytes of flash memory. References: * https://github.com/adafruit/uf2-samdx1#configuration */ bootloader (rx) : ORIGIN = 0x00000000, LENGTH = BOOTLOADER_SIZE /* Following the bootloader is the flash memory used by the application, called \"rom\" here - even though it's flash, the name is just a name and doesn't carry special meaning. If your application isn't using a bootloader then this section would start at 0x00000000, but, since this project does use a bootloader it instead starts right after the end of the bootloader. The total length of the rom block is the MCU's flash size minus the bootloader's size and any space reserved for \"non-volatile memory\" by the application. */ rom (rx) : ORIGIN = BOOTLOADER_SIZE, LENGTH = FLASH_SIZE - BOOTLOADER_SIZE - NVM_SIZE /* The \"nvm\" block is space set aside for the application to store user settings and calibration data in the MCU's flash. The block is located right at the end of the flash space. This is useful because it means that it stays in a fixed location regardless of how much flash space the application takes up in \"rom\". Explicitly defining this section also lets the linker ensure that application code doesn't overwrite the data in this region. This block is marked as read-only (r) because flash can not be written in the same way as normal memory, however, the application can use the SAMD's NVM peripheral to write data in this region. */ nvm (r) : ORIGIN = FLASH_SIZE - NVM_SIZE, LENGTH = NVM_SIZE /* The \"ram\" block is mapped to the CPU's SRAM and it's where the stack, heap, and all variables will go. For the SAMD21, SRAM starts at 0x20000000 and is contiguous for the size of the SRAM. This is noted in the Physical Memory Map section of the datasheet. */ ram (rwx) : ORIGIN = 0x20000000, LENGTH = SRAM_SIZE } /* The sections command tells the linker how to combine the input files into an output ELF and where segments belong in memory. The linker takes a set of input files containing the \"input sections\" and uses this to map them to \"output sections\" which are placed in the output ELF file. While the most important sections to think about here are the ones that'll be placed into the memory (segments) some sections are just placed in the output ELF for debugging. References: * https://sourceware.org/binutils/docs/ld/SECTIONS.html#SECTIONS */ SECTIONS { /* The text segment contains program code and read-only data. References: * https://developer.arm.com/documentation/dui0101/a/ Page 5, Segments * http://www.sco.com/developers/gabi/latest/ch4.sheader.html#special_sections */ .text : { /* This segment must be 4-byte aligned as defined in ARM ELF File Format specification. */ . = ALIGN(4); /* The vector table defines the initial stack pointer and interrupt/exception routines for the ARM CPU and device peripherals. Every Cortex-M project needs this. For the SAM D series the vector table is expected to be at address 0x00000000 after reset. Since flash memory starts at 0x00000000, the first values in flash should be the vector table. When defining the vector table in code you must use `__attribute__ ((section(\".vectors\")))` to tell GCC to place the vector table into the section named \".vectors\" in the input object file so that the linker can find it. Also notice the use of `KEEP` here. To save on size, the firmware is compiled with options that let GCC discard unused functions and data (`--gc-sections`). Without `KEEP`, the linker would throw away the vector table! Note that since this project uses the UF2 bootloader, this actually gets placed at the beginning of the program's flash area (0x2000). The Cortex-M allows changing the vector table after initialization, so the startup script sets the Vector Table Offset Register (`SCB-\u003eVTOR`) to `_sfixed` during its intialization. The `_efixed` symbol is unused but included for completeness. References: * https://ww1.microchip.com/downloads/en/DeviceDoc/SAM_D21_DA1_Family_DataSheet_DS40001882F.pdf Secion 8.3.3, Fetching of Initial Instructions * https://static.docs.arm.com/ddi0403/eb/DDI0403E_B_armv7m_arm.pdf Section B1.5.3, The vector table Section B3.2.5, Vector Table Offset Register, VTOR * ../third_party/samd21/gcc/gcc/startup_samd21.c * https://gcc.gnu.org/onlinedocs/gnat_ugn/Compilation-options.html */ _sfixed = .; KEEP(*(.vectors .vectors.*)) /* Include code and read-only data sections from all input files. By default, GCC places all program code into a section named \".text\" and read-only data (such as const static variables) into a section named \".rodata\" in the input object files. This naming convention is from the ELF ABI specification. GCC generates three \"flavors\" of sections in object files: - .{section}: the basic section. - .{section}.*: sections generated by \"-ffunction-sections\" and \"-fdata-sections\" so that each function/data has a unique section. - .gnu.linkonce.{type}.*: sections generated by GCC so the linker can remove duplicates. Seems to be related to Vague Linking. References: * http://www.sco.com/developers/gabi/latest/ch4.sheader.html#special_sections * https://gcc.gnu.org/onlinedocs/gcc/Vague-Linkage.html * https://stackoverflow.com/questions/5518083/what-is-a-linkonce-section */ *(.text .text.* .gnu.linkonce.t.*) *(.rodata .rodata* .gnu.linkonce.r.*) /* The following sections support the C \u0026 C++ runtime. These are generally used by crt0. References: * https://en.wikipedia.org/wiki/Crt0 */ /* C++ Runtime: initializers for static variables. C Runtime: designated constructors For C++, handles variables at file scope like this: int f = some_func() For C, handles functions designated as constructors: void intialize_thing(void) __attribute__((constructor)); Executed by the C runtime at startup via __libc_init_array. References: * https://github.com/gcc-mirror/gcc/blob/master/libgcc/crtstuff.c * https://sourceware.org/git/?p=newlib-cygwin.git;a=blob;f=newlib/libc/misc/init.c; * https://gcc.gnu.org/onlinedocs/gccint/Initialization.html * https://developer.arm.com/documentation/dui0475/h/the-arm-c-and-c---libraries/c---initialization--construction-and-destruction * https://stackoverflow.com/questions/15265295/understanding-the-libc-init-array */ . = ALIGN(4); KEEP(*(.init)) . = ALIGN(4); __preinit_array_start = .; KEEP (*(.preinit_array)) __preinit_array_end = .; . = ALIGN(4); __init_array_start = .; KEEP (*(SORT(.init_array.*))) KEEP (*(.init_array)) __init_array_end = .; /* C++ runtime: destructors for static variables. C runtime: designated finializers For C, handles functions designated as destructors: void destroy_thing(void) __attribute__((destructor)); References: * https://sourceware.org/git/?p=newlib-cygwin.git;a=blob;f=newlib/libc/misc/fini.c */ . = ALIGN(4); KEEP(*(.fini)) . = ALIGN(4); __fini_array_start = .; KEEP (*(.fini_array)) KEEP (*(SORT(.fini_array.*))) __fini_array_end = .; /* C++ runtime: static constructors References: * https://gcc.gnu.org/onlinedocs/gccint/Initialization.html * https://github.com/gcc-mirror/gcc/blob/master/libgcc/crtstuff.c */ . = ALIGN(4); KEEP (*crtbegin.o(.ctors)) KEEP (*(EXCLUDE_FILE (*crtend.o) .ctors)) KEEP (*(SORT(.ctors.*))) KEEP (*crtend.o(.ctors)) /* C++ runtime: static destructors and atexit() Note that in usual practice these aren't ever called because the program doesn't exit - except when powered off or reset. References: * https://gcc.gnu.org/onlinedocs/gccint/Initialization.html * https://github.com/gcc-mirror/gcc/blob/master/libgcc/crtstuff.c */ . = ALIGN(4); KEEP (*crtbegin.o(.dtors)) KEEP (*(EXCLUDE_FILE (*crtend.o) .dtors)) KEEP (*(SORT(.dtors.*))) KEEP (*crtend.o(.dtors)) . = ALIGN(4); _efixed = .; } \u003e rom /* ARM defines several special sections for exception handling. These are require for C++ and for C programs that try to examine backtraces. - exidx is used to contain index entries for stack unwinding. - extab names sections containing exception unwinding information. Essentially, each function that can throw an exception will have entries in the exidx and extab sections. References: - https://developer.arm.com/documentation/ihi0038/b/ - https://stackoverflow.com/a/57463515 */ .ARM.extab : { *(.ARM.extab* .gnu.linkonce.armextab.*) } \u003e rom .ARM.exidx : { PROVIDE(__exidx_start = .); *(.ARM.exidx* .gnu.linkonce.armexidx.*) PROVIDE(__exidx_end = .); } \u003e rom /* The `.relocate` section includes mutable variables that have a default value and specially marked functions that should execute from RAM. This data is stored in ROM but is referenced from RAM. The program/runtime must copy the data from ROM to RAM on reset, hence, \"relocate\". Performance sensitive/critical functions can also be placed in RAM using this section: #define RAMFUNC __attribute__((section(\".ramfunc\"))) void fast_function(void) RAMFUNC; In other linker scripts you might see this named as the `.data` section. That's what the ELF specification calls for, but the Microchip-provided SAM D startup scripts expect `.relocate`. This also sets the symbol `_etext` to the start of the relocation segment in flash. The startup script copies the data starting at `_etext` to `_srelocate` and ends when it reaches `_erelocate`. The `_etext` name is a bit unfortunate since it's not the end of the text segment, but rather the start of the read-only copy of the relocate section in flash. If I wrote the startup script I would have named these symbols differently. References: * http://www.sco.com/developers/gabi/latest/ch4.sheader.html#special_sections * https://www.sourceware.org/binutils/docs/ld/Output-Section-LMA.html#Output-Section-LMA * ../third_party/samd21/gcc/gcc/startup_samd21.c */ .relocate : { . = ALIGN(4); _srelocate = .; *(.ramfunc .ramfunc.*); *(.data .data.*); . = ALIGN(4); _erelocate = .; } \u003e ram AT\u003e rom _etext = LOADADDR(.relocate); /* The BSS section reserves RAM space for declared but uninitialized variables. This is zeroed out by the startup script. The start-up script zeros out the area of RAM starting at `_szero` and ending at `_ezero`. This includes `COMMON` which is a bit of a legacy section. GCC defaults to `-fno-common` these days so there shouldn't be anything in there, but it's included for completeness. References: * http://www.sco.com/developers/gabi/latest/ch4.sheader.html#special_sections * https://en.wikipedia.org/wiki/.bss * https://gcc.gnu.org/onlinedocs/gcc/Code-Gen-Options.html Section -fcommon * ../third_party/samd21/gcc/gcc/startup_samd21.c */ .bss (NOLOAD) : { . = ALIGN(4); _szero = .; *(.bss .bss.*) *(COMMON) . = ALIGN(4); _ezero = .; } \u003e ram /* Reserve the stack space in RAM. Cortex-M stacks grow down, so the stack starts at `_estack` and grows towards `_sstack`. The startup script sets the vector table's stack pointer to `_estack` on startup. `_sstack` is unused but included for completeness. The ARM procedure call standard (AAPCS) requires the stack to be aligned on an eight byte boundary. References: * ../third_party/samd21/gcc/gcc/startup_samd21.c * https://developer.arm.com/documentation/ihi0042/e/ Section 5.2.1.2, Stack constraints at a public interface */ .stack (NOLOAD): { . = ALIGN(8); _sstack = .; . = . + STACK_SIZE; . = ALIGN(8); _estack = .; } \u003e ram /* Mark the end of the RAM and the start of unallocated space. If the program uses the malloc and the heap, then `_heap_start` can be used as the start of the heap. If the program doesn't use the heap then the `_heap_start` symbol is unused and could be removed. With `-specs=nano.specs`, the `_sbrk` syscall has to be implemented for malloc to work: extern int _heap_start; void *_sbrk(int incr) { static unsigned char *heap = NULL; unsigned char *prev_heap; if (heap == NULL) { heap = (unsigned char *)\u0026_heap_start; } prev_heap = heap; heap += incr; return prev_heap; } Another memory layout strategy is to place the stack at the end of RAM and the heap after bss. That way the heap can grow upwards towards the stack and the stack can grow downwards to the heap. However, I'm not a big fan of that approach- it's possible for the heap to overwrite the stack. Leaving the entire end of RAM available as the heap works well for my purposes. References: * https://en.wikipedia.org/wiki/Sbrk * https://interrupt.memfault.com/blog/boostrapping-libc-with-newlib * https://embeddedartistry.com/blog/2017/02/15/implementing-malloc-first-fit-free-list/ */ . = ALIGN(4); PROVIDE(_heap_start = .); _end = . ; } /* Absolute symbol definitions. This section defines some useful absolute symbols for the application to use. */ /* Symbols for the settings section in the NVM memory block. Gemini uses the first half of the NVM block for user settings. This symbol is used by the settings module to know where to load and save settings. References: * ../src/gem_settings_load_save.c */ _nvm_settings_base_address = ORIGIN(nvm); _nvm_settings_length = LENGTH(nvm) / 2; /* Symbols for the calibration/look-up table in the NVM memory block. Gemini uses the other half of the NVM block to store the factory- calibrated look-up table for translating ADC -\u003e frequency/DAC codes. References: * ../src/gem_ramp_table_load_save.c */ _nvm_lut_base_address = ORIGIN(nvm) + LENGTH(nvm) / 2; _nvm_lut_length = LENGTH(nvm) / 2; Output format Output format sets the ELF output format to use a specific BFD backend.\nThe first is the default BFD. The second and third arguments are used when big (-EB) or little (-EL) endian is requested.\nSince the SAM D series are configured with only little endian support, “elf32-littlearm” is used across the board. This option seems to be included by Atmel/Microchip out of an abundance of caution, as arm-none-eabi-ld will do the right thing and use “elf32-littlearm” by default.\nThe list of acceptable values can be obtained using objdump -i.\nReferences:\nhttps://sourceware.org/binutils/docs/ld/Format-Commands.html#Format-Commands https://sourceware.org/binutils/docs/ld/BFD.html https://ww1.microchip.com/downloads/en/DeviceDoc/SAM_D21_DA1_Family_DataSheet_DS40001882F.pdf Section 11.1.11, Cortex M0+ Configuration OUTPUT\\_FORMAT(\"elf32-littlearm\", \"elf32-littlearm\", \"elf32-littlearm\") CPU memory configuration variables 这些变量是用下面的“MEMORY”命令定义不同的存储空间。\n对于本项目使用的SAMD21G18A，可用的Flash为256kB，可用SRAM为32kB。\n该项目还为引导加载程序保留了8kB，为“非易失性内存”(NVM, 用来存储校准信息和用户设置)保留了1kB。\n另外，这里实际上可以使用单位后缀, 例如FLASH_SIZE = 256KB代替FLASH_SIZE = 0x40000。 然而，我通常更喜欢HEX表示法，这样歧义更少。\n注意:这里的配置取决于芯片的Data Sheet, 以及项目的实际需要.\nFLASH_SIZE = 0x40000; /* 256kB */ BOOTLOADER_SIZE = 0x2000; /* 8kB */ NVM_SIZE = 0x400; /* 1kbB */ SRAM_SIZE = 0x8000; /* 32kB */ ARM Cortex-M系列处理器使用降序堆栈, 通常需要在RAM中留出堆栈空间.\n应用程序的功能决定了应该保留多少堆栈空间。对于C编程的Cortex-M0+项目，我通常从2kB (0x800)大小的堆栈空间开始。\n你可以在GCC中使用-fstack-usage标志来分析堆栈使用情况， 以及使用-Wstack-usage=STACK_SIZE来启用堆栈使用情况的编译器警告。\nReferences:\nhttps://embeddedartistry.com/blog/2020/08/17/three-gcc-flags-for-analyzing-memory-usage/ https://community.arm.com/developer/ip-products/processors/b/processors-ip-blog/posts/how-much-stack-memory-do-i-need-for-my-arm-cortex–m-applications https://gcc.gnu.org/onlinedocs/gnat_ugn/Static-Stack-Usage-Analysis.html https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html STACK\\_SIZE \\= DEFINED(\\_\\_stack\\_size\\_\\_) ? \\_\\_stack\\_size\\_\\_ : 0x800; Memory space definition This section declare blocks of memories for specific purposes. Since an ARM’s address space is generally split between Flash, SRAM, peripherals, and other regions, it’s necessary to tell the linker where different types of data can go in the address space.\nThese blocks will be used in the SECTIONS command below.\nReferences:\nhttps://sourceware.org/binutils/docs/ld/MEMORY.html#MEMORY https://ww1.microchip.com/downloads/en/DeviceDoc/SAM_D21_DA1_Family_DataSheet_DS40001882F.pdf Section 10.2, Physical Memory Map MEMORY {\nStart with the Flash memory region. On the SAMD21, Flash starts at the beginning of the address space (0x00000000) and is contiguous right up to the size of the Flash. Flash is marked a rx so that the linker knows that this space is read-only (r) and executable (x).\nThe “bootloader” section allows this firmware to work with the uf2 bootloader. The bootloader takes the first 0x2000 bytes of flash memory.\nReferences:\nhttps://github.com/adafruit/uf2-samdx1#configuration\nbootloader (rx) : ORIGIN = 0x00000000, LENGTH = BOOTLOADER_SIZE\nFollowing the bootloader is the flash memory used by the application, called “rom” here - even though it’s flash, the name is just a name and doesn’t carry special meaning.\nThe total length of the rom block is the MCU’s flash size minus the bootloader’s size and any space reserved for “non-volatile memory” by the application.\nrom (rx) : ORIGIN = 0x00002000, LENGTH = FLASH_SIZE - BOOTLOADER_SIZE - NVM_SIZE\nThe “nvm” block is space set aside for the application to store user settings and calibration data in the MCU’s flash.\nThe block is located right at the end of the flash space. This is useful because it means that it says in a fixed location regardless of how much flash space the application takes up in “rom”. Explicitly defining this section also lets the linker ensure that application code doesn’t overwrite the data in this region.\nThis block is marked as read-only (r) because flash can not be written in the same way as normal memory, however, the application can use the SAMD’s NVM peripheral to write data in this region.\nnvm (r) : ORIGIN = FLASH_SIZE - NVM_SIZE, LENGTH = NVM_SIZE\nThe “ram” block is mapped to the CPU’s SRAM and it’s where the stack, heap, and all variables will go.\nFor the SAMD21, SRAM starts at 0x20000000 and is contiguous for the size of the SRAM.\nram (rwx) : ORIGIN = 0x20000000, LENGTH = SRAM_SIZE }\nSections The sections command tells the linker how to combine the input files into an output ELF and where segments belong in memory.\nThe linker takes a set of input files containing the “input sections” and uses this to map them to “output sections” which are placed in the output ELF file.\nWhile the most important sections to think about here are the ones that’ll be placed into the memory (segments) some sections are just placed in the output ELF for debugging.\nReferences:\nhttps://sourceware.org/binutils/docs/ld/SECTIONS.html#SECTIONS SECTIONS {\nThe text segment contains program code and read-only data.\nReferences:\nhttps://developer.arm.com/documentation/dui0101/a/ Page 5, Segments http://www.sco.com/developers/gabi/latest/ch4.sheader.html#special_sections .text : {\nThis segment must be 4-byte aligned as defined in ARM ELF File Format specification.\n. \\= ALIGN(4); The vector table defines the initial stack pointer and interrupt/exception routines for the ARM CPU and device peripherals. Every Cortex-M project needs this.\nFor the SAM D series the vector table is expected to be at address 0x00000000 after reset. Since flash memory starts at 0x00000000, the first values in flash should be the vector table.\nWhen defining the vector table in code you must use __attribute__ ((section(\".vectors\"))) to tell GCC to place the vector table into the section named “.vectors” in the input object file so that the linker can find it.\nNote that since this project uses the UF2 bootloader, this actually gets placed at the beginning of the program’s flash area (0x2000). The Cortex-M allows changing the vector table after initialization, so the startup script sets the Vector Table Offset Register (SCB-\u003eVTOR) to _sfixed during its intialization. The _efixed symbol is unused but included for completeness.\nReferences:\nhttps://ww1.microchip.com/downloads/en/DeviceDoc/SAM_D21_DA1_Family_DataSheet_DS40001882F.pdf Secion 8.3.3, Fetching of Initial Instructions\nhttps://static.docs.arm.com/ddi0403/eb/DDI0403E_B_armv7m_arm.pdf Section B1.5.3, The vector table Section B3.2.5, Vector Table Offset Register, VTOR\nstartup_samd21.c\n_sfixed = .; KEEP(*(.vectors .vectors.*))\nInclude code and read-only data sections from all input files.\nBy default, GCC places all program code into a section named “.text” and read-only data (such as const static variables) into a section named “.rodata” in the input object files. This naming convention is from the ELF ABI specification.\nGCC generates three “flavors” of sections in object files:\n.{section}: the basic section. .{section}.*: sections generated by -ffunction-sections and -fdata-sections so that each function/data has a unique section. .gnu.linkonce.{type}.*: sections generated by GCC so the linker can remove duplicates. Seems to be related to Vague Linking. References:\nhttp://www.sco.com/developers/gabi/latest/ch4.sheader.html#special_sections\nhttps://gcc.gnu.org/onlinedocs/gcc/Vague-Linkage.html\nhttps://stackoverflow.com/questions/5518083/what-is-a-linkonce-section\n*(.text .text.* .gnu.linkonce.t.*) *(.rodata .rodata* .gnu.linkonce.r.*)\nC \u0026 C++ runtime support The following sections are for the C/C++ runtime. These are generally used by crt0.\nReferences:\nhttps://en.wikipedia.org/wiki/Crt0 Initializers C++ Runtime: initializers for static variables. C Runtime: designated constructors For C++, handles variables at file scope like this:\nint f = some_func()\nFor C, handles functions designated as constructors:\nvoid intialize_thing(void) __attribute__((constructor)); Executed by the C runtime at startup via __libc_init_array.\nReferences:\nhttps://github.com/gcc-mirror/gcc/blob/master/libgcc/crtstuff.c\nhttps://sourceware.org/git/?p=newlib-cygwin.git;a=blob;f=newlib/libc/misc/init.c;\nhttps://gcc.gnu.org/onlinedocs/gccint/Initialization.html\nhttps://developer.arm.com/documentation/dui0475/h/the-arm-c-and-c—libraries/c—initialization–construction-and-destruction\nhttps://stackoverflow.com/questions/15265295/understanding-the-libc-init-array\n. = ALIGN(4); KEEP(*(.init)) . = ALIGN(4); __preinit_array_start = .; KEEP (*(.preinit_array)) __preinit_array_end = .;\n. = ALIGN(4); __init_array_start = .; KEEP (*(SORT(.init_array.*))) KEEP (*(.init_array)) __init_array_end = .;\nFinalizers C++ runtime: destructors for static variables. C runtime: designated finializers For C, handles functions designated as destructors:\nvoid destroy_thing(void) __attribute__((destructor));\nReferences:\nhttps://sourceware.org/git/?p=newlib-cygwin.git;a=blob;f=newlib/libc/misc/fini.c\n. = ALIGN(4); KEEP(*(.fini))\n. = ALIGN(4); __fini_array_start = .; KEEP (*(.fini_array)) KEEP (*(SORT(.fini_array.*))) __fini_array_end = .;\nC++ runtime: static constructors References:\nhttps://gcc.gnu.org/onlinedocs/gccint/Initialization.html\nhttps://github.com/gcc-mirror/gcc/blob/master/libgcc/crtstuff.c\n. = ALIGN(4); KEEP (*crtbegin.o(.ctors)) KEEP (*(EXCLUDE_FILE (*crtend.o) .ctors)) KEEP (*(SORT(.ctors.*))) KEEP (*crtend.o(.ctors))\nC++ runtime: static destructors and atexit() Note that in usual practice these aren’t ever called because the program doesn’t exit - except when powered off or reset.\nReferences:\nhttps://gcc.gnu.org/onlinedocs/gccint/Initialization.html\n. = ALIGN(4); KEEP (*crtbegin.o(.dtors)) KEEP (*(EXCLUDE_FILE (*crtend.o) .dtors)) KEEP (*(SORT(.dtors.*))) KEEP (*crtend.o(.dtors))\n. = ALIGN(4); _efixed = .; } \u003e rom\nARM exception handling ARM defines several special sections for exception handling.\nThese are require for C++ and for C programs that try to examine backtraces.\nexidx is used to contain index entries for stack unwinding. extab names sections containing exception unwinding information. Essentially, each function that can throw an exception will have entries in the exidx and extab sections.\nReferences:\nhttps://developer.arm.com/documentation/ihi0038/b/ https://stackoverflow.com/a/57463515 .ARM.extab : { *(.ARM.extab* .gnu.linkonce.armextab.*) } \u003e rom\n.ARM.exidx : { PROVIDE (__exidx_start = .); *(.ARM.exidx* .gnu.linkonce.armexidx.*) PROVIDE (__exidx_end = .); } \u003e rom\nRelocate The .relocate section includes mutable variables that have a default value and specially marked functions that should execute from RAM.\nThis data is stored in ROM but is referenced from RAM. The program/runtime must copy the data from ROM to RAM on reset, hence, “relocate”.\nPerformance sensitive/critical functions can also be placed in RAM using this section:\n#define RAMFUNC __attribute__((section(\".ramfunc\"))) void fast_function(void) RAMFUNC;\nIn other linker scripts you might see this named as the .data section. That’s what the ELF specification calls for, but the Microchip-provided SAM D startup scripts expect .relocate.\nThis also sets the symbol _etext to the start of the relocation segment in flash. The startup script copies the data starting at _etext to _srelocate and ends when it reaches _erelocate. The _etext name is a bit unfortunate since it’s not the end of the text segment, but rather the start of the read-only copy of the relocate section in flash. If I wrote the startup script I would have named these symbols differently.\nReferences:\nhttp://www.sco.com/developers/gabi/latest/ch4.sheader.html#special_sections https://www.sourceware.org/binutils/docs/ld/Output-Section-LMA.html#Output-Section-LMA startup_samd21.c .relocate : { . = ALIGN(4); _srelocate = .; *(.ramfunc .ramfunc.*); *(.data .data.*); . = ALIGN(4); _erelocate = .; } \u003e ram AT\u003e rom\n_etext = LOADADDR(.relocate);\nBSS The BSS section reserves RAM space for declared but uninitialized variables.\nThis is zeroed out by the startup script. The start-up script zeros out the area of RAM starting at _szero and ending at _ezero.\nThis includes COMMON which is a bit of a legacy section. GCC defaults to -fno-common these days so there shouldn’t be anything in there, but it’s included for completeness.\nReferences:\nhttp://www.sco.com/developers/gabi/latest/ch4.sheader.html#special_sections https://en.wikipedia.org/wiki/.bss https://gcc.gnu.org/onlinedocs/gcc/Code-Gen-Options.html Section -fcommon startup_samd21.c .bss (NOLOAD) : { . = ALIGN(4); _szero = .; *(.bss .bss.*) *(COMMON) . = ALIGN(4); _ezero = .; } \u003e ram\nStack space Cortex-M stacks grow down, so the stack starts at _estack and grows towards _sstack. The startup script sets the vector table’s stack pointer to _estack on startup. _sstack is usused but included for completeness.\nThe ARM procedure call standard (AAPCS) requires the stack to be aligned on an eight byte boundary.\nReferences:\nstartup_samd21.c https://developer.arm.com/documentation/ihi0042/e/ Section 5.2.1.2, Stack constraints at a public interface .stack (NOLOAD): { . = ALIGN(8); _sstack = .; . = . + STACK_SIZE; . = ALIGN(8); _estack = .; } \u003e ram\nHeap space If the program uses the malloc and the heap, then _heap_start can be used as the start of the heap. If the program doesn’t use the heap then the _heap_start symbol is unused and could be removed. With -specs=nano.specs, the _sbrk syscall has to be implemented for malloc to work:\nextern int _heap_start;\nvoid *_sbrk(int incr) { static unsigned char *heap = NULL; unsigned char *prev_heap;\nif (heap \\== NULL) { heap \\= (unsigned char \\*)\u0026\\_heap\\_start; } prev\\_heap \\= heap; heap += incr; return prev\\_heap; }\nAnother memory layout strategy is to place the stack at the end of RAM and the heap after bss. That way the heap can grow upwards towards the stack and the stack can grow downwards to the heap. However, I’m not a big fan of that approach- it’s possible for the heap to overwrite the stack. Leaving the entire end of RAM available as the heap works well for my purposes.\nReferences:\nhttps://en.wikipedia.org/wiki/Sbrk https://interrupt.memfault.com/blog/boostrapping-libc-with-newlib https://embeddedartistry.com/blog/2017/02/15/implementing-malloc-first-fit-free-list/ . = ALIGN(4); PROVIDE (_heap_start = .); _end = . ; }\nAbsolute symbol definitions This section defines some useful absolute symbols for the application to use.\nSymbols for the settings section in the NVM memory block.\nGemini uses the first half of the NVM block for user settings. This symbol is used by the settings module to know where to load and save settings.\nReferences:\ngem_settings_load_save.c _nvm_settings_base_address = ORIGIN(nvm); _nvm_settings_length = LENGTH(nvm) / 2;\nSymbols for the calibration/look-up table in the NVM memory block.\nGemini uses the other half of the NVM block to store the factory- calibrated look-up table for translating ADC -\u003e frequency/DAC codes.\nReferences:\ngem_voice_param_table_load_save.c _nvm_lut_base_address = ORIGIN(nvm) + LENGTH(nvm) / 2; _nvm_lut_length = LENGTH(nvm) / 2;\nProbably. ↩ 👋 Hey, if you found this article useful I would love to hear from you. If you loved it you can consider tipping me on Ko-fi or sponsoring me on GitHub. I don’t get paid for this content, so kind words and support encourage me to create more!\n",
+  "wordCount" : "4282",
+  "inLanguage": "en",
+  "image":"uildDrafts/%3Cimage%20path/url%3E","datePublished": "2023-05-04T17:58:33+08:00",
+  "dateModified": "2023-05-04T17:58:33+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Me"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "uildDrafts/posts/p06-the-most-thoroughly-commented-linker-script/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "福岚溪森",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "uildDrafts/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="uildDrafts" accesskey="h" title="福岚溪森 (Alt + H)">福岚溪森</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="uildDrafts">Home</a>&nbsp;»&nbsp;<a href="uildDrafts/posts/">Posts</a></div>
+    <h1 class="post-title">
+      最透彻的链接器脚本注释
+    </h1>
+    <div class="post-description">
+      一份嵌入式固件链接器脚本`.ld`的讲解
+    </div>
+    <div class="post-meta"><span title='2023-05-04 17:58:33 +0800 CST'>May 4, 2023</span>&nbsp;·&nbsp;21 min&nbsp;·&nbsp;4282 words&nbsp;·&nbsp;Me&nbsp;|&nbsp;<a href="https://github.com/%3cpath_to_repo%3e/content/posts/p06-the-most-thoroughly-commented-linker-script.md" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#output-format">Output format</a></li>
+    <li><a href="#cpu-memory-configuration-variables">CPU memory configuration variables</a></li>
+    <li><a href="#memory-space-definition">Memory space definition</a></li>
+    <li><a href="#sections">Sections</a></li>
+    <li><a href="#c--c-runtime-support">C &amp; C++ runtime support</a>
+      <ul>
+        <li><a href="#initializers">Initializers</a></li>
+        <li><a href="#finalizers">Finalizers</a></li>
+        <li><a href="#c-runtime-static-constructors">C++ runtime: static constructors</a></li>
+        <li><a href="#c-runtime-static-destructors-and-atexit">C++ runtime: static destructors and atexit()</a></li>
+      </ul>
+    </li>
+    <li><a href="#arm-exception-handling">ARM exception handling</a></li>
+    <li><a href="#relocate">Relocate</a></li>
+    <li><a href="#bss">BSS</a></li>
+    <li><a href="#stack-space">Stack space</a></li>
+    <li><a href="#heap-space">Heap space</a></li>
+    <li><a href="#absolute-symbol-definitions">Absolute symbol definitions</a></li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>Posted by Stargirl Flowers on January 13, 2021 · <a href="/">view all posts</a></p>
+<h1 id="the-most-thoroughly-commented-linker-script-probably">The most thoroughly commented linker script (probably)<a hidden class="anchor" aria-hidden="true" href="#the-most-thoroughly-commented-linker-script-probably">#</a></h1>
+<p>链接脚本控制着链接器（<code>ld</code>）如何将所有的<code>.o</code>文件合并成一个单独的<code>.elf</code>文件，以及这个<code>.elf</code>文件如何被目标处理器加载。</p>
+<p>本文呈现给你最详尽注释的链接器脚本。</p>
+<p>完整的脚本和注释转录如下.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   The Most Thoroughly Commented Linker Script in The World
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   This is a linker script for the Atmel/Microchip SAM D21
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   with an absolutely obscene amount of documentation.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   OUTPUT_FORMAT configures the linker to use a platform-specific BFD
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   backend to generate ELF files. BFD backends instruct the linker on
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   how to properly create the ELF sections for a given platform.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   The first is the default BFD. The second and third arguments are used
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   when big (-EB) or little (-EL) endian is requested.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   Since the SAM D series are configured with only little endian support,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   &#34;elf32-littlearm&#34; is used across the board. This option seems to be
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   included by Atmel/Microchip out of an abundance of caution, as
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   arm-none-eabi-ld will do the right thing and use &#34;elf32-littlearm&#34; by
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   default.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   The list of acceptable values can be obtained using `objdump -i`.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   References:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   * https://sourceware.org/binutils/docs/ld/Format-Commands.html#Format-Commands
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   * https://sourceware.org/binutils/docs/ld/BFD.html
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   * https://ww1.microchip.com/downloads/en/DeviceDoc/SAM_D21_DA1_Family_DataSheet_DS40001882F.pdf
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     Section 11.1.11, Cortex M0+ Configuration
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">OUTPUT_FORMAT</span>(<span style="color:#e6db74">&#34;elf32-littlearm&#34;</span>, <span style="color:#e6db74">&#34;elf32-littlearm&#34;</span>, <span style="color:#e6db74">&#34;elf32-littlearm&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   CPU memory configuration variables.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   These variables are used by the following &#34;MEMORY&#34; command to define
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   the various memory spaces.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   For the SAMD21G18A used by this project, the available Flash is
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   256kB and the available SRAM is 32kB.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   This project also reserves 8kB for the bootloader and 1kB for
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   &#34;non-volatile memory&#34; (NVM) - which is used by the application
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   to store calibration and user settings.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   Also it&#39;s useful to note that you can actually use unit suffixes
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   here: I could have written `FLASH_SIZE = 256KB` instead of
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   `FLASH_SIZE = 0x40000`. However, I generally prefer the hex
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   representation because there&#39;s less ambiguity.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   References:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   * https://ww1.microchip.com/downloads/en/DeviceDoc/SAM_D21_DA1_Family_DataSheet_DS40001882F.pdf
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     Section 10.2, Physical Memory Map
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span>FLASH_SIZE <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x40000</span>;      <span style="color:#75715e">/* 256kB, 262,144 bytes */</span>
+</span></span><span style="display:flex;"><span>BOOTLOADER_SIZE <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x2000</span>;  <span style="color:#75715e">/* 8kB, 8,192 bytes */</span>
+</span></span><span style="display:flex;"><span>NVM_SIZE <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x400</span>;          <span style="color:#75715e">/* 1kB, 1,024 bytes */</span>
+</span></span><span style="display:flex;"><span>SRAM_SIZE <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x8000</span>;        <span style="color:#75715e">/* 32kB, 32,768 bytes */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   ARM Cortex-M processors use a descending stack and generally
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   require stack space to be set aside in RAM.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   The application&#39;s behavior determines just how much stack space
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   should be reserved. I generally start with 2kB (0x800) of
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   stack space for Cortex-M0+ projects programmed in C .
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   You can analyze stack usage in GCC using the `-fstack-usage`
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   flag and you can enable compiler warnings for stack usage
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   with `-Wstack-usage=STACK_SIZE`.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   References:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   * https://embeddedartistry.com/blog/2020/08/17/three-gcc-flags-for-analyzing-memory-usage/
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   * https://community.arm.com/developer/ip-products/processors/b/processors-ip-blog/posts/how-much-stack-memory-do-i-need-for-my-arm-cortex--m-applications
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   * https://gcc.gnu.org/onlinedocs/gnat_ugn/Static-Stack-Usage-Analysis.html
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   * https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span>STACK_SIZE <span style="color:#f92672">=</span> <span style="color:#a6e22e">DEFINED</span>(__stack_size__) <span style="color:#f92672">?</span> __stack_size__ : <span style="color:#ae81ff">0x800</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   Memory space definition.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   This section declare blocks of memories for specific purposes. Since an
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   ARM&#39;s address space is generally split between Flash, SRAM, peripherals,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   and other regions, it&#39;s necessary to tell the linker where different
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   types of data can go in the address space.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   These blocks will be used in the &#34;SECTIONS&#34; command below.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   References:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   * https://sourceware.org/binutils/docs/ld/MEMORY.html#MEMORY
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   * https://ww1.microchip.com/downloads/en/DeviceDoc/SAM_D21_DA1_Family_DataSheet_DS40001882F.pdf
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     Section 10.2, Physical Memory Map
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span>MEMORY
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      Start with the Flash memory region. On the SAMD21, Flash starts at
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      the beginning of the address space (0x00000000) and is contiguous
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      right up to the size of the Flash. Flash is marked a &#34;rx&#34; so
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      that the linker knows that this space is read-only (r) and
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      executable (x).
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      The &#34;bootloader&#34; section allows this firmware to work with the uf2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      bootloader. The bootloader takes the first 0x2000 bytes of flash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      memory.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      References:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      * https://github.com/adafruit/uf2-samdx1#configuration
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   */</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">bootloader</span> (rx) <span style="color:#f92672">:</span> ORIGIN <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x00000000</span>, LENGTH <span style="color:#f92672">=</span> BOOTLOADER_SIZE
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      Following the bootloader is the flash memory used by the application,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      called &#34;rom&#34; here - even though it&#39;s flash, the name is just a name
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      and doesn&#39;t carry special meaning.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      If your application isn&#39;t using a bootloader then this section
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      would start at 0x00000000, but, since this project does use
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      a bootloader it instead starts right after the end of the bootloader.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      The total length of the rom block is the MCU&#39;s flash size minus the
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      bootloader&#39;s size and any space reserved for &#34;non-volatile memory&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      by the application.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   */</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">rom</span> (rx) <span style="color:#f92672">:</span> ORIGIN <span style="color:#f92672">=</span> BOOTLOADER_SIZE, LENGTH <span style="color:#f92672">=</span> FLASH_SIZE <span style="color:#f92672">-</span> BOOTLOADER_SIZE <span style="color:#f92672">-</span> NVM_SIZE
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      The &#34;nvm&#34; block is space set aside for the application to store
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      user settings and calibration data in the MCU&#39;s flash.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      The block is located right at the end of the flash space. This
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      is useful because it means that it stays in a fixed location
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      regardless of how much flash space the application takes up
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      in &#34;rom&#34;. Explicitly defining this section also lets the
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      linker ensure that application code doesn&#39;t overwrite the
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      data in this region.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      This block is marked as read-only (r) because flash can not
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      be written in the same way as normal memory, however, the
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      application can use the SAMD&#39;s NVM peripheral to write data in
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      this region.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   */</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">nvm</span> (r) <span style="color:#f92672">:</span> ORIGIN <span style="color:#f92672">=</span> FLASH_SIZE <span style="color:#f92672">-</span> NVM_SIZE, LENGTH <span style="color:#f92672">=</span> NVM_SIZE
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      The &#34;ram&#34; block is mapped to the CPU&#39;s SRAM and it&#39;s where
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      the stack, heap, and all variables will go.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      For the SAMD21, SRAM starts at 0x20000000 and is contiguous
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      for the size of the SRAM. This is noted in the Physical
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      Memory Map section of the datasheet.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   */</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">ram</span> (rwx) <span style="color:#f92672">:</span> ORIGIN <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x20000000</span>, LENGTH <span style="color:#f92672">=</span> SRAM_SIZE
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   The sections command tells the linker how to combine the
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   input files into an output ELF and where segments belong
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   in memory.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   The linker takes a set of input files containing the &#34;input
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   sections&#34; and uses this to map them to &#34;output sections&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   which are placed in the output ELF file.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   While the most important sections to think about here
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   are the ones that&#39;ll be placed into the memory (segments)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   some sections are just placed in the output ELF for debugging.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   References:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   * https://sourceware.org/binutils/docs/ld/SECTIONS.html#SECTIONS
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span>SECTIONS
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      The text segment contains program code and read-only data.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      References:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      * https://developer.arm.com/documentation/dui0101/a/
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">        Page 5, Segments
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      * http://www.sco.com/developers/gabi/latest/ch4.sheader.html#special_sections
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   */</span>
+</span></span><span style="display:flex;"><span>   .text :
+</span></span><span style="display:flex;"><span>   {
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         This segment must be 4-byte aligned as defined in ARM ELF
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         File Format specification.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      */</span>
+</span></span><span style="display:flex;"><span>      . <span style="color:#f92672">=</span> <span style="color:#a6e22e">ALIGN</span>(<span style="color:#ae81ff">4</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         The vector table defines the initial stack pointer and
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         interrupt/exception routines for the ARM CPU and device
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         peripherals. Every Cortex-M project needs this.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         For the SAM D series the vector table is expected
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         to be at address 0x00000000 after reset. Since
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         flash memory starts at 0x00000000, the first values
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         in flash should be the vector table.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         When defining the vector table in code you must use
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         `__attribute__ ((section(&#34;.vectors&#34;)))` to tell
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         GCC to place the vector table into the section
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         named &#34;.vectors&#34; in the input object file so that
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         the linker can find it.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         Also notice the use of `KEEP` here. To save on size,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         the firmware is compiled with options that let GCC
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         discard unused functions and data (`--gc-sections`).
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         Without `KEEP`, the linker would throw away the vector
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         table!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         Note that since this project uses the UF2 bootloader,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         this actually gets placed at the beginning of the
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         program&#39;s flash area (0x2000). The Cortex-M allows
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         changing the vector table after initialization,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         so the startup script sets the Vector Table Offset
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         Register (`SCB-&gt;VTOR`) to `_sfixed` during its
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         intialization. The `_efixed` symbol is unused but
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         included for completeness.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         References:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * https://ww1.microchip.com/downloads/en/DeviceDoc/SAM_D21_DA1_Family_DataSheet_DS40001882F.pdf
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">           Secion 8.3.3, Fetching of Initial Instructions
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * https://static.docs.arm.com/ddi0403/eb/DDI0403E_B_armv7m_arm.pdf
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">           Section B1.5.3, The vector table
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">           Section B3.2.5, Vector Table Offset Register, VTOR
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * ../third_party/samd21/gcc/gcc/startup_samd21.c
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * https://gcc.gnu.org/onlinedocs/gnat_ugn/Compilation-options.html
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      */</span>
+</span></span><span style="display:flex;"><span>      _sfixed <span style="color:#f92672">=</span> .;
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">KEEP</span>(<span style="color:#f92672">*</span>(.vectors .vectors.<span style="color:#f92672">*</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         Include code and read-only data sections from all
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         input files.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         By default, GCC places all program code into a section named
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         &#34;.text&#34; and read-only data (such as const static variables) into
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         a section named &#34;.rodata&#34; in the input object files. This naming
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         convention is from the ELF ABI specification.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         GCC generates three &#34;flavors&#34; of sections in object files:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         - .{section}: the basic section.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         - .{section}.*: sections generated by &#34;-ffunction-sections&#34; and
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">            &#34;-fdata-sections&#34; so that each function/data has a unique
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">            section.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         - .gnu.linkonce.{type}.*: sections generated by GCC so the
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">            linker can remove duplicates. Seems to be related to
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">            Vague Linking.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         References:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * http://www.sco.com/developers/gabi/latest/ch4.sheader.html#special_sections
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * https://gcc.gnu.org/onlinedocs/gcc/Vague-Linkage.html
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * https://stackoverflow.com/questions/5518083/what-is-a-linkonce-section
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      */</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">*</span>(.text .text.<span style="color:#f92672">*</span> .gnu.linkonce.t.<span style="color:#f92672">*</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">*</span>(.rodata .rodata<span style="color:#f92672">*</span> .gnu.linkonce.r.<span style="color:#f92672">*</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         The following sections support the C &amp; C++ runtime.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         These are generally used by crt0.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         References:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * https://en.wikipedia.org/wiki/Crt0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         C++ Runtime: initializers for static variables.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         C Runtime: designated constructors
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         For C++, handles variables at file scope like this:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">            int f = some_func()
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         For C, handles functions designated as constructors:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">            void intialize_thing(void) __attribute__((constructor));
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         Executed by the C runtime at startup via __libc_init_array.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         References:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * https://github.com/gcc-mirror/gcc/blob/master/libgcc/crtstuff.c
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * https://sourceware.org/git/?p=newlib-cygwin.git;a=blob;f=newlib/libc/misc/init.c;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * https://gcc.gnu.org/onlinedocs/gccint/Initialization.html
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * https://developer.arm.com/documentation/dui0475/h/the-arm-c-and-c---libraries/c---initialization--construction-and-destruction
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * https://stackoverflow.com/questions/15265295/understanding-the-libc-init-array
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      */</span>
+</span></span><span style="display:flex;"><span>      . <span style="color:#f92672">=</span> <span style="color:#a6e22e">ALIGN</span>(<span style="color:#ae81ff">4</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">KEEP</span>(<span style="color:#f92672">*</span>(.init))
+</span></span><span style="display:flex;"><span>      . <span style="color:#f92672">=</span> <span style="color:#a6e22e">ALIGN</span>(<span style="color:#ae81ff">4</span>);
+</span></span><span style="display:flex;"><span>      __preinit_array_start <span style="color:#f92672">=</span> .;
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">KEEP</span> (<span style="color:#f92672">*</span>(.preinit_array))
+</span></span><span style="display:flex;"><span>      __preinit_array_end <span style="color:#f92672">=</span> .;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      . <span style="color:#f92672">=</span> <span style="color:#a6e22e">ALIGN</span>(<span style="color:#ae81ff">4</span>);
+</span></span><span style="display:flex;"><span>      __init_array_start <span style="color:#f92672">=</span> .;
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">KEEP</span> (<span style="color:#f92672">*</span>(<span style="color:#a6e22e">SORT</span>(.init_array.<span style="color:#f92672">*</span>)))
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">KEEP</span> (<span style="color:#f92672">*</span>(.init_array))
+</span></span><span style="display:flex;"><span>      __init_array_end <span style="color:#f92672">=</span> .;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         C++ runtime: destructors for static variables.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         C runtime: designated finializers
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         For C, handles functions designated as destructors:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">            void destroy_thing(void) __attribute__((destructor));
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         References:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * https://sourceware.org/git/?p=newlib-cygwin.git;a=blob;f=newlib/libc/misc/fini.c
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      */</span>
+</span></span><span style="display:flex;"><span>      . <span style="color:#f92672">=</span> <span style="color:#a6e22e">ALIGN</span>(<span style="color:#ae81ff">4</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">KEEP</span>(<span style="color:#f92672">*</span>(.fini))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      . <span style="color:#f92672">=</span> <span style="color:#a6e22e">ALIGN</span>(<span style="color:#ae81ff">4</span>);
+</span></span><span style="display:flex;"><span>      __fini_array_start <span style="color:#f92672">=</span> .;
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">KEEP</span> (<span style="color:#f92672">*</span>(.fini_array))
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">KEEP</span> (<span style="color:#f92672">*</span>(<span style="color:#a6e22e">SORT</span>(.fini_array.<span style="color:#f92672">*</span>)))
+</span></span><span style="display:flex;"><span>      __fini_array_end <span style="color:#f92672">=</span> .;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         C++ runtime: static constructors
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         References:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * https://gcc.gnu.org/onlinedocs/gccint/Initialization.html
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * https://github.com/gcc-mirror/gcc/blob/master/libgcc/crtstuff.c
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      */</span>
+</span></span><span style="display:flex;"><span>      . <span style="color:#f92672">=</span> <span style="color:#a6e22e">ALIGN</span>(<span style="color:#ae81ff">4</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">KEEP</span> (<span style="color:#f92672">*</span>crtbegin.<span style="color:#a6e22e">o</span>(.ctors))
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">KEEP</span> (<span style="color:#f92672">*</span>(<span style="color:#a6e22e">EXCLUDE_FILE</span> (<span style="color:#f92672">*</span>crtend.o) .ctors))
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">KEEP</span> (<span style="color:#f92672">*</span>(<span style="color:#a6e22e">SORT</span>(.ctors.<span style="color:#f92672">*</span>)))
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">KEEP</span> (<span style="color:#f92672">*</span>crtend.<span style="color:#a6e22e">o</span>(.ctors))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         C++ runtime: static destructors and atexit()
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         Note that in usual practice these aren&#39;t ever called because the program
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         doesn&#39;t exit - except when powered off or reset.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         References:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * https://gcc.gnu.org/onlinedocs/gccint/Initialization.html
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * https://github.com/gcc-mirror/gcc/blob/master/libgcc/crtstuff.c
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      */</span>
+</span></span><span style="display:flex;"><span>      . <span style="color:#f92672">=</span> <span style="color:#a6e22e">ALIGN</span>(<span style="color:#ae81ff">4</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">KEEP</span> (<span style="color:#f92672">*</span>crtbegin.<span style="color:#a6e22e">o</span>(.dtors))
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">KEEP</span> (<span style="color:#f92672">*</span>(<span style="color:#a6e22e">EXCLUDE_FILE</span> (<span style="color:#f92672">*</span>crtend.o) .dtors))
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">KEEP</span> (<span style="color:#f92672">*</span>(<span style="color:#a6e22e">SORT</span>(.dtors.<span style="color:#f92672">*</span>)))
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">KEEP</span> (<span style="color:#f92672">*</span>crtend.<span style="color:#a6e22e">o</span>(.dtors))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      . <span style="color:#f92672">=</span> <span style="color:#a6e22e">ALIGN</span>(<span style="color:#ae81ff">4</span>);
+</span></span><span style="display:flex;"><span>      _efixed <span style="color:#f92672">=</span> .;
+</span></span><span style="display:flex;"><span>   } <span style="color:#f92672">&gt;</span> rom
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      ARM defines several special sections for exception handling.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      These are require for C++ and for C programs that try to
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      examine backtraces.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      - exidx is used to contain index entries for stack unwinding.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      - extab names sections containing exception unwinding information.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      Essentially, each function that can throw an exception will
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      have entries in the exidx and extab sections.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      References:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      - https://developer.arm.com/documentation/ihi0038/b/
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      - https://stackoverflow.com/a/57463515
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   */</span>
+</span></span><span style="display:flex;"><span>   .ARM.extab : {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">*</span>(.ARM.extab<span style="color:#f92672">*</span> .gnu.linkonce.armextab.<span style="color:#f92672">*</span>)
+</span></span><span style="display:flex;"><span>   } <span style="color:#f92672">&gt;</span> rom
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   .ARM.exidx : {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">PROVIDE</span>(__exidx_start <span style="color:#f92672">=</span> .);
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">*</span>(.ARM.exidx<span style="color:#f92672">*</span> .gnu.linkonce.armexidx.<span style="color:#f92672">*</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">PROVIDE</span>(__exidx_end <span style="color:#f92672">=</span> .);
+</span></span><span style="display:flex;"><span>   } <span style="color:#f92672">&gt;</span> rom
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      The `.relocate` section includes mutable variables that have a
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      default value and specially marked functions that should execute
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      from RAM.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      This data is stored in ROM but is referenced from RAM. The
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      program/runtime must copy the data from ROM to RAM on reset,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      hence, &#34;relocate&#34;.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      Performance sensitive/critical functions can also be placed in
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      RAM using this section:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         #define RAMFUNC __attribute__((section(&#34;.ramfunc&#34;)))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         void fast_function(void) RAMFUNC;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      In other linker scripts you might see this named as the `.data`
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      section. That&#39;s what the ELF specification calls for, but the
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      Microchip-provided SAM D startup scripts expect `.relocate`.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      This also sets the symbol `_etext` to the start of the relocation
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      segment in flash. The startup script copies the data starting at
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      `_etext` to `_srelocate` and ends when it reaches `_erelocate`.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      The `_etext` name is a bit unfortunate since it&#39;s not the end of
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      the text segment, but rather the start of the read-only copy of the
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      relocate section in flash. If I wrote the startup script I would have
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      named these symbols differently.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      References:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      * http://www.sco.com/developers/gabi/latest/ch4.sheader.html#special_sections
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      * https://www.sourceware.org/binutils/docs/ld/Output-Section-LMA.html#Output-Section-LMA
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      * ../third_party/samd21/gcc/gcc/startup_samd21.c
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   */</span>
+</span></span><span style="display:flex;"><span>   .relocate :
+</span></span><span style="display:flex;"><span>   {
+</span></span><span style="display:flex;"><span>      . <span style="color:#f92672">=</span> <span style="color:#a6e22e">ALIGN</span>(<span style="color:#ae81ff">4</span>);
+</span></span><span style="display:flex;"><span>      _srelocate <span style="color:#f92672">=</span> .;
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">*</span>(.ramfunc .ramfunc.<span style="color:#f92672">*</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">*</span>(.data .data.<span style="color:#f92672">*</span>);
+</span></span><span style="display:flex;"><span>      . <span style="color:#f92672">=</span> <span style="color:#a6e22e">ALIGN</span>(<span style="color:#ae81ff">4</span>);
+</span></span><span style="display:flex;"><span>      _erelocate <span style="color:#f92672">=</span> .;
+</span></span><span style="display:flex;"><span>   } <span style="color:#f92672">&gt;</span> ram AT<span style="color:#f92672">&gt;</span> rom
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   _etext <span style="color:#f92672">=</span> <span style="color:#a6e22e">LOADADDR</span>(.relocate);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      The BSS section reserves RAM space for declared but uninitialized
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      variables.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      This is zeroed out by the startup script. The start-up script
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      zeros out the area of RAM starting at `_szero` and ending at
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      `_ezero`.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      This includes `COMMON` which is a bit of a legacy section. GCC
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      defaults to `-fno-common` these days so there shouldn&#39;t be
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      anything in there, but it&#39;s included for completeness.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      References:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      * http://www.sco.com/developers/gabi/latest/ch4.sheader.html#special_sections
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      * https://en.wikipedia.org/wiki/.bss
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      * https://gcc.gnu.org/onlinedocs/gcc/Code-Gen-Options.html
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">        Section -fcommon
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      * ../third_party/samd21/gcc/gcc/startup_samd21.c
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   */</span>
+</span></span><span style="display:flex;"><span>   .<span style="color:#a6e22e">bss</span> (NOLOAD) <span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>   {
+</span></span><span style="display:flex;"><span>      . <span style="color:#f92672">=</span> <span style="color:#a6e22e">ALIGN</span>(<span style="color:#ae81ff">4</span>);
+</span></span><span style="display:flex;"><span>      _szero <span style="color:#f92672">=</span> .;
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">*</span>(.bss .bss.<span style="color:#f92672">*</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">*</span>(COMMON)
+</span></span><span style="display:flex;"><span>      . <span style="color:#f92672">=</span> <span style="color:#a6e22e">ALIGN</span>(<span style="color:#ae81ff">4</span>);
+</span></span><span style="display:flex;"><span>      _ezero <span style="color:#f92672">=</span> .;
+</span></span><span style="display:flex;"><span>   } <span style="color:#f92672">&gt;</span> ram
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      Reserve the stack space in RAM.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      Cortex-M stacks grow down, so the stack starts at `_estack` and
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      grows towards `_sstack`. The startup script sets the vector
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      table&#39;s stack pointer to `_estack` on startup. `_sstack` is
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      unused but included for completeness.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      The ARM procedure call standard (AAPCS) requires the stack to be
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      aligned on an eight byte boundary.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      References:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      * ../third_party/samd21/gcc/gcc/startup_samd21.c
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      * https://developer.arm.com/documentation/ihi0042/e/
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">        Section 5.2.1.2, Stack constraints at a public interface
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   */</span>
+</span></span><span style="display:flex;"><span>   .<span style="color:#a6e22e">stack</span> (NOLOAD)<span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>   {
+</span></span><span style="display:flex;"><span>      . <span style="color:#f92672">=</span> <span style="color:#a6e22e">ALIGN</span>(<span style="color:#ae81ff">8</span>);
+</span></span><span style="display:flex;"><span>      _sstack <span style="color:#f92672">=</span> .;
+</span></span><span style="display:flex;"><span>      . <span style="color:#f92672">=</span> . <span style="color:#f92672">+</span> STACK_SIZE;
+</span></span><span style="display:flex;"><span>      . <span style="color:#f92672">=</span> <span style="color:#a6e22e">ALIGN</span>(<span style="color:#ae81ff">8</span>);
+</span></span><span style="display:flex;"><span>      _estack <span style="color:#f92672">=</span> .;
+</span></span><span style="display:flex;"><span>   } <span style="color:#f92672">&gt;</span> ram
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      Mark the end of the RAM and the start of unallocated space.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      If the program uses the malloc and the heap, then `_heap_start`
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      can be used as the start of the heap. If the program doesn&#39;t
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      use the heap then the `_heap_start` symbol is unused and could
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      be removed. With `-specs=nano.specs`, the `_sbrk` syscall has
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      to be implemented for malloc to work:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         extern int _heap_start;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         void *_sbrk(int incr) {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">            static unsigned char *heap = NULL;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">            unsigned char *prev_heap;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">            if (heap == NULL) {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">               heap = (unsigned char *)&amp;_heap_start;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">            }
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">            prev_heap = heap;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">            heap += incr;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">            return prev_heap;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         }
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      Another memory layout strategy is to place the stack at the end
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      of RAM and the heap after bss. That way the heap can grow upwards
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      towards the stack and the stack can grow downwards to the heap.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      However, I&#39;m not a big fan of that approach- it&#39;s possible for the
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      heap to overwrite the stack. Leaving the entire end of RAM available
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      as the heap works well for my purposes.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      References:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      * https://en.wikipedia.org/wiki/Sbrk
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      * https://interrupt.memfault.com/blog/boostrapping-libc-with-newlib
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      * https://embeddedartistry.com/blog/2017/02/15/implementing-malloc-first-fit-free-list/
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   */</span>
+</span></span><span style="display:flex;"><span>   . <span style="color:#f92672">=</span> <span style="color:#a6e22e">ALIGN</span>(<span style="color:#ae81ff">4</span>);
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">PROVIDE</span>(_heap_start <span style="color:#f92672">=</span> .);
+</span></span><span style="display:flex;"><span>   _end <span style="color:#f92672">=</span> . ;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   Absolute symbol definitions.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   This section defines some useful absolute symbols for the application
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   to use.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   Symbols for the settings section in the NVM memory block.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   Gemini uses the first half of the NVM block for user settings.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   This symbol is used by the settings module to know where to
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   load and save settings.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   References:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   * ../src/gem_settings_load_save.c
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span>_nvm_settings_base_address <span style="color:#f92672">=</span> <span style="color:#a6e22e">ORIGIN</span>(nvm);
+</span></span><span style="display:flex;"><span>_nvm_settings_length <span style="color:#f92672">=</span> <span style="color:#a6e22e">LENGTH</span>(nvm) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   Symbols for the calibration/look-up table in the NVM memory block.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   Gemini uses the other half of the NVM block to store the factory-
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   calibrated look-up table for translating ADC -&gt; frequency/DAC codes.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   References:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">   * ../src/gem_ramp_table_load_save.c
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span>_nvm_lut_base_address <span style="color:#f92672">=</span> <span style="color:#a6e22e">ORIGIN</span>(nvm) <span style="color:#f92672">+</span> <span style="color:#a6e22e">LENGTH</span>(nvm) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>_nvm_lut_length <span style="color:#f92672">=</span> <span style="color:#a6e22e">LENGTH</span>(nvm) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+</span></span></code></pre></div><h2 id="output-format">Output format<a hidden class="anchor" aria-hidden="true" href="#output-format">#</a></h2>
+<p>Output format sets the ELF output format to use a specific BFD backend.</p>
+<p>The first is the default BFD. The second and third arguments are used when big (-EB) or little (-EL) endian is requested.</p>
+<p>Since the SAM D series are configured with only little endian support, &ldquo;elf32-littlearm&rdquo; is used across the board. This option seems to be included by Atmel/Microchip out of an abundance of caution, as arm-none-eabi-ld will do the right thing and use &ldquo;elf32-littlearm&rdquo; by default.</p>
+<p>The list of acceptable values can be obtained using <code>objdump -i</code>.</p>
+<p>References:</p>
+<ul>
+<li><a href="https://sourceware.org/binutils/docs/ld/Format-Commands.html#Format-Commands">https://sourceware.org/binutils/docs/ld/Format-Commands.html#Format-Commands</a></li>
+<li><a href="https://sourceware.org/binutils/docs/ld/BFD.html">https://sourceware.org/binutils/docs/ld/BFD.html</a></li>
+<li><a href="https://ww1.microchip.com/downloads/en/DeviceDoc/SAM_D21_DA1_Family_DataSheet_DS40001882F.pdf">https://ww1.microchip.com/downloads/en/DeviceDoc/SAM_D21_DA1_Family_DataSheet_DS40001882F.pdf</a> Section 11.1.11, Cortex M0+ Configuration</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>OUTPUT<span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">_FORMAT</span>(<span style="color:#e6db74">&#34;elf32-littlearm&#34;</span>, <span style="color:#e6db74">&#34;elf32-littlearm&#34;</span>, <span style="color:#e6db74">&#34;elf32-littlearm&#34;</span>)
+</span></span></code></pre></div><h2 id="cpu-memory-configuration-variables">CPU memory configuration variables<a hidden class="anchor" aria-hidden="true" href="#cpu-memory-configuration-variables">#</a></h2>
+<p>这些变量是用下面的“MEMORY”命令定义不同的存储空间。</p>
+<p>对于本项目使用的SAMD21G18A，可用的Flash为256kB，可用SRAM为32kB。</p>
+<p>该项目还为引导加载程序保留了8kB，为“非易失性内存”(NVM, 用来存储校准信息和用户设置)保留了1kB。</p>
+<p>另外，这里实际上可以使用单位后缀, 例如<code>FLASH_SIZE = 256KB</code>代替<code>FLASH_SIZE = 0x40000</code>。
+然而，我通常更喜欢HEX表示法，这样歧义更少。</p>
+<p>注意:这里的配置取决于芯片的Data Sheet, 以及项目的实际需要.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>FLASH_SIZE <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x40000</span>;      <span style="color:#75715e">/* 256kB */</span>
+</span></span><span style="display:flex;"><span>BOOTLOADER_SIZE <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x2000</span>;  <span style="color:#75715e">/* 8kB */</span>
+</span></span><span style="display:flex;"><span>NVM_SIZE <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x400</span>;          <span style="color:#75715e">/* 1kbB */</span>
+</span></span><span style="display:flex;"><span>SRAM_SIZE <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x8000</span>;        <span style="color:#75715e">/* 32kB */</span>
+</span></span></code></pre></div><p>ARM Cortex-M系列处理器使用降序堆栈, 通常需要在RAM中留出堆栈空间.</p>
+<p>应用程序的功能决定了应该保留多少堆栈空间。对于C编程的Cortex-M0+项目，我通常从2kB (0x800)大小的堆栈空间开始。</p>
+<p>你可以在GCC中使用<code>-fstack-usage</code>标志来分析堆栈使用情况，
+以及使用<code>-Wstack-usage=STACK_SIZE</code>来启用堆栈使用情况的编译器警告。</p>
+<p>References:</p>
+<ul>
+<li><a href="https://embeddedartistry.com/blog/2020/08/17/three-gcc-flags-for-analyzing-memory-usage/">https://embeddedartistry.com/blog/2020/08/17/three-gcc-flags-for-analyzing-memory-usage/</a></li>
+<li><a href="https://community.arm.com/developer/ip-products/processors/b/processors-ip-blog/posts/how-much-stack-memory-do-i-need-for-my-arm-cortex--m-applications">https://community.arm.com/developer/ip-products/processors/b/processors-ip-blog/posts/how-much-stack-memory-do-i-need-for-my-arm-cortex&ndash;m-applications</a></li>
+<li><a href="https://gcc.gnu.org/onlinedocs/gnat_ugn/Static-Stack-Usage-Analysis.html">https://gcc.gnu.org/onlinedocs/gnat_ugn/Static-Stack-Usage-Analysis.html</a></li>
+<li><a href="https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html">https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html</a></li>
+</ul>
+<pre tabindex="0"><code class="language-ld" data-lang="ld">STACK\_SIZE \= DEFINED(\_\_stack\_size\_\_) ? \_\_stack\_size\_\_ : 0x800;
+</code></pre><h2 id="memory-space-definition">Memory space definition<a hidden class="anchor" aria-hidden="true" href="#memory-space-definition">#</a></h2>
+<p>This section declare blocks of memories for specific purposes. Since an ARM&rsquo;s address space is generally split between Flash, SRAM, peripherals, and other regions, it&rsquo;s necessary to tell the linker where different types of data can go in the address space.</p>
+<p>These blocks will be used in the <code>SECTIONS</code> command below.</p>
+<p>References:</p>
+<ul>
+<li><a href="https://sourceware.org/binutils/docs/ld/MEMORY.html#MEMORY">https://sourceware.org/binutils/docs/ld/MEMORY.html#MEMORY</a></li>
+<li><a href="https://ww1.microchip.com/downloads/en/DeviceDoc/SAM_D21_DA1_Family_DataSheet_DS40001882F.pdf">https://ww1.microchip.com/downloads/en/DeviceDoc/SAM_D21_DA1_Family_DataSheet_DS40001882F.pdf</a> Section 10.2, Physical Memory Map</li>
+</ul>
+<p>MEMORY
+{</p>
+<p>Start with the Flash memory region. On the SAMD21, Flash starts at the beginning of the address space (<code>0x00000000</code>) and is contiguous right up to the size of the Flash. Flash is marked a <code>rx</code> so that the linker knows that this space is read-only (<code>r</code>) and executable (<code>x</code>).</p>
+<p>The &ldquo;bootloader&rdquo; section allows this firmware to work with the uf2 bootloader. The bootloader takes the first 0x2000 bytes of flash memory.</p>
+<p>References:</p>
+<ul>
+<li>
+<p><a href="https://github.com/adafruit/uf2-samdx1#configuration">https://github.com/adafruit/uf2-samdx1#configuration</a></p>
+<p>bootloader (rx) : ORIGIN = 0x00000000, LENGTH = BOOTLOADER_SIZE</p>
+</li>
+</ul>
+<p>Following the bootloader is the flash memory used by the application, called &ldquo;rom&rdquo; here - even though it&rsquo;s flash, the name is just a name and doesn&rsquo;t carry special meaning.</p>
+<p>The total length of the rom block is the MCU&rsquo;s flash size minus the bootloader&rsquo;s size and any space reserved for &ldquo;non-volatile memory&rdquo; by the application.</p>
+<p>rom (rx) : ORIGIN = 0x00002000, LENGTH = FLASH_SIZE - BOOTLOADER_SIZE - NVM_SIZE</p>
+<p>The &ldquo;nvm&rdquo; block is space set aside for the application to store user settings and calibration data in the MCU&rsquo;s flash.</p>
+<p>The block is located right at the end of the flash space. This is useful because it means that it says in a fixed location regardless of how much flash space the application takes up in &ldquo;rom&rdquo;. Explicitly defining this section also lets the linker ensure that application code doesn&rsquo;t overwrite the data in this region.</p>
+<p>This block is marked as read-only (<code>r</code>) because flash can not be written in the same way as normal memory, however, the application can use the SAMD&rsquo;s NVM peripheral to write data in this region.</p>
+<p>nvm (r) : ORIGIN = FLASH_SIZE - NVM_SIZE, LENGTH = NVM_SIZE</p>
+<p>The &ldquo;ram&rdquo; block is mapped to the CPU&rsquo;s SRAM and it&rsquo;s where the stack, heap, and all variables will go.</p>
+<p>For the SAMD21, SRAM starts at 0x20000000 and is contiguous for the size of the SRAM.</p>
+<p>ram (rwx) : ORIGIN = 0x20000000, LENGTH = SRAM_SIZE
+}</p>
+<h2 id="sections">Sections<a hidden class="anchor" aria-hidden="true" href="#sections">#</a></h2>
+<p>The sections command tells the linker how to combine the input files into an output ELF and where segments belong in memory.</p>
+<p>The linker takes a set of input files containing the &ldquo;input sections&rdquo; and uses this to map them to &ldquo;output sections&rdquo; which are placed in the output ELF file.</p>
+<p>While the most important sections to think about here are the ones that&rsquo;ll be placed into the memory (segments) some sections are just placed in the output ELF for debugging.</p>
+<p>References:</p>
+<ul>
+<li><a href="https://sourceware.org/binutils/docs/ld/SECTIONS.html#SECTIONS">https://sourceware.org/binutils/docs/ld/SECTIONS.html#SECTIONS</a></li>
+</ul>
+<p>SECTIONS
+{</p>
+<p>The text segment contains program code and read-only data.</p>
+<p>References:</p>
+<ul>
+<li><a href="https://developer.arm.com/documentation/dui0101/a/">https://developer.arm.com/documentation/dui0101/a/</a> Page 5, Segments</li>
+<li><a href="http://www.sco.com/developers/gabi/latest/ch4.sheader.html#special_sections">http://www.sco.com/developers/gabi/latest/ch4.sheader.html#special_sections</a></li>
+</ul>
+<p>.text :
+{</p>
+<p>This segment must be 4-byte aligned as defined in ARM ELF File Format specification.</p>
+<pre><code>  . \= ALIGN(4);
+</code></pre>
+<p>The vector table defines the initial stack pointer and interrupt/exception routines for the ARM CPU and device peripherals. Every Cortex-M project needs this.</p>
+<p>For the SAM D series the vector table is expected to be at address 0x00000000 after reset. Since flash memory starts at 0x00000000, the first values in flash should be the vector table.</p>
+<p>When defining the vector table in code you must use <code>__attribute__ ((section(&quot;.vectors&quot;)))</code> to tell GCC to place the vector table into the section named &ldquo;.vectors&rdquo; in the input object file so that the linker can find it.</p>
+<p>Note that since this project uses the UF2 bootloader, this actually gets placed at the beginning of the program&rsquo;s flash area (0x2000). The Cortex-M allows changing the vector table after initialization, so the startup script sets the Vector Table Offset Register (<code>SCB-&gt;VTOR</code>) to <code>_sfixed</code> during its intialization. The <code>_efixed</code> symbol is unused but included for completeness.</p>
+<p>References:</p>
+<ul>
+<li>
+<p><a href="https://ww1.microchip.com/downloads/en/DeviceDoc/SAM_D21_DA1_Family_DataSheet_DS40001882F.pdf">https://ww1.microchip.com/downloads/en/DeviceDoc/SAM_D21_DA1_Family_DataSheet_DS40001882F.pdf</a> Secion 8.3.3, Fetching of Initial Instructions</p>
+</li>
+<li>
+<p><a href="https://static.docs.arm.com/ddi0403/eb/DDI0403E_B_armv7m_arm.pdf">https://static.docs.arm.com/ddi0403/eb/DDI0403E_B_armv7m_arm.pdf</a> Section B1.5.3, The vector table Section B3.2.5, Vector Table Offset Register, VTOR</p>
+</li>
+<li>
+<p><a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/tree/master/firmware/third_party/samd21/gcc/gcc/startup_samd21.c">startup_samd21.c</a></p>
+<p>_sfixed = .;
+KEEP(*(.vectors .vectors.*))</p>
+</li>
+</ul>
+<p>Include code and read-only data sections from all input files.</p>
+<p>By default, GCC places all program code into a section named &ldquo;.text&rdquo; and read-only data (such as const static variables) into a section named &ldquo;.rodata&rdquo; in the input object files. This naming convention is from the ELF ABI specification.</p>
+<p>GCC generates three &ldquo;flavors&rdquo; of sections in object files:</p>
+<ul>
+<li><code>.{section}</code>: the basic section.</li>
+<li><code>.{section}.*</code>: sections generated by <code>-ffunction-sections</code> and <code>-fdata-sections</code> so that each function/data has a unique section.</li>
+<li><code>.gnu.linkonce.{type}.*</code>: sections generated by GCC so the linker can remove duplicates. Seems to be related to Vague Linking.</li>
+</ul>
+<p>References:</p>
+<ul>
+<li>
+<p><a href="http://www.sco.com/developers/gabi/latest/ch4.sheader.html#special_sections">http://www.sco.com/developers/gabi/latest/ch4.sheader.html#special_sections</a></p>
+</li>
+<li>
+<p><a href="https://gcc.gnu.org/onlinedocs/gcc/Vague-Linkage.html">https://gcc.gnu.org/onlinedocs/gcc/Vague-Linkage.html</a></p>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/5518083/what-is-a-linkonce-section">https://stackoverflow.com/questions/5518083/what-is-a-linkonce-section</a></p>
+<p>*(.text .text.* .gnu.linkonce.t.*)
+*(.rodata .rodata* .gnu.linkonce.r.*)</p>
+</li>
+</ul>
+<h2 id="c--c-runtime-support">C &amp; C++ runtime support<a hidden class="anchor" aria-hidden="true" href="#c--c-runtime-support">#</a></h2>
+<p>The following sections are for the C/C++ runtime. These are generally used by crt0.</p>
+<p>References:</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Crt0">https://en.wikipedia.org/wiki/Crt0</a></li>
+</ul>
+<h3 id="initializers">Initializers<a hidden class="anchor" aria-hidden="true" href="#initializers">#</a></h3>
+<ul>
+<li>C++ Runtime: initializers for static variables.</li>
+<li>C Runtime: designated constructors</li>
+</ul>
+<p>For C++, handles variables at file scope like this:</p>
+<p>int f = some_func()</p>
+<p>For C, handles functions designated as constructors:</p>
+<pre><code>void intialize_thing(void) __attribute__((constructor));
+</code></pre>
+<p>Executed by the C runtime at startup via <code>__libc_init_array</code>.</p>
+<p>References:</p>
+<ul>
+<li>
+<p><a href="https://github.com/gcc-mirror/gcc/blob/master/libgcc/crtstuff.c">https://github.com/gcc-mirror/gcc/blob/master/libgcc/crtstuff.c</a></p>
+</li>
+<li>
+<p><a href="https://sourceware.org/git/?p=newlib-cygwin.git;a=blob;f=newlib/libc/misc/init.c">https://sourceware.org/git/?p=newlib-cygwin.git;a=blob;f=newlib/libc/misc/init.c</a>;</p>
+</li>
+<li>
+<p><a href="https://gcc.gnu.org/onlinedocs/gccint/Initialization.html">https://gcc.gnu.org/onlinedocs/gccint/Initialization.html</a></p>
+</li>
+<li>
+<p><a href="https://developer.arm.com/documentation/dui0475/h/the-arm-c-and-c---libraries/c---initialization--construction-and-destruction">https://developer.arm.com/documentation/dui0475/h/the-arm-c-and-c&mdash;libraries/c&mdash;initialization&ndash;construction-and-destruction</a></p>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/15265295/understanding-the-libc-init-array">https://stackoverflow.com/questions/15265295/understanding-the-libc-init-array</a></p>
+<p>. = ALIGN(4);
+KEEP(*(.init))
+. = ALIGN(4);
+__preinit_array_start = .;
+KEEP (*(.preinit_array))
+__preinit_array_end = .;</p>
+<p>. = ALIGN(4);
+__init_array_start = .;
+KEEP (*(SORT(.init_array.*)))
+KEEP (*(.init_array))
+__init_array_end = .;</p>
+</li>
+</ul>
+<h3 id="finalizers">Finalizers<a hidden class="anchor" aria-hidden="true" href="#finalizers">#</a></h3>
+<ul>
+<li>C++ runtime: destructors for static variables.</li>
+<li>C runtime: designated finializers</li>
+</ul>
+<p>For C, handles functions designated as destructors:</p>
+<p>void destroy_thing(void) __attribute__((destructor));</p>
+<p>References:</p>
+<ul>
+<li>
+<p><a href="https://sourceware.org/git/?p=newlib-cygwin.git;a=blob;f=newlib/libc/misc/fini.c">https://sourceware.org/git/?p=newlib-cygwin.git;a=blob;f=newlib/libc/misc/fini.c</a></p>
+<p>. = ALIGN(4);
+KEEP(*(.fini))</p>
+<p>. = ALIGN(4);
+__fini_array_start = .;
+KEEP (*(.fini_array))
+KEEP (*(SORT(.fini_array.*)))
+__fini_array_end = .;</p>
+</li>
+</ul>
+<h3 id="c-runtime-static-constructors">C++ runtime: static constructors<a hidden class="anchor" aria-hidden="true" href="#c-runtime-static-constructors">#</a></h3>
+<p>References:</p>
+<ul>
+<li>
+<p><a href="https://gcc.gnu.org/onlinedocs/gccint/Initialization.html">https://gcc.gnu.org/onlinedocs/gccint/Initialization.html</a></p>
+</li>
+<li>
+<p><a href="https://github.com/gcc-mirror/gcc/blob/master/libgcc/crtstuff.c">https://github.com/gcc-mirror/gcc/blob/master/libgcc/crtstuff.c</a></p>
+<p>. = ALIGN(4);
+KEEP (*crtbegin.o(.ctors))
+KEEP (*(EXCLUDE_FILE (*crtend.o) .ctors))
+KEEP (*(SORT(.ctors.*)))
+KEEP (*crtend.o(.ctors))</p>
+</li>
+</ul>
+<h3 id="c-runtime-static-destructors-and-atexit">C++ runtime: static destructors and atexit()<a hidden class="anchor" aria-hidden="true" href="#c-runtime-static-destructors-and-atexit">#</a></h3>
+<p>Note that in usual practice these aren&rsquo;t ever called because the program doesn&rsquo;t exit - except when powered off or reset.</p>
+<p>References:</p>
+<ul>
+<li>
+<p><a href="https://gcc.gnu.org/onlinedocs/gccint/Initialization.html">https://gcc.gnu.org/onlinedocs/gccint/Initialization.html</a></p>
+<p>. = ALIGN(4);
+KEEP (*crtbegin.o(.dtors))
+KEEP (*(EXCLUDE_FILE (*crtend.o) .dtors))
+KEEP (*(SORT(.dtors.*)))
+KEEP (*crtend.o(.dtors))</p>
+<p>. = ALIGN(4);
+_efixed = .;
+} &gt; rom</p>
+</li>
+</ul>
+<h2 id="arm-exception-handling">ARM exception handling<a hidden class="anchor" aria-hidden="true" href="#arm-exception-handling">#</a></h2>
+<p>ARM defines several special sections for exception handling.</p>
+<p>These are require for C++ and for C programs that try to examine backtraces.</p>
+<ul>
+<li><code>exidx</code> is used to contain index entries for stack unwinding.</li>
+<li><code>extab</code> names sections containing exception unwinding information.</li>
+</ul>
+<p>Essentially, each function that can throw an exception will have entries in the exidx and extab sections.</p>
+<p>References:</p>
+<ul>
+<li><a href="https://developer.arm.com/documentation/ihi0038/b/">https://developer.arm.com/documentation/ihi0038/b/</a></li>
+<li><a href="https://stackoverflow.com/a/57463515">https://stackoverflow.com/a/57463515</a></li>
+</ul>
+<p>.ARM.extab : {
+*(.ARM.extab* .gnu.linkonce.armextab.*)
+} &gt; rom</p>
+<p>.ARM.exidx : {
+PROVIDE (__exidx_start = .);
+*(.ARM.exidx* .gnu.linkonce.armexidx.*)
+PROVIDE (__exidx_end = .);
+} &gt; rom</p>
+<h2 id="relocate">Relocate<a hidden class="anchor" aria-hidden="true" href="#relocate">#</a></h2>
+<p>The <code>.relocate</code> section includes mutable variables that have a default value and specially marked functions that should execute from RAM.</p>
+<p>This data is stored in ROM but is referenced from RAM. The program/runtime must copy the data from ROM to RAM on reset, hence, &ldquo;relocate&rdquo;.</p>
+<p>Performance sensitive/critical functions can also be placed in RAM using this section:</p>
+<p>#define RAMFUNC __attribute__((section(&quot;.ramfunc&quot;)))
+void fast_function(void) RAMFUNC;</p>
+<p>In other linker scripts you might see this named as the <code>.data</code> section. That&rsquo;s what the ELF specification calls for, but the Microchip-provided SAM D startup scripts expect <code>.relocate</code>.</p>
+<p>This also sets the symbol <code>_etext</code> to the start of the relocation segment in flash. The startup script copies the data starting at <code>_etext</code> to <code>_srelocate</code> and ends when it reaches <code>_erelocate</code>. The <code>_etext</code> name is a bit unfortunate since it&rsquo;s not the end of the text segment, but rather the start of the read-only copy of the relocate section in flash. If I wrote the startup script I would have named these symbols differently.</p>
+<p>References:</p>
+<ul>
+<li><a href="http://www.sco.com/developers/gabi/latest/ch4.sheader.html#special_sections">http://www.sco.com/developers/gabi/latest/ch4.sheader.html#special_sections</a></li>
+<li><a href="https://www.sourceware.org/binutils/docs/ld/Output-Section-LMA.html#Output-Section-LMA">https://www.sourceware.org/binutils/docs/ld/Output-Section-LMA.html#Output-Section-LMA</a></li>
+<li><a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/tree/master/firmware/third_party/samd21/gcc/gcc/startup_samd21.c">startup_samd21.c</a></li>
+</ul>
+<p>.relocate :
+{
+. = ALIGN(4);
+_srelocate = .;
+*(.ramfunc .ramfunc.*);
+*(.data .data.*);
+. = ALIGN(4);
+_erelocate = .;
+} &gt; ram AT&gt; rom</p>
+<p>_etext = LOADADDR(.relocate);</p>
+<h2 id="bss">BSS<a hidden class="anchor" aria-hidden="true" href="#bss">#</a></h2>
+<p>The BSS section reserves RAM space for declared but uninitialized variables.</p>
+<p>This is zeroed out by the startup script. The start-up script zeros out the area of RAM starting at <code>_szero</code> and ending at <code>_ezero</code>.</p>
+<p>This includes <code>COMMON</code> which is a bit of a legacy section. GCC defaults to <code>-fno-common</code> these days so there shouldn&rsquo;t be anything in there, but it&rsquo;s included for completeness.</p>
+<p>References:</p>
+<ul>
+<li><a href="http://www.sco.com/developers/gabi/latest/ch4.sheader.html#special_sections">http://www.sco.com/developers/gabi/latest/ch4.sheader.html#special_sections</a></li>
+<li><a href="https://en.wikipedia.org/wiki/.bss">https://en.wikipedia.org/wiki/.bss</a></li>
+<li><a href="https://gcc.gnu.org/onlinedocs/gcc/Code-Gen-Options.html">https://gcc.gnu.org/onlinedocs/gcc/Code-Gen-Options.html</a> Section -fcommon</li>
+<li><a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/tree/master/firmware/third_party/samd21/gcc/gcc/startup_samd21.c">startup_samd21.c</a></li>
+</ul>
+<p>.bss (NOLOAD) :
+{
+. = ALIGN(4);
+_szero = .;
+*(.bss .bss.*)
+*(COMMON)
+. = ALIGN(4);
+_ezero = .;
+} &gt; ram</p>
+<h2 id="stack-space">Stack space<a hidden class="anchor" aria-hidden="true" href="#stack-space">#</a></h2>
+<p>Cortex-M stacks grow down, so the stack starts at <code>_estack</code> and grows towards <code>_sstack</code>. The startup script sets the vector table&rsquo;s stack pointer to <code>_estack</code> on startup. <code>_sstack</code> is usused but included for completeness.</p>
+<p>The ARM procedure call standard (AAPCS) requires the stack to be aligned on an eight byte boundary.</p>
+<p>References:</p>
+<ul>
+<li><a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/tree/master/firmware/third_party/samd21/gcc/gcc/startup_samd21.c">startup_samd21.c</a></li>
+<li><a href="https://developer.arm.com/documentation/ihi0042/e/">https://developer.arm.com/documentation/ihi0042/e/</a> Section 5.2.1.2, Stack constraints at a public interface</li>
+</ul>
+<p>.stack (NOLOAD):
+{
+. = ALIGN(8);
+_sstack = .;
+. = . + STACK_SIZE;
+. = ALIGN(8);
+_estack = .;
+} &gt; ram</p>
+<h2 id="heap-space">Heap space<a hidden class="anchor" aria-hidden="true" href="#heap-space">#</a></h2>
+<p>If the program uses the malloc and the heap, then <code>_heap_start</code> can be used as the start of the heap. If the program doesn&rsquo;t use the heap then the <code>_heap_start</code> symbol is unused and could be removed. With <code>-specs=nano.specs</code>, the <code>_sbrk</code> syscall has to be implemented for malloc to work:</p>
+<p>extern int _heap_start;</p>
+<p>void *_sbrk(int incr) {
+static unsigned char *heap = NULL;
+unsigned char *prev_heap;</p>
+<pre><code>if (heap \== NULL) {
+    heap \= (unsigned char \*)&amp;\_heap\_start;
+}
+
+prev\_heap \= heap;
+heap += incr;
+
+return prev\_heap;
+</code></pre>
+<p>}</p>
+<p>Another memory layout strategy is to place the stack at the end of RAM and the heap after bss. That way the heap can grow upwards towards the stack and the stack can grow downwards to the heap. However, I&rsquo;m not a big fan of that approach- it&rsquo;s possible for the heap to overwrite the stack. Leaving the entire end of RAM available as the heap works well for my purposes.</p>
+<p>References:</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Sbrk">https://en.wikipedia.org/wiki/Sbrk</a></li>
+<li><a href="https://interrupt.memfault.com/blog/boostrapping-libc-with-newlib">https://interrupt.memfault.com/blog/boostrapping-libc-with-newlib</a></li>
+<li><a href="https://embeddedartistry.com/blog/2017/02/15/implementing-malloc-first-fit-free-list/">https://embeddedartistry.com/blog/2017/02/15/implementing-malloc-first-fit-free-list/</a></li>
+</ul>
+<p>. = ALIGN(4);
+PROVIDE (_heap_start = .);
+_end = . ;
+}</p>
+<h2 id="absolute-symbol-definitions">Absolute symbol definitions<a hidden class="anchor" aria-hidden="true" href="#absolute-symbol-definitions">#</a></h2>
+<p>This section defines some useful absolute symbols for the application to use.</p>
+<p>Symbols for the settings section in the NVM memory block.</p>
+<p>Gemini uses the first half of the NVM block for user settings. This symbol is used by the settings module to know where to load and save settings.</p>
+<p>References:</p>
+<ul>
+<li><a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/tree/master/firmware/src/gem_settings_load_save.c">gem_settings_load_save.c</a></li>
+</ul>
+<p>_nvm_settings_base_address = ORIGIN(nvm);
+_nvm_settings_length = LENGTH(nvm) / 2;</p>
+<p>Symbols for the calibration/look-up table in the NVM memory block.</p>
+<p>Gemini uses the other half of the NVM block to store the factory- calibrated look-up table for translating ADC -&gt; frequency/DAC codes.</p>
+<p>References:</p>
+<ul>
+<li><a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/tree/master/firmware/src/gem_voice_param_table_load_save.c">gem_voice_param_table_load_save.c</a></li>
+</ul>
+<p>_nvm_lut_base_address = ORIGIN(nvm) + LENGTH(nvm) / 2;
+_nvm_lut_length = LENGTH(nvm) / 2;</p>
+<hr>
+<ol>
+<li>Probably. <a href="#fnref:probably" title="Jump back to footnote 1 in the text">↩</a></li>
+</ol>
+<p>👋 Hey, if you found this article useful I would love to <a href="mailto:me@thea.codes">hear from you</a>. If you loved it you can consider <a href="https://ko-fi.com/theacodes">tipping me on Ko-fi</a> or <a href="https://github.com/sponsors/theacodes">sponsoring me</a> on GitHub. I don&rsquo;t get paid for this content, so kind words and support encourage me to create more!</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="uildDrafts/tags/linker-script/">Linker Script</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="uildDrafts/posts/p07-arm-cortex-m-exceptions-and-nvic/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>A Practical guide to ARM Cortex-M Exception Handling</span>
+  </a>
+  <a class="next" href="uildDrafts/posts/p05-example-of-embedded-cmakelists-files/">
+    <span class="title">Next »</span>
+    <br>
+    <span>Example of Embedded CMakeLists Files</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="uildDrafts">福岚溪森</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
