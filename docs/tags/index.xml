@@ -6,7 +6,16 @@
     <description>Recent content in Tags on 福岚溪森</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 14 Oct 2023 16:40:08 +0800</lastBuildDate><atom:link href="https://fanyxok.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 14 Oct 2023 23:26:24 +0800</lastBuildDate><atom:link href="https://fanyxok.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>tags</title>
+      <link>https://fanyxok.github.io/tags/tags/</link>
+      <pubDate>Sat, 14 Oct 2023 23:26:24 +0800</pubDate>
+      
+      <guid>https://fanyxok.github.io/tags/tags/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Bare matel</title>
       <link>https://fanyxok.github.io/tags/bare-matel/</link>
@@ -31,6 +40,51 @@
       <pubDate>Sat, 14 Oct 2023 16:40:08 +0800</pubDate>
       
       <guid>https://fanyxok.github.io/tags/embedded/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>DBus</title>
+      <link>https://fanyxok.github.io/tags/dbus/</link>
+      <pubDate>Thu, 21 Sep 2023 22:39:17 +0800</pubDate>
+      
+      <guid>https://fanyxok.github.io/tags/dbus/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>IPC</title>
+      <link>https://fanyxok.github.io/tags/ipc/</link>
+      <pubDate>Thu, 21 Sep 2023 22:39:17 +0800</pubDate>
+      
+      <guid>https://fanyxok.github.io/tags/ipc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linux</title>
+      <link>https://fanyxok.github.io/tags/linux/</link>
+      <pubDate>Thu, 21 Sep 2023 22:39:17 +0800</pubDate>
+      
+      <guid>https://fanyxok.github.io/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>RPI</title>
+      <link>https://fanyxok.github.io/tags/rpi/</link>
+      <pubDate>Tue, 19 Sep 2023 22:03:19 +0800</pubDate>
+      
+      <guid>https://fanyxok.github.io/tags/rpi/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vim</title>
+      <link>https://fanyxok.github.io/tags/vim/</link>
+      <pubDate>Sun, 10 Sep 2023 23:18:43 +0800</pubDate>
+      
+      <guid>https://fanyxok.github.io/tags/vim/</guid>
       <description></description>
     </item>
     

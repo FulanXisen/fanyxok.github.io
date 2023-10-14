@@ -2,24 +2,44 @@ baseURL: "https://fanyxok.github.io"
 languageCode: 'en-us'
 title: '福岚溪森'
 theme: "PaperMod"
+paginate: 10 # 首页每页显示的文章数
 publishDir: "docs"
 
+enableEmoji: true # 允许使用 Emoji 表情，建议 true
 enableRobotsTXT: true
 enableInlineShortcodes: true
 enableImageShortcodes: true
 
 params:
+    env: production # to enable google analytics, opengraph, twitter-cards and schema.
+    description: "This is a pure personal blog......"
+    author: fanyuxin
+
     defaultTheme: auto
+    disableThemeToggle: false
+    ShowPostNavLinks: true
+    ShowBreadCrumbs: true
+    ShowCodeCopyButtons: true
     ShowReadingTime : true
+    ShowWordCounts: true
+    VisitCount: true
+
+    ShowLastMod: true #显示文章更新时间
+    ShowToc: true # 显示目录
+    TocOpen: false # 自动展开目录
+    comments: true
+
     homeInfoParams:
         Title: 福岚溪森's Blog
         Content: 生命的奇迹
 
     socialIcons: # optional
-        - name: "github"
+        - name: github
           url: "https://github.com/fanyxok"
-        - name: "e-mail"
+        - name: email
           url: "xmsszycz@163.com"
+        - name: RSS
+          url: "index.xml"
     #     - name: "<platform 2>"
     #         url: "<link2>"
             

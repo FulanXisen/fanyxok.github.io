@@ -7,8 +7,8 @@
 <meta name="robots" content="index, follow">
 <title>ARM | 福岚溪森</title>
 <meta name="keywords" content="">
-<meta name="description" content="">
-<meta name="author" content="">
+<meta name="description" content="This is a pure personal blog......">
+<meta name="author" content="fanyuxin">
 <link rel="canonical" href="https://fanyxok.github.io/tags/arm/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.8b523f1730c922e314350296d83fd666efa16519ca136320a93df674d00b6325.css" integrity="sha256-i1I/FzDJIuMUNQKW2D/WZu&#43;hZRnKE2MgqT32dNALYyU=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://fanyxok.github.io/favicon.ico">
@@ -58,13 +58,13 @@
 </noscript><head>
     
 </head><meta property="og:title" content="ARM" />
-<meta property="og:description" content="" />
+<meta property="og:description" content="This is a pure personal blog......" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://fanyxok.github.io/tags/arm/" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="ARM"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:description" content="This is a pure personal blog......"/>
 
 </head>
 
@@ -112,7 +112,7 @@
     </nav>
 </header>
 <main class="main"> 
-<header class="page-header">
+<header class="page-header"><div class="breadcrumbs"><a href="https://fanyxok.github.io">Home</a>&nbsp;»&nbsp;<a href="https://fanyxok.github.io/tags/">Tags</a></div>
   <h1>
     ARM
   </h1>
@@ -135,7 +135,7 @@ ARM Exception Model Overview ARM specification将Exception定义为“a conditio
 Exception Number - 表示特定类型Exception的唯一编号(从1开始). 这个编号也用作Vector Table的offset, 这种类型的Exception对应routine的address可以在这里找到. 这样的routine通常被称为Exception Handler或者Interrupt Service Routine (ISR),它是在Exception触发时会被执行的函数. 当Exception被触发时,ARM硬件会自动的从Vector Table中寻找对应的函数指针并执行. Priority Level / Priority Number - 每种Exception都有一个优先级. 大部分exception的Priority Number是可配置的. 反直觉的地方是, 更小的priority number意味着更高的优先级. 所以如果priority level 1的exception和priority level 2的exception同时发生, priority level 1的exception会先被处理....</p>
   </div>
   <footer class="entry-footer"><span title='2023-05-24 20:29:59 +0800 CST'>May 24, 2023</span>&nbsp;·&nbsp;21 min&nbsp;·&nbsp;4399 words&nbsp;·&nbsp;Me</footer>
-  <a class="entry-link" aria-label="post link to A Practical guide to ARM Cortex-M Exception Handling" href="https://fanyxok.github.io/posts/p07-arm-cortex-m-exceptions-and-nvic/"></a>
+  <a class="entry-link" aria-label="post link to A Practical guide to ARM Cortex-M Exception Handling" href="https://fanyxok.github.io/posts/tech/p07-arm-cortex-m-exceptions-and-nvic/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -153,7 +153,7 @@ Exception Number - 表示特定类型Exception的唯一编号(从1开始). 这�
 Table of Contents Basic Terminology How does it work? Implementing the Limit Registers Initializing the MSPLIM Register Initializing the PSPLIM Register Setting up the UsageFault_Handler Testing our Implementation Limitations and Further Improvements Stack Canary FreeRTOS Buffer Overflow protection Compiler Enabled Overflow Detection GCC SSP Example Practical implementations for GCC stack Canaries Closing References Basic Terminology The ARM Cortex-M33 introduced two new stack limit registers, PSPLIM and MSPLIM 1....</p>
   </div>
   <footer class="entry-footer"><span title='2023-05-03 14:28:46 +0800 CST'>May 3, 2023</span>&nbsp;·&nbsp;11 min&nbsp;·&nbsp;2308 words&nbsp;·&nbsp;Me</footer>
-  <a class="entry-link" aria-label="post link to A Guide to Using ARM Stack Limit Registers" href="https://fanyxok.github.io/posts/p04-using-psp-msp-limit-registers-for-stack-overflow/"></a>
+  <a class="entry-link" aria-label="post link to A Guide to Using ARM Stack Limit Registers" href="https://fanyxok.github.io/posts/tech/p04-using-psp-msp-limit-registers-for-stack-overflow/"></a>
 </article>
     </main>
     

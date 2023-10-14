@@ -9,10 +9,10 @@
     <lastBuildDate>Wed, 03 May 2023 14:28:46 +0800</lastBuildDate><atom:link href="https://fanyxok.github.io/tags/stack-over-flow/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>A Guide to Using ARM Stack Limit Registers</title>
-      <link>https://fanyxok.github.io/posts/p04-using-psp-msp-limit-registers-for-stack-overflow/</link>
+      <link>https://fanyxok.github.io/posts/tech/p04-using-psp-msp-limit-registers-for-stack-overflow/</link>
       <pubDate>Wed, 03 May 2023 14:28:46 +0800</pubDate>
       
-      <guid>https://fanyxok.github.io/posts/p04-using-psp-msp-limit-registers-for-stack-overflow/</guid>
+      <guid>https://fanyxok.github.io/posts/tech/p04-using-psp-msp-limit-registers-for-stack-overflow/</guid>
       <description>Desc Text.</description>
     </item>
     

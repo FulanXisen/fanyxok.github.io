@@ -8,8 +8,8 @@
 <meta name="robots" content="index, follow">
 <title>福岚溪森</title>
 
-<meta name="description" content="">
-<meta name="author" content="">
+<meta name="description" content="This is a pure personal blog......">
+<meta name="author" content="fanyuxin">
 <link rel="canonical" href="https://fanyxok.github.io/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.8b523f1730c922e314350296d83fd666efa16519ca136320a93df674d00b6325.css" integrity="sha256-i1I/FzDJIuMUNQKW2D/WZu&#43;hZRnKE2MgqT32dNALYyU=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://fanyxok.github.io/favicon.ico">
@@ -60,13 +60,13 @@
 </noscript><head>
     
 </head><meta property="og:title" content="福岚溪森" />
-<meta property="og:description" content="" />
+<meta property="og:description" content="This is a pure personal blog......" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://fanyxok.github.io/" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="福岚溪森"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:description" content="This is a pure personal blog......"/>
 
 <script type="application/ld+json">
 {
@@ -74,10 +74,10 @@
   "@type": "Organization",
   "name": "福岚溪森",
   "url": "https://fanyxok.github.io",
-  "description": "",
+  "description": "This is a pure personal blog......",
   "thumbnailUrl": "https://fanyxok.github.io/favicon.ico",
   "sameAs": [
-      "https://github.com/fanyxok", "xmsszycz@163.com"
+      "https://github.com/fanyxok", "xmsszycz@163.com", "index.xml"
   ]
 }
 </script>
@@ -144,11 +144,19 @@
     </path>
 </svg>
     </a>
-    <a href="xmsszycz@163.com" target="_blank" rel="noopener noreferrer me" title="E-Mail">
+    <a href="xmsszycz@163.com" target="_blank" rel="noopener noreferrer me" title="Email">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 21" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+    <polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+    </a>
+    <a href="index.xml" target="_blank" rel="noopener noreferrer me" title="RSS">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
     stroke-linecap="round" stroke-linejoin="round">
-    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+    <path d="M4 11a9 9 0 0 1 9 9" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <circle cx="5" cy="19" r="1" />
 </svg>
     </a>
 </div>
@@ -169,7 +177,82 @@ Digging into the ARMv6-M Technical Reference Manual, which is the underlying arc
 // B1.5.5 TakeReset() // ============ TakeReset() VTOR = Zeros(32); for i = 0 to 12 R[i] = bits(32) UNKNOWN; bits(32) vectortable = VTOR; CurrentMode = Mode_Thread; LR = bits(32) UNKNOWN; // Value must be initialised by software APSR = bits(32) UNKNOWN; // Flags UNPREDICTABLE from reset IPSR&lt;5:0&gt; = Zeros(6); // Exception number cleared at reset PRIMASK....</p>
   </div>
   <footer class="entry-footer"><span title='2023-10-14 16:40:08 +0800 CST'>October 14, 2023</span>&nbsp;·&nbsp;59 min&nbsp;·&nbsp;12415 words&nbsp;·&nbsp;fanyuxin</footer>
-  <a class="entry-link" aria-label="post link to Embedded System from Zero to Main()" href="https://fanyxok.github.io/posts/embedded_system_from_zero_to_main/"></a>
+  <a class="entry-link" aria-label="post link to Embedded System from Zero to Main()" href="https://fanyxok.github.io/posts/tech/embedded_system_from_zero_to_main/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover"><img loading="lazy" src="https://fanyxok.github.io/%3Cimage%20path/url%3E" alt="">
+</figure>
+  <header class="entry-header">
+    <h2>Linux DBus IPC System
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>1. 概述 DBus是一个消息总线系统，允许不同的进程在分布式环境中进行通信。它是Linux世界广泛采用的强大工具，使应用程序能够无缝共享数据并相互交互。
+在本教程中，我们将详细探讨DBus，并了解它在Linux桌面环境中的使用方式。
+2. DBus DBus是一个进程间通信（IPC）系统，允许在单个系统或不同系统上运行的两个或多个进程之间进行通信。它为这些进程提供了一种简单、标准和安全的交换数据和命令的方式。因此，它消除了队复杂、容易出错的通信机制的需求，如套接字(sockets)或管道(pipes)。
+此外，由于具有语言独立性，我们可以通过多种编程语言（如C、C&#43;&#43;、Python等）使用DBus。这种灵活性使不同的系统组件能够协同工作，从而更容易创建复杂的应用程序。
+此外，通过DBus，我们可以构建一个用于系统范围事件和通知的消息系统，允许应用程序订阅事件，如设备插入或移除、网络更改和电源事件。
+2.1. Components DBus系统由三个主要组件组成 - 总线(bus)、服务(service)和接口(interface)。
+第一个组件, 总线, 是所有支持DBus的应用程序的主要通信点，负责在应用程序之间路由消息，使标准化的服务注册和发现变得更容易。有两种类型的总线可用 - 系统总线(system bus)和会话总线(session bus)。
+第二个组件，服务，是为其他应用程序提供一个或多个接口的应用程序。服务会自行注册到总线上，使其他应用程序能够发现它们。
+最后的组件，接口, 是一个服务向外部公开的方法(methods)、信号(signals)和属性(properties)的集合。方法是其他应用程序可调用的函数，信号是服务发出的用于通知其他应用程序发生更改的事件，而属性是其他应用程序可以读取或写入的值。
+除了这三个主要组件，DBus还包括对象的概念，对象是服务的实例，公开一个或多个接口。对象具有用于在总线上寻址它们的唯一对象路径。
+2.2. Architecture DBus具有客户端-服务器架构，服务器充当消息总线，客户端发送和接收消息。服务器负责维护所有可用服务和对象的注册表，而客户端可以通过服务器访问这些服务和对象。
+我们应该注意，DBus使用模块化架构，不同的组件负责不同的任务。架构的核心是消息总线守护进程，负责管理不同进程之间的通信。守护进程维护所有可用服务和对象的注册表，并在客户端和服务器之间路由消息。
+但是，要与消息总线守护进程交互，应用程序可以使用客户端库，这些库提供了用于发送和接收消息、注册服务以及监听事件的API。
+最后，服务提供者向消息总线守护进程注册其服务，使其他应用程序能够访问它们。
+3. DBus in Linux Desktop Environments 大多数桌面环境都集成了DBus。因此，我们可以使用不同的编程语言和环境开发系统应用程序，并通过DBus进行交互。
+3.1. GNOME 让我们从GNOME的示例开始，这是最流行的桌面环境。GNOME广泛使用DBus来促进应用程序之间的通信。例如，在GNOME中更改音量时，声音小部件通过DBus发送消息给声音守护进程以调整音量。
+类似地，当我们插入USB驱动器时，文件管理器通过DBus向系统守护进程发送消息以挂载驱动器。
+此外，GNOME Shell的扩展广泛使用DBus。Shell扩展可以添加新功能或更改桌面的外观和感觉。DBus建立了GNOME Shell与Shell扩展之间的通信。例如，在GNOME Shell中单击网络图标时，会通过DBus发送消息给网络管理器以显示可用的Wi-Fi网络。
+3.2. KDE and Xfce 在 KDE &amp; Xfce 桌面环境中，系统应用程序使用一组DBus接口进行交互。例如，这两个桌面环境的NetworkManager小部件都使用DBus与NetworkManager服务通信并管理网络连接。
+此外，KDE和Xfce Power Management系统提供了一个DBus接口来监视系统电源状态并调整电源设置。它们还提供了一个DBus接口来管理显示亮度。
+此外，KDE Plasma Desktop Shell广泛使用DBus，允许应用程序与桌面互动并向其他应用程序公开各种系统服务。例如，Plasma通知系统使用DBus向其他应用程序发送通知，使它们能够向用户显示消息。
+类似地，Xfce会话管理器使用DBus允许应用程序注册为启动应用程序，并在我们登录Linux时自动启动。它还使用DBus在我们注销并重新登录时保存和恢复用户会话。
+4. Using DBus 现在我们了解了DBus以及它在Linux桌面中的使用，让我们探讨它在Linux系统中的实际用途。
+4.1. With System Services DBus最常见的用途是与系统服务进行交互。系统服务和守护进程通过DBus接口公开其功能，允许其他应用程序和服务与它们连接。...</p>
+  </div>
+  <footer class="entry-footer"><span title='2023-09-21 22:39:17 +0800 CST'>September 21, 2023</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;419 words&nbsp;·&nbsp;福岚溪森</footer>
+  <a class="entry-link" aria-label="post link to Linux DBus IPC System" href="https://fanyxok.github.io/posts/tech/linux-dbus/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover"><img loading="lazy" src="https://fanyxok.github.io/%3Cimage%20path/url%3E" alt="">
+</figure>
+  <header class="entry-header">
+    <h2>Things About RPI 4B
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>SSH to RPI (Ethernet Cable) ssh fanyx@pi.local where pi is the hostname of rpi.
+This instruction doesn’t need a address.</p>
+  </div>
+  <footer class="entry-footer"><span title='2023-09-19 22:03:19 +0800 CST'>September 19, 2023</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;20 words&nbsp;·&nbsp;Me</footer>
+  <a class="entry-link" aria-label="post link to Things About RPI 4B" href="https://fanyxok.github.io/posts/tech/device-rpi-4b/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover"><img loading="lazy" src="https://fanyxok.github.io/%3Cimage%20path/url%3E" alt="">
+</figure>
+  <header class="entry-header">
+    <h2>我的Neovim心得
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>NeoVim的基本用法及我的配置教程 Neovim是Vim的现代版本, 早于Vim提供异步任务特性, 更新激进, 社区活跃.
+[toc] VIM的作者去世了,我刚接触编程的时候使用的第一个编辑器就是VIM,但是还不知道VIM插件的存在,在没有任何提示辅助的条件下编写完成了很多个Python程序. 后来知道了VIM插件, 在一通极其复杂的copy-paste配置之后运行ctags检索符号. vscode很快发布了, 我也因为vscode大而全又方便使用了很多年的vscode. 再后来我感到编写程序的过程在完成构思之后,最大的限制就是编辑效率, 经常觉得编辑效率跟不上我预期的开发速度. 在vscode上又启用了VIM键位, 但是VIM插件终究是一个模拟器, 模拟了VIM的键位但是缺少VIM的更多指令. 另一个感受是vscode上插件的日新月异, 与我一次学习终身受用的出发点背道而驰. 我决定重新回归VIM的怀抱. NeoVim是Vim的现代版本, 社区远比Vim更活跃, 并且可以看到持续的活跃. 以NeoVim作为回归Vim的终点, 应该是最好的选择.
+安装引导 Nvim的配置文件默认位于~/.config/nvim/目录, 默认配置文件init.lua. 插件管理器选择LazyNvim, 这个插件管理器界面和配置现代一些, 配置文件里面不需要很多分隔符, 用起来还可以.
+配置C/CPP开发环境 任何编程语言的开发环境, 在能力上应包含三个功能:
+符号查找: 查找变量和函数的声明、定义和引用 重构: 变量和函数的重命名 代码补全 在显示上应提供的功能:
+(侧边)(常驻)文件浏览器 (侧边)(常驻)code layout/outline git 集成: make diff、checkout operations fast 搜索功能:
+按文件名搜索文件 按字符搜索出现位置 按正则规则进行以上搜索 插件的选择 IDE三大件 符号查找 符号查找有两种方案, 第一代的语法树方案, 第二代LSP方案
+查找声明 局部变量或者全局变量的声明由于局限于一定的作用域, 并不难找.
+查找定义 函数的定义可能会出现在不同的位置, 由编译宏开关控制真实采用的定义. 所以查找符号要有确定当前环境宏定义的能力, 才能找到正确的定义.
+查找引用 与函数有多个定义类似, 相同签名的不同函数定义也分别有其应用. 它们不一定是互斥的, 也可能是相交或者包含等等关系....</p>
+  </div>
+  <footer class="entry-footer"><span title='2023-09-10 23:18:43 +0800 CST'>September 10, 2023</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;77 words&nbsp;·&nbsp;Me</footer>
+  <a class="entry-link" aria-label="post link to 我的Neovim心得" href="https://fanyxok.github.io/posts/tech/neovim-usage/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -189,7 +272,7 @@ ARM Exception Model Overview ARM specification将Exception定义为“a conditio
 Exception Number - 表示特定类型Exception的唯一编号(从1开始). 这个编号也用作Vector Table的offset, 这种类型的Exception对应routine的address可以在这里找到. 这样的routine通常被称为Exception Handler或者Interrupt Service Routine (ISR),它是在Exception触发时会被执行的函数. 当Exception被触发时,ARM硬件会自动的从Vector Table中寻找对应的函数指针并执行. Priority Level / Priority Number - 每种Exception都有一个优先级. 大部分exception的Priority Number是可配置的. 反直觉的地方是, 更小的priority number意味着更高的优先级. 所以如果priority level 1的exception和priority level 2的exception同时发生, priority level 1的exception会先被处理....</p>
   </div>
   <footer class="entry-footer"><span title='2023-05-24 20:29:59 +0800 CST'>May 24, 2023</span>&nbsp;·&nbsp;21 min&nbsp;·&nbsp;4399 words&nbsp;·&nbsp;Me</footer>
-  <a class="entry-link" aria-label="post link to A Practical guide to ARM Cortex-M Exception Handling" href="https://fanyxok.github.io/posts/p07-arm-cortex-m-exceptions-and-nvic/"></a>
+  <a class="entry-link" aria-label="post link to A Practical guide to ARM Cortex-M Exception Handling" href="https://fanyxok.github.io/posts/tech/p07-arm-cortex-m-exceptions-and-nvic/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -207,7 +290,7 @@ The most thoroughly commented linker script (probably) 链接脚本控制着链�
 /* The Most Thoroughly Commented Linker Script in The World This is a linker script for the Atmel/Microchip SAM D21 with an absolutely obscene amount of documentation. */ /* OUTPUT_FORMAT configures the linker to use a platform-specific BFD backend to generate ELF files. BFD backends instruct the linker on how to properly create the ELF sections for a given platform....</p>
   </div>
   <footer class="entry-footer"><span title='2023-05-04 17:58:33 +0800 CST'>May 4, 2023</span>&nbsp;·&nbsp;21 min&nbsp;·&nbsp;4282 words&nbsp;·&nbsp;Me</footer>
-  <a class="entry-link" aria-label="post link to 最透彻的链接器脚本注释" href="https://fanyxok.github.io/posts/p06-the-most-thoroughly-commented-linker-script/"></a>
+  <a class="entry-link" aria-label="post link to 最透彻的链接器脚本注释" href="https://fanyxok.github.io/posts/tech/p06-the-most-thoroughly-commented-linker-script/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -223,7 +306,7 @@ Many embedded software engineers have had to deal with build systems that are ei
 CMake is a build system that offers solutions to many of those problems and is already well adopted in the world of traditional software development....</p>
   </div>
   <footer class="entry-footer"><span title='2023-05-03 23:38:47 +0800 CST'>May 3, 2023</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;1127 words&nbsp;·&nbsp;Me</footer>
-  <a class="entry-link" aria-label="post link to Example of Embedded CMakeLists Files" href="https://fanyxok.github.io/posts/p05-example-of-embedded-cmakelists-files/"></a>
+  <a class="entry-link" aria-label="post link to Example of Embedded CMakeLists Files" href="https://fanyxok.github.io/posts/tech/p05-example-of-embedded-cmakelists-files/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -241,7 +324,7 @@ CMake is a build system that offers solutions to many of those problems and is a
 Table of Contents Basic Terminology How does it work? Implementing the Limit Registers Initializing the MSPLIM Register Initializing the PSPLIM Register Setting up the UsageFault_Handler Testing our Implementation Limitations and Further Improvements Stack Canary FreeRTOS Buffer Overflow protection Compiler Enabled Overflow Detection GCC SSP Example Practical implementations for GCC stack Canaries Closing References Basic Terminology The ARM Cortex-M33 introduced two new stack limit registers, PSPLIM and MSPLIM 1....</p>
   </div>
   <footer class="entry-footer"><span title='2023-05-03 14:28:46 +0800 CST'>May 3, 2023</span>&nbsp;·&nbsp;11 min&nbsp;·&nbsp;2308 words&nbsp;·&nbsp;Me</footer>
-  <a class="entry-link" aria-label="post link to A Guide to Using ARM Stack Limit Registers" href="https://fanyxok.github.io/posts/p04-using-psp-msp-limit-registers-for-stack-overflow/"></a>
+  <a class="entry-link" aria-label="post link to A Guide to Using ARM Stack Limit Registers" href="https://fanyxok.github.io/posts/tech/p04-using-psp-msp-limit-registers-for-stack-overflow/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -256,7 +339,7 @@ Table of Contents Basic Terminology How does it work? Implementing the Limit Reg
 // Yshare The label and pointer are stored in a []byte, [0:len-1]byte, is the label, and [len-1]byte is the pointer type Yshare struct { // Yshare is a share of l bit, Plaintext is a l-bit number Plaintext pub.PubNum wValue [][]byte // wValue[i] is the i-th bit&#39;s label and pointer, activated wTable [][2][]byte // wValue[i][0] is the i-th bit&#39;s label and pointer of value 0, wValue[i][1] of value 1 } Yshare contains three fields:...</p>
   </div>
   <footer class="entry-footer"><span title='2023-04-28 15:45:15 +0800 CST'>April 28, 2023</span>&nbsp;·&nbsp;9 min&nbsp;·&nbsp;1814 words&nbsp;·&nbsp;Me</footer>
-  <a class="entry-link" aria-label="post link to Yao&#39;s Protocol Impl in MPCFGO" href="https://fanyxok.github.io/posts/p03-yao-impl/"></a>
+  <a class="entry-link" aria-label="post link to Yao&#39;s Protocol Impl in MPCFGO" href="https://fanyxok.github.io/posts/tech/p03-yao-impl/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -268,72 +351,8 @@ Table of Contents Basic Terminology How does it work? Implementing the Limit Reg
     <p>ARM Cortex-M RTOS Context Switching 30 Oct 2019 by Chris Coleman
 Many embedded systems reach a level of complexity where having a basic set of scheduling primitives and ability to run different tasks can be helpful. The operation of switching from one task to another is known as a context switch. A Real Time Operating System (RTOS) will typically provide this functionality. Having a foundational knowledge of how the core of an RTOS works can be a valuable skill set for an embedded engineer to have....</p>
   </div>
-  <footer class="entry-footer"><span title='2023-04-27 21:21:59 +0800 CST'>April 27, 2023</span>&nbsp;·&nbsp;31 min</footer>
-  <a class="entry-link" aria-label="post link to ARM Cortex-M RTOS Context Switching" href="https://fanyxok.github.io/posts/p02-cortex-m-context-switching/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>How to debug a HardFault on an ARM Cortex-M MCU
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>How to debug a HardFault on an ARM Cortex-M MCU 20 Nov 2019 by Chris Coleman
-Faults happen on embedded devices all the time for a variety of reasons – ranging from something as simple as a NULL pointer dereference to something more unexpected like running a faulty code path only when in a zero-g environment on the Tower of Terror in Disneyland1. It’s important for any embedded engineer to understand how to debug and resolve this class of issue quickly....</p>
-  </div>
-  <footer class="entry-footer"><span title='2023-04-27 21:21:59 +0800 CST'>April 27, 2023</span>&nbsp;·&nbsp;31 min</footer>
-  <a class="entry-link" aria-label="post link to How to debug a HardFault on an ARM Cortex-M MCU" href="https://fanyxok.github.io/posts/p01-cortex-m-fault/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>IEEE745浮点数表示法
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>32-bit 表示一个单精度浮点数 float
-$V=(-1)^s \times M \times 2^E$ 32-bit 分为3部分： S, E, M
-S: 符号位，1bit，0 表示正数， -1 表示负数 E: 指数位，8bit，取值[-127, 128]. M: 尾数位，23bit，取值[0, $2^{23}-1$]. 指数的底固定为2，指数有正数也有负数，但指数部分没有符号位，取一个中间值，小于中间值的表示负数，等于中间值的表示0，大于中间值的表示正数，中间值的定义如下：Bias=$2^{k-1}$-1, k表示E的bit数。实际的E为E-Bias.
-尾数部分隐藏了小数点前的1，实际为1.M。M转换为十进制从高位开始计算： $1&#43;b_{22}\times\frac{1}{2}&#43;b_{21}\times\frac{1}{4}&#43;…&#43;b_{0}\times\frac{1}{2^{23}}$
-规格化的表示，E不是全0，也不是全1，M任意取值
-E全为0时，表示&#43;0.0, -0.0和接近0.0的值
-E全为1，M全为0时，表示无穷，符号位区分正无穷和负无穷
-E全为1，M不全为0时，表示NaN，不是一个数。</p>
-  </div>
-  <footer class="entry-footer"><span title='2022-07-22 10:44:05 +0800 CST'>July 22, 2022</span>&nbsp;·&nbsp;1 min</footer>
-  <a class="entry-link" aria-label="post link to IEEE745浮点数表示法" href="https://fanyxok.github.io/posts/ieee745/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>AES对称加密
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>AES 对称密钥加密中最流行的算法之一, 除加密以外还可以用于构建消息认证码, 伪随机函数等密码工具
-AES的区块长度固定为128比特，密钥长度则可以是128，192或256比特
-分组密码工作模式 使用同一个区块密码密钥对多于一块的数据进行加密
-区块密码自身只能加密长度等于密码区块长度的单块数据，若要加密变长数据，则数据必须先被划分为一些单独的密码块
-最后一块数据也需要使用合适填充方式将数据扩展到符合密码块大小的长度
-一种工作模式描述了加密每一数据块的过程，并常常使用基于一个通常称为初始化向量的附加输入值以进行随机化，以保证安全。
-初始化向量IV 许多工作模式中用于将加密随机化的一个位块，由此即使同样的明文被多次加密也会产生不同的密文，避免了较慢的重新产生密钥的过程。
-初始化向量与密钥相比有不同的安全性需求，因此IV通常无须保密，然而在大多数情况中，不应当在使用同一密钥的情况下两次使用同一个IV. 对于CBC和CFB，重用IV会导致泄露明文首个块的某些信息，亦包括两个不同消息中相同的前缀。 对于OFB和CTR而言，重用IV会导致完全失去安全性。
-在CBC模式中，IV在加密时必须是无法预测的. SSL2.0使用的采用上一个消息的最后一块密文作为下一个消息的IV，是不安全的
-Padding ECB和CBC需要最后一块在加密前进行填充
-在明文的最后填充空字符以使其长度为块长度的整数倍 在数据后添加一个1位，再添加足够的0位直到满足块长度的要求 添加一个值为128的字节（十六进制的80），再以0字节填满最后一个块 向最后一个块填充n个值均为n的字节 密文窃取 等等 常用模式 电子密码本（ECB） 需要加密的消息按照块密码的块大小被分为数个块，并对每个块进行独立加密。
-缺点在于同样的明文块会被加密成相同的密文块；它不能很好的隐藏数据模式。在某些场合，这种方法不能提供严格的数据保密性，因此并不推荐用于密码协议中。
-易受到重放攻击的影响，因为每个块是以完全相同的方式解密的.
-密码块链接（CBC） 每个明文块先与前一个密文块进行异或后，再进行加密. 为了保证每条消息的唯一性，在第一个块中需要使用初始化向量。
-主要缺点在于加密过程是串行的，无法被并行化，而且消息必须被填充到块大小的整数倍。在解密时，从两个邻接的密文块中即可得到一个明文块。因此，解密过程可以被并行化.
-填充密码块链接（PCBC） 每个明文块先与前一个明文块和密文块进行异或后再进行加密, 互换两个邻接的密文块不会对后续块的解密造成影响
-密文反馈（CFB，Cipher feedback） 类似于CBC，可以将块密码变为自同步的流密码；工作过程亦非常相似，CFB的解密过程几乎就是颠倒的CBC的加密过程
-输出反馈模式（Output feedback, OFB） 将块密码变成同步的流密码。它产生密钥流的块，然后将其与明文块进行异或，得到密文。 与其它流密码一样，密文中一个位的翻转会使明文中同样位置的位也产生翻转。这种特性使得许多错误校正码，例如奇偶校验位，即使在加密前计算，而在加密后进行校验也可以得出正确结果。 每个使用OFB的输出块与其前面所有的输出块相关，因此不能并行化处理。然而，由于明文和密文只在最终的异或过程中使用，因此可以事先对IV进行加密，最后并行的将明文或密文进行并行的异或处理。
-计数器模式（CTR） CTR模式的特征类似于OFB，但它允许在解密时进行随机存取。由于加密和解密过程均可以进行并行处理，CTR适合运用于多处理器的硬件上。
-其他 消息认证码（MAC）通常由块密码得到，例如CBC-MAC（英语：CBC-MAC），OMAC（英语：One-key_MAC）和PMAC（英语：PMAC_(cryptography)）。
-认证加密也采用块密码作为其中的一部，其同时使用加密和MAC以提供保密性和数据完整性，例如IAPM（英语：IAPM_(mode)），CCM（英语：CCM_mode），CWC（英语：CWC_mode），EAX（英语：EAX_mode），GCM（英语：Galois/Counter_Mode）和OCB（英语：OCB_mode）。</p>
-  </div>
-  <footer class="entry-footer"><span title='2022-07-21 17:31:28 +0800 CST'>July 21, 2022</span>&nbsp;·&nbsp;1 min</footer>
-  <a class="entry-link" aria-label="post link to AES对称加密" href="https://fanyxok.github.io/posts/aes/"></a>
+  <footer class="entry-footer"><span title='2023-04-27 21:21:59 +0800 CST'>April 27, 2023</span>&nbsp;·&nbsp;31 min&nbsp;·&nbsp;fanyuxin</footer>
+  <a class="entry-link" aria-label="post link to ARM Cortex-M RTOS Context Switching" href="https://fanyxok.github.io/posts/tech/p02-cortex-m-context-switching/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

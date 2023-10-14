@@ -23,7 +23,7 @@ $\mathbb{G}$的阶$q$有素数因数$\{p_{i}\}^k_{i=1}$, 检查元素$h$是否�
 for $i = 1$ to $k$ : if $h^{q/p_{i}}=1$ return &ldquo;$h$ is not a generator&rdquo; return &ldquo;$h$ is a generator&rdquo; $\mathbb{G}$有阶$q$,生成元$g$, 则任意一个元素可以表示为$h=g^{x}$.
 当gcd($x,q$)=1时, $h$也是$\mathbb{G}$的一个生成元. Oblivious Transfer from Cyclic Group Reference:
 More efficient oblivious transfer and extensions for faster secure computation">
-<meta name="author" content="">
+<meta name="author" content="fanyuxin">
 <link rel="canonical" href="https://fanyxok.github.io/posts/otandcylicgroup/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.8b523f1730c922e314350296d83fd666efa16519ca136320a93df674d00b6325.css" integrity="sha256-i1I/FzDJIuMUNQKW2D/WZu&#43;hZRnKE2MgqT32dNALYyU=" rel="preload stylesheet" as="style">
 <script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
@@ -165,6 +165,10 @@ More efficient oblivious transfer and extensions for faster secure computation"/
   "inLanguage": "en",
   "datePublished": "2022-07-19T19:03:35+08:00",
   "dateModified": "2022-07-19T19:03:35+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "fanyuxin"
+  },
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "https://fanyxok.github.io/posts/otandcylicgroup/"
@@ -228,14 +232,43 @@ More efficient oblivious transfer and extensions for faster secure computation"/
 
 <article class="post-single">
   <header class="post-header">
-    
+    <div class="breadcrumbs"><a href="https://fanyxok.github.io">Home</a>&nbsp;»&nbsp;<a href="https://fanyxok.github.io/posts/">Posts</a></div>
     <h1 class="post-title">
       Oblivious Transfer and Cyclic Group
     </h1>
-    <div class="post-meta"><span title='2022-07-19 19:03:35 +0800 CST'>July 19, 2022</span>&nbsp;·&nbsp;2 min
+    <div class="post-meta"><span title='2022-07-19 19:03:35 +0800 CST'>July 19, 2022</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;fanyuxin
 
 </div>
-  </header> 
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#cyclic-group" aria-label="Cyclic Group">Cyclic Group</a><ul>
+                        
+                <li>
+                    <a href="#%e5%ae%9a%e4%b9%89" aria-label="定义">定义</a></li>
+                <li>
+                    <a href="#%e5%a6%82%e4%bd%95%e5%af%bb%e6%89%be%e4%b8%80%e4%b8%aa%e7%94%9f%e6%88%90%e5%85%83" aria-label="如何寻找一个生成元">如何寻找一个生成元</a></li></ul>
+                </li>
+                <li>
+                    <a href="#oblivious-transfer-from-cyclic-group" aria-label="Oblivious Transfer from Cyclic Group">Oblivious Transfer from Cyclic Group</a><ul>
+                        
+                <li>
+                    <a href="#fast-notes" aria-label="Fast Notes">Fast Notes</a></li>
+                <li>
+                    <a href="#discussion" aria-label="Discussion">Discussion</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
   <div class="post-content"><h2 id="cyclic-group">Cyclic Group<a hidden class="anchor" aria-hidden="true" href="#cyclic-group">#</a></h2>
 <h3 id="定义">定义<a hidden class="anchor" aria-hidden="true" href="#定义">#</a></h3>
 <p>$$\langle\mathbb{G},q,g \rangle$$</p>
@@ -324,6 +357,19 @@ More efficient oblivious transfer and extensions for faster secure computation"/
   <footer class="post-footer">
     <ul class="post-tags">
     </ul>
+<nav class="paginav">
+  <a class="prev" href="https://fanyxok.github.io/posts/my-first-post/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>My First Post</span>
+  </a>
+  <a class="next" href="https://fanyxok.github.io/posts/control-bluetooth-device-via-bluetoothctl/">
+    <span class="title">Next »</span>
+    <br>
+    <span></span>
+  </a>
+</nav>
+
   </footer>
 </article>
     </main>
@@ -395,6 +441,53 @@ More efficient oblivious transfer and extensions for faster secure computation"/
         }
     })
 
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
 </script>
 </body>
 

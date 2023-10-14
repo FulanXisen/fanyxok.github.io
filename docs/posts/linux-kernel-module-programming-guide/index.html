@@ -10,7 +10,7 @@
 <meta name="description" content="Linux Kernel Module Programming Guide [TOC]
 Easy Begin 内核模块包 编程内核模块首先要安装内核模块包kmod.
 sudo apt-get install build-essential kmod 命令行的内核模块相关命令 sudo lsmod # 查看所有加载进内核的模块 sudo cat /proc/modules # 和lsmod有什么不同 sudo modinfo ABC_x.ko # 查看模块ABC的信息 sudo insmod ABC_x.ko # 向内核中加载模块ABC sudo rmmod ABC-x # 从内核中卸载模块ABC, 注意ABC_x.ko名称中的&#39;_&#39;字符会被内核自动替换成&#39;-&#39;字符 sudo journalctl --since &#34;1 hour ago&#34; | grep kernel # 查看过去一小时内的内核日志 编码前须知 版本. 如果编译模块A时include的内核头文件版本与加载模块A的内核版本不一致, 会导致加载失败. 如果必须要这样做, 例如模块A兼容多个内核版本, 需要启用CONFIG_MODVERSIONS编译制导. 命令行. 内核模块无法打印输出到屏幕,但可以记录日志信息然后读取日志信息到屏幕. SecureBoot. SecureBoot是UEFI的一个设置, 要求只会引导安全密钥签名过的模块. [Shell]ERROR: could not insert module. [dmesg]Lockdown: insmod: unsigned module loading is restricted; see man kernel lockdown.">
-<meta name="author" content="">
+<meta name="author" content="fanyuxin">
 <link rel="canonical" href="https://fanyxok.github.io/posts/linux-kernel-module-programming-guide/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.8b523f1730c922e314350296d83fd666efa16519ca136320a93df674d00b6325.css" integrity="sha256-i1I/FzDJIuMUNQKW2D/WZu&#43;hZRnKE2MgqT32dNALYyU=" rel="preload stylesheet" as="style">
 <script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
@@ -111,6 +111,10 @@ sudo apt-get install build-essential kmod 命令行的内核模块相关命令 s
   "inLanguage": "en",
   "datePublished": "0001-01-01T00:00:00Z",
   "dateModified": "0001-01-01T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "fanyuxin"
+  },
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "https://fanyxok.github.io/posts/linux-kernel-module-programming-guide/"
@@ -174,14 +178,141 @@ sudo apt-get install build-essential kmod 命令行的内核模块相关命令 s
 
 <article class="post-single">
   <header class="post-header">
-    
+    <div class="breadcrumbs"><a href="https://fanyxok.github.io">Home</a>&nbsp;»&nbsp;<a href="https://fanyxok.github.io/posts/">Posts</a></div>
     <h1 class="post-title">
       
     </h1>
-    <div class="post-meta">9 min
+    <div class="post-meta">9 min&nbsp;·&nbsp;fanyuxin
 
 </div>
-  </header> 
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#linux-kernel-module-programming-guide" aria-label="Linux Kernel Module Programming Guide">Linux Kernel Module Programming Guide</a><ul>
+                        
+                <li>
+                    <a href="#easy-begin" aria-label="Easy Begin">Easy Begin</a><ul>
+                        
+                <li>
+                    <a href="#%e5%86%85%e6%a0%b8%e6%a8%a1%e5%9d%97%e5%8c%85" aria-label="内核模块包">内核模块包</a></li>
+                <li>
+                    <a href="#%e5%91%bd%e4%bb%a4%e8%a1%8c%e7%9a%84%e5%86%85%e6%a0%b8%e6%a8%a1%e5%9d%97%e7%9b%b8%e5%85%b3%e5%91%bd%e4%bb%a4" aria-label="命令行的内核模块相关命令">命令行的内核模块相关命令</a></li>
+                <li>
+                    <a href="#%e7%bc%96%e7%a0%81%e5%89%8d%e9%a1%bb%e7%9f%a5" aria-label="编码前须知">编码前须知</a></li>
+                <li>
+                    <a href="#%e5%86%85%e6%a0%b8%e5%a4%b4%e6%96%87%e4%bb%b6" aria-label="内核头文件">内核头文件</a></li>
+                <li>
+                    <a href="#%e7%bc%96%e7%a0%81%e8%a7%84%e8%8c%83" aria-label="编码规范">编码规范</a></li>
+                <li>
+                    <a href="#%e4%b8%80%e4%b8%aa%e6%9e%81%e7%ae%80%e5%86%85%e6%a0%b8%e6%a8%a1%e5%9d%97%e7%a4%ba%e4%be%8b" aria-label="一个极简内核模块示例">一个极简内核模块示例</a></li>
+                <li>
+                    <a href="#%e7%bc%96%e8%af%91%e5%a4%9a%e4%b8%aa%e6%96%87%e4%bb%b6%e7%bb%84%e6%88%90%e7%9a%84%e6%a8%a1%e5%9d%97" aria-label="编译多个文件组成的模块">编译多个文件组成的模块</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e8%ae%be%e5%a4%87%e9%a9%b1%e5%8a%a8%e7%a8%8b%e5%ba%8f%e8%a7%86%e8%a7%92%e4%b8%8b%e7%9a%84%e5%86%85%e6%a0%b8%e6%a8%a1%e5%9d%97" aria-label="设备驱动程序视角下的内核模块">设备驱动程序视角下的内核模块</a></li>
+                <li>
+                    <a href="#%e6%a8%a1%e5%9d%97%e5%a6%82%e4%bd%95%e5%bc%80%e5%a7%8b%e5%92%8c%e7%bb%93%e6%9d%9f" aria-label="模块如何开始和结束">模块如何开始和结束</a></li>
+                <li>
+                    <a href="#%e6%a8%a1%e5%9d%97%e5%8f%af%e7%94%a8%e7%9a%84%e5%87%bd%e6%95%b0" aria-label="模块可用的函数">模块可用的函数</a></li>
+                <li>
+                    <a href="#dmesg%e8%af%bb%e5%8f%96%e6%a8%a1%e5%9d%97%e6%97%a5%e5%bf%97" aria-label="dmesg读取模块日志"><code>dmesg</code>读取模块日志</a></li>
+                <li>
+                    <a href="#user-space-vs-kernel-space" aria-label="User Space vs Kernel Space">User Space vs Kernel Space</a></li>
+                <li>
+                    <a href="#name-space" aria-label="Name Space">Name Space</a></li>
+                <li>
+                    <a href="#code-space" aria-label="Code Space">Code Space</a></li>
+                <li>
+                    <a href="#device-driver" aria-label="Device Driver">Device Driver</a></li>
+                <li>
+                    <a href="#%e5%ad%97%e7%ac%a6%e8%ae%be%e5%a4%87%e9%a9%b1%e5%8a%a8%e7%a8%8b%e5%ba%8f" aria-label="字符设备驱动程序">字符设备驱动程序</a></li>
+                <li>
+                    <a href="#proc-module%e5%90%91process%e5%8f%91%e9%80%81%e4%bf%a1%e6%81%af" aria-label="/proc: Module向Process发送信息"><code>/proc</code>: Module向Process发送信息</a></li>
+                <li>
+                    <a href="#sys%e8%af%bb%e5%86%99module%e5%86%85%e9%83%a8%e7%9a%84%e5%8f%98%e9%87%8f" aria-label="/sys：读写Module内部的变量"><code>/sys</code>：读写Module内部的变量</a></li>
+                <li>
+                    <a href="#%e4%b8%8e%e8%ae%be%e5%a4%87%e6%96%87%e4%bb%b6%e5%af%b9%e8%af%9d" aria-label="与设备文件对话">与设备文件对话</a></li>
+                <li>
+                    <a href="#system-calls" aria-label="System Calls">System Calls</a></li>
+                <li>
+                    <a href="#%e9%98%bb%e5%a1%9eprocesses%e5%92%8cthreads" aria-label="阻塞Processes和Threads">阻塞Processes和Threads</a><ul>
+                        
+                <li>
+                    <a href="#sleep" aria-label="Sleep">Sleep</a></li>
+                <li>
+                    <a href="#completions" aria-label="Completions">Completions</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e9%81%bf%e5%85%8dcollision%e5%92%8cdeadlock" aria-label="避免Collision和Deadlock">避免Collision和Deadlock</a><ul>
+                        
+                <li>
+                    <a href="#mutex" aria-label="Mutex">Mutex</a></li>
+                <li>
+                    <a href="#spinlocks" aria-label="Spinlocks">Spinlocks</a></li>
+                <li>
+                    <a href="#read-and-write-locks" aria-label="Read and write locks">Read and write locks</a></li>
+                <li>
+                    <a href="#atomic-operations" aria-label="Atomic operations">Atomic operations</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e7%bb%83%e4%b9%a0-replacing-print-macros" aria-label="练习: Replacing Print Macros">练习: Replacing Print Macros</a></li>
+                <li>
+                    <a href="#%e7%bb%83%e4%b9%a0-flashing-keyboard-leds" aria-label="练习: Flashing keyboard LEDs">练习: Flashing keyboard LEDs</a></li>
+                <li>
+                    <a href="#task-schedule" aria-label="Task Schedule">Task Schedule</a><ul>
+                        
+                <li>
+                    <a href="#tasklets" aria-label="Tasklets">Tasklets</a></li>
+                <li>
+                    <a href="#work-queues" aria-label="Work queues">Work queues</a></li></ul>
+                </li>
+                <li>
+                    <a href="#interrupt-handler" aria-label="Interrupt Handler">Interrupt Handler</a></li>
+                <li>
+                    <a href="#%e7%bb%83%e4%b9%a0-detecting-button-presses" aria-label="练习: Detecting Button Presses">练习: Detecting Button Presses</a></li>
+                <li>
+                    <a href="#crypto" aria-label="Crypto">Crypto</a><ul>
+                        
+                <li>
+                    <a href="#sha256" aria-label="SHA256">SHA256</a></li>
+                <li>
+                    <a href="#aes256" aria-label="AES256">AES256</a></li></ul>
+                </li>
+                <li>
+                    <a href="#virtual-input-output-device-driver" aria-label="Virtual Input Output Device Driver">Virtual Input Output Device Driver</a></li>
+                <li>
+                    <a href="#the-device-model" aria-label="The Device Model">The Device Model</a></li>
+                <li>
+                    <a href="#optimizations" aria-label="Optimizations">Optimizations</a><ul>
+                        
+                <li>
+                    <a href="#likely-and-unlikely-conditions" aria-label="Likely and Unlikely conditions">Likely and Unlikely conditions</a></li>
+                <li>
+                    <a href="#static-keys" aria-label="Static Keys">Static Keys</a></li></ul>
+                </li>
+                <li>
+                    <a href="#common-pitfalls" aria-label="Common Pitfalls">Common Pitfalls</a><ul>
+                        
+                <li>
+                    <a href="#using-standard-libraries" aria-label="Using standard libraries">Using standard libraries</a></li>
+                <li>
+                    <a href="#disabling-interrupts" aria-label="Disabling interrupts">Disabling interrupts</a></li></ul>
+                </li>
+                <li>
+                    <a href="#where-to-go-from-here" aria-label="Where To Go From Here?">Where To Go From Here?</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
   <div class="post-content"><h1 id="linux-kernel-module-programming-guide">Linux Kernel Module Programming Guide<a hidden class="anchor" aria-hidden="true" href="#linux-kernel-module-programming-guide">#</a></h1>
 <p>[TOC]</p>
 <h2 id="easy-begin">Easy Begin<a hidden class="anchor" aria-hidden="true" href="#easy-begin">#</a></h2>
@@ -804,6 +935,14 @@ system call是一个例外。process向特定的寄存器中填充参数，然�
   <footer class="post-footer">
     <ul class="post-tags">
     </ul>
+<nav class="paginav">
+  <a class="prev" href="https://fanyxok.github.io/posts/control-bluetooth-device-via-bluetoothctl/">
+    <span class="title">« Prev</span>
+    <br>
+    <span></span>
+  </a>
+</nav>
+
   </footer>
 </article>
     </main>
@@ -875,6 +1014,53 @@ system call是一个例外。process向特定的寄存器中填充参数，然�
         }
     })
 
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
 </script>
 </body>
 

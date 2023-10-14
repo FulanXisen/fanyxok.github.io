@@ -9,7 +9,7 @@
 <meta name="keywords" content="">
 <meta name="description" content="How to debug a HardFault on an ARM Cortex-M MCU 20 Nov 2019 by Chris Coleman
 Faults happen on embedded devices all the time for a variety of reasons – ranging from something as simple as a NULL pointer dereference to something more unexpected like running a faulty code path only when in a zero-g environment on the Tower of Terror in Disneyland1. It’s important for any embedded engineer to understand how to debug and resolve this class of issue quickly.">
-<meta name="author" content="">
+<meta name="author" content="fanyuxin">
 <link rel="canonical" href="https://fanyxok.github.io/posts/p01-cortex-m-fault/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.8b523f1730c922e314350296d83fd666efa16519ca136320a93df674d00b6325.css" integrity="sha256-i1I/FzDJIuMUNQKW2D/WZu&#43;hZRnKE2MgqT32dNALYyU=" rel="preload stylesheet" as="style">
 <script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
@@ -108,6 +108,10 @@ Faults happen on embedded devices all the time for a variety of reasons – rang
   "inLanguage": "en",
   "datePublished": "2023-04-27T21:21:59+08:00",
   "dateModified": "2023-04-27T21:21:59+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "fanyuxin"
+  },
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "https://fanyxok.github.io/posts/p01-cortex-m-fault/"
@@ -171,14 +175,144 @@ Faults happen on embedded devices all the time for a variety of reasons – rang
 
 <article class="post-single">
   <header class="post-header">
-    
+    <div class="breadcrumbs"><a href="https://fanyxok.github.io">Home</a>&nbsp;»&nbsp;<a href="https://fanyxok.github.io/posts/">Posts</a></div>
     <h1 class="post-title">
       How to debug a HardFault on an ARM Cortex-M MCU
     </h1>
-    <div class="post-meta"><span title='2023-04-27 21:21:59 +0800 CST'>April 27, 2023</span>&nbsp;·&nbsp;31 min
+    <div class="post-meta"><span title='2023-04-27 21:21:59 +0800 CST'>April 27, 2023</span>&nbsp;·&nbsp;31 min&nbsp;·&nbsp;fanyuxin
 
 </div>
-  </header> 
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#how-to-debug-a-hardfault-on-an-arm-cortex-m-mcuhow-to-debug-a-hardfault-on-an-arm-cortex-m-mcu" aria-label="How to debug a HardFault on an ARM Cortex-M MCU">How to debug a HardFault on an ARM Cortex-M MCU<a href="#how-to-debug-a-hardfault-on-an-arm-cortex-m-mcu"></a></a></li>
+                <li>
+                    <a href="#table-of-contentstable-of-contents" aria-label="Table of Contents">Table of Contents<a href="#table-of-contents"></a></a></li>
+                <li>
+                    <a href="#determining-what-caused-the-faultdetermining-what-caused-the-fault" aria-label="Determining What Caused The Fault">Determining What Caused The Fault<a href="#determining-what-caused-the-fault"></a></a></li>
+                <li>
+                    <a href="#relevant-status-registersrelevant-status-registers" aria-label="Relevant Status Registers">Relevant Status Registers<a href="#relevant-status-registers"></a></a><ul>
+                        
+                <li>
+                    <a href="#configurable-fault-status-registers-cfsr---0xe000ed28cfsr" aria-label="Configurable Fault Status Registers (CFSR) - 0xE000ED28">Configurable Fault Status Registers (CFSR) - 0xE000ED28<a href="#cfsr"></a></a><ul>
+                        
+                <li>
+                    <a href="#usagefault-status-register-ufsr---0xe000ed2aufsr" aria-label="UsageFault Status Register (UFSR) - 0xE000ED2A">UsageFault Status Register (UFSR) - 0xE000ED2A<a href="#ufsr"></a></a><ul>
+                        
+                <li>
+                    <a href="#configurable-usagefaultconfigurable-usage-faults" aria-label="Configurable UsageFault">Configurable UsageFault<a href="#configurable-usage-faults"></a></a></li></ul>
+                </li>
+                <li>
+                    <a href="#busfault-status-register-bfsr---0xe000ed29bfsr" aria-label="BusFault Status Register (BFSR) - 0xE000ED29">BusFault Status Register (BFSR) - 0xE000ED29<a href="#bfsr"></a></a><ul>
+                        
+                <li>
+                    <a href="#imprecise-bus-error-debug-tipsimprecise-error-debug" aria-label="Imprecise Bus Error Debug Tips">Imprecise Bus Error Debug Tips<a href="#imprecise-error-debug"></a></a></li>
+                <li>
+                    <a href="#auxiliary-control-register-actlr---0xe000e008auxiliary-control-register-actlr---0xe000e008" aria-label="Auxiliary Control Register (ACTLR) - 0xE000E008">Auxiliary Control Register (ACTLR) - 0xE000E008<a href="#auxiliary-control-register-actlr---0xe000e008"></a></a></li>
+                <li>
+                    <a href="#auxiliary-bus-fault-status-register-abfsr---0xe000efa8auxiliary-bus-fault-status-register-abfsr---0xe000efa8" aria-label="Auxiliary Bus Fault Status Register (ABFSR) - 0xE000EFA8">Auxiliary Bus Fault Status Register (ABFSR) - 0xE000EFA8<a href="#auxiliary-bus-fault-status-register-abfsr---0xe000efa8"></a></a></li></ul>
+                </li>
+                <li>
+                    <a href="#memmanage-status-register-mmfsr---0xe000ed28mmfsr" aria-label="MemManage Status Register (MMFSR) - 0xE000ED28">MemManage Status Register (MMFSR) - 0xE000ED28<a href="#mmfsr"></a></a></li></ul>
+                </li>
+                <li>
+                    <a href="#hardfault-status-register-hfsr---0xe000ed2chardfault-status-register-hfsr---0xe000ed2c" aria-label="HardFault Status Register (HFSR) - 0xE000ED2C">HardFault Status Register (HFSR) - 0xE000ED2C<a href="#hardfault-status-register-hfsr---0xe000ed2c"></a></a></li></ul>
+                </li>
+                <li>
+                    <a href="#recovering-the-call-stackregisters-prior-to-exception" aria-label="Recovering the Call Stack">Recovering the Call Stack<a href="#registers-prior-to-exception"></a></a></li>
+                <li>
+                    <a href="#automating-the-analysisautomating-the-analysis" aria-label="Automating the Analysis">Automating the Analysis<a href="#automating-the-analysis"></a></a><ul>
+                        
+                <li>
+                    <a href="#halting--determining-core-register-statehalting--determining-core-register-state" aria-label="Halting &amp;amp; Determining Core Register State">Halting &amp; Determining Core Register State<a href="#halting--determining-core-register-state"></a></a></li>
+                <li>
+                    <a href="#fault-register-analyzersfault-register-analyzers" aria-label="Fault Register Analyzers">Fault Register Analyzers<a href="#fault-register-analyzers"></a></a><ul>
+                        
+                <li>
+                    <a href="#instrumenting-the-codeinstrumenting-the-code" aria-label="Instrumenting the code">Instrumenting the code<a href="#instrumenting-the-code"></a></a></li>
+                <li>
+                    <a href="#debugger-pluginsdebugger-plugins" aria-label="Debugger Plugins">Debugger Plugins<a href="#debugger-plugins"></a></a></li></ul>
+                </li>
+                <li>
+                    <a href="#postmortem-analysispostmortem-analysis" aria-label="Postmortem Analysis">Postmortem Analysis<a href="#postmortem-analysis"></a></a></li></ul>
+                </li>
+                <li>
+                    <a href="#recovering-from-a-faultrecovering-from-a-fault" aria-label="Recovering From A Fault">Recovering From A Fault<a href="#recovering-from-a-fault"></a></a></li>
+                <li>
+                    <a href="#examplesexamples" aria-label="Examples">Examples<a href="#examples"></a></a><ul>
+                        <ul>
+                        
+                <li>
+                    <a href="#setupsetup" aria-label="Setup">Setup<a href="#setup"></a></a></li></ul>
+                    
+                <li>
+                    <a href="#execute-never-faultbad-pc-mpu-fault" aria-label="eXecute Never Fault">eXecute Never Fault<a href="#bad-pc-mpu-fault"></a></a><ul>
+                        
+                <li>
+                    <a href="#codecode" aria-label="Code">Code<a href="#code"></a></a></li>
+                <li>
+                    <a href="#analysisanalysis" aria-label="Analysis">Analysis<a href="#analysis"></a></a></li></ul>
+                </li>
+                <li>
+                    <a href="#bad-address-readbad-address-read-example" aria-label="Bad Address Read">Bad Address Read<a href="#bad-address-read-example"></a></a><ul>
+                        
+                <li>
+                    <a href="#codecode-1" aria-label="Code">Code<a href="#code-1"></a></a></li>
+                <li>
+                    <a href="#analysisanalysis-1" aria-label="Analysis">Analysis<a href="#analysis-1"></a></a></li></ul>
+                </li>
+                <li>
+                    <a href="#coprocessor-faultcoprocessor-fault-example" aria-label="Coprocessor Fault">Coprocessor Fault<a href="#coprocessor-fault-example"></a></a><ul>
+                        
+                <li>
+                    <a href="#codecode-2" aria-label="Code">Code<a href="#code-2"></a></a></li>
+                <li>
+                    <a href="#analysisanalysis-2" aria-label="Analysis">Analysis<a href="#analysis-2"></a></a></li></ul>
+                </li>
+                <li>
+                    <a href="#imprecise-faultimprecise-error-code-example" aria-label="Imprecise Fault">Imprecise Fault<a href="#imprecise-error-code-example"></a></a><ul>
+                        
+                <li>
+                    <a href="#codecode-3" aria-label="Code">Code<a href="#code-3"></a></a></li>
+                <li>
+                    <a href="#analysisanalysis-3" aria-label="Analysis">Analysis<a href="#analysis-3"></a></a></li>
+                <li>
+                    <a href="#analysis-after-making-the-imprecise-error-preciseanalysis-after-making-the-imprecise-error-precise" aria-label="Analysis after making the Imprecise Error Precise">Analysis after making the Imprecise Error Precise<a href="#analysis-after-making-the-imprecise-error-precise"></a></a></li></ul>
+                </li>
+                <li>
+                    <a href="#fault-entry-exceptionstkerr-example" aria-label="Fault Entry Exception">Fault Entry Exception<a href="#stkerr-example"></a></a><ul>
+                        
+                <li>
+                    <a href="#codecode-4" aria-label="Code">Code<a href="#code-4"></a></a></li>
+                <li>
+                    <a href="#analysisanalysis-4" aria-label="Analysis">Analysis<a href="#analysis-4"></a></a></li>
+                <li>
+                    <a href="#debug-tips-when-dealing-with-a-stkerrdebug-tips-when-dealing-with-a-stkerr" aria-label="Debug Tips when dealing with a STKERR">Debug Tips when dealing with a STKERR<a href="#debug-tips-when-dealing-with-a-stkerr"></a></a></li></ul>
+                </li>
+                <li>
+                    <a href="#recovering-from-a-usagefault-without-a-sysresetusage-fault-recovery-example" aria-label="Recovering from a UsageFault without a SYSRESET">Recovering from a UsageFault <strong>without</strong> a SYSRESET<a href="#usage-fault-recovery-example"></a></a><ul>
+                        
+                <li>
+                    <a href="#codecode-5" aria-label="Code">Code<a href="#code-5"></a></a></li>
+                <li>
+                    <a href="#analysisanalysis-5" aria-label="Analysis">Analysis<a href="#analysis-5"></a></a></li></ul>
+                </li></ul>
+                </li>
+                <li>
+                    <a href="#closingclosing" aria-label="Closing">Closing<a href="#closing"></a></a></li>
+                <li>
+                    <a href="#referencesreferences" aria-label="References">References<a href="#references"></a></a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
   <div class="post-content"><h2 id="how-to-debug-a-hardfault-on-an-arm-cortex-m-mcuhow-to-debug-a-hardfault-on-an-arm-cortex-m-mcu">How to debug a HardFault on an ARM Cortex-M MCU<a href="#how-to-debug-a-hardfault-on-an-arm-cortex-m-mcu"></a><a hidden class="anchor" aria-hidden="true" href="#how-to-debug-a-hardfault-on-an-arm-cortex-m-mcuhow-to-debug-a-hardfault-on-an-arm-cortex-m-mcu">#</a></h2>
 <p>20 Nov 2019 by <a href="/authors/chris">Chris Coleman</a></p>
 <p>Faults happen on embedded devices all the time for a variety of reasons – ranging from something as simple as a NULL pointer dereference to something more unexpected like running a faulty code path only when in a zero-g environment on the Tower of Terror in Disneyland<a href="#fn:14">1</a>. It’s important for any embedded engineer to understand how to debug and resolve this class of issue quickly.</p>
@@ -1072,6 +1206,19 @@ Breakpoint 12, recover_from_task_fault () at ./cortex-m-fault-debug/main.c:181
   <footer class="post-footer">
     <ul class="post-tags">
     </ul>
+<nav class="paginav">
+  <a class="prev" href="https://fanyxok.github.io/posts/p02-cortex-m-context-switching/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>ARM Cortex-M RTOS Context Switching</span>
+  </a>
+  <a class="next" href="https://fanyxok.github.io/posts/ieee745/">
+    <span class="title">Next »</span>
+    <br>
+    <span>IEEE745浮点数表示法</span>
+  </a>
+</nav>
+
   </footer>
 </article>
     </main>
@@ -1143,6 +1290,53 @@ Breakpoint 12, recover_from_task_fault () at ./cortex-m-fault-debug/main.c:181
         }
     })
 
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
 </script>
 </body>
 
