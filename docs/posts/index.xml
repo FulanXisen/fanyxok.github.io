@@ -2,82 +2,91 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Posts on 福岚溪森</title>
-    <link>uildDrafts/posts/</link>
+    <link>https://fanyxok.github.io/posts/</link>
     <description>Recent content in Posts on 福岚溪森</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 24 May 2023 20:29:59 +0800</lastBuildDate><atom:link href="uildDrafts/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 14 Oct 2023 16:40:08 +0800</lastBuildDate><atom:link href="https://fanyxok.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Embedded System from Zero to Main()</title>
+      <link>https://fanyxok.github.io/posts/embedded_system_from_zero_to_main/</link>
+      <pubDate>Sat, 14 Oct 2023 16:40:08 +0800</pubDate>
+      
+      <guid>https://fanyxok.github.io/posts/embedded_system_from_zero_to_main/</guid>
+      <description>Setup a bare matel C environment, linker scripts, bootloader, libc</description>
+    </item>
+    
     <item>
       <title>A Practical guide to ARM Cortex-M Exception Handling</title>
-      <link>uildDrafts/posts/p07-arm-cortex-m-exceptions-and-nvic/</link>
+      <link>https://fanyxok.github.io/posts/p07-arm-cortex-m-exceptions-and-nvic/</link>
       <pubDate>Wed, 24 May 2023 20:29:59 +0800</pubDate>
       
-      <guid>uildDrafts/posts/p07-arm-cortex-m-exceptions-and-nvic/</guid>
+      <guid>https://fanyxok.github.io/posts/p07-arm-cortex-m-exceptions-and-nvic/</guid>
       <description>ARM Cortex-M Exceptions and NVIC.</description>
     </item>
     
     <item>
       <title>最透彻的链接器脚本注释</title>
-      <link>uildDrafts/posts/p06-the-most-thoroughly-commented-linker-script/</link>
+      <link>https://fanyxok.github.io/posts/p06-the-most-thoroughly-commented-linker-script/</link>
       <pubDate>Thu, 04 May 2023 17:58:33 +0800</pubDate>
       
-      <guid>uildDrafts/posts/p06-the-most-thoroughly-commented-linker-script/</guid>
+      <guid>https://fanyxok.github.io/posts/p06-the-most-thoroughly-commented-linker-script/</guid>
       <description>一份嵌入式固件链接器脚本`.ld`的讲解</description>
     </item>
     
     <item>
       <title>Example of Embedded CMakeLists Files</title>
-      <link>uildDrafts/posts/p05-example-of-embedded-cmakelists-files/</link>
+      <link>https://fanyxok.github.io/posts/p05-example-of-embedded-cmakelists-files/</link>
       <pubDate>Wed, 03 May 2023 23:38:47 +0800</pubDate>
       
-      <guid>uildDrafts/posts/p05-example-of-embedded-cmakelists-files/</guid>
+      <guid>https://fanyxok.github.io/posts/p05-example-of-embedded-cmakelists-files/</guid>
       <description>Desc Text.</description>
     </item>
     
     <item>
       <title>A Guide to Using ARM Stack Limit Registers</title>
-      <link>uildDrafts/posts/p04-using-psp-msp-limit-registers-for-stack-overflow/</link>
+      <link>https://fanyxok.github.io/posts/p04-using-psp-msp-limit-registers-for-stack-overflow/</link>
       <pubDate>Wed, 03 May 2023 14:28:46 +0800</pubDate>
       
-      <guid>uildDrafts/posts/p04-using-psp-msp-limit-registers-for-stack-overflow/</guid>
+      <guid>https://fanyxok.github.io/posts/p04-using-psp-msp-limit-registers-for-stack-overflow/</guid>
       <description>Desc Text.</description>
     </item>
     
     <item>
       <title>Yao&#39;s Protocol Impl in MPCFGO</title>
-      <link>uildDrafts/posts/p03-yao-impl/</link>
+      <link>https://fanyxok.github.io/posts/p03-yao-impl/</link>
       <pubDate>Fri, 28 Apr 2023 15:45:15 +0800</pubDate>
       
-      <guid>uildDrafts/posts/p03-yao-impl/</guid>
+      <guid>https://fanyxok.github.io/posts/p03-yao-impl/</guid>
       <description>Desc Text.</description>
     </item>
     
     <item>
       <title>ARM Cortex-M RTOS Context Switching</title>
-      <link>uildDrafts/posts/p02-cortex-m-context-switching/</link>
+      <link>https://fanyxok.github.io/posts/p02-cortex-m-context-switching/</link>
       <pubDate>Thu, 27 Apr 2023 21:21:59 +0800</pubDate>
       
-      <guid>uildDrafts/posts/p02-cortex-m-context-switching/</guid>
+      <guid>https://fanyxok.github.io/posts/p02-cortex-m-context-switching/</guid>
       <description>ARM Cortex-M RTOS Context Switching 30 Oct 2019 by Chris Coleman
 Many embedded systems reach a level of complexity where having a basic set of scheduling primitives and ability to run different tasks can be helpful. The operation of switching from one task to another is known as a context switch. A Real Time Operating System (RTOS) will typically provide this functionality. Having a foundational knowledge of how the core of an RTOS works can be a valuable skill set for an embedded engineer to have.</description>
     </item>
     
     <item>
       <title>How to debug a HardFault on an ARM Cortex-M MCU</title>
-      <link>uildDrafts/posts/p01-cortex-m-fault/</link>
+      <link>https://fanyxok.github.io/posts/p01-cortex-m-fault/</link>
       <pubDate>Thu, 27 Apr 2023 21:21:59 +0800</pubDate>
       
-      <guid>uildDrafts/posts/p01-cortex-m-fault/</guid>
+      <guid>https://fanyxok.github.io/posts/p01-cortex-m-fault/</guid>
       <description>How to debug a HardFault on an ARM Cortex-M MCU 20 Nov 2019 by Chris Coleman
 Faults happen on embedded devices all the time for a variety of reasons – ranging from something as simple as a NULL pointer dereference to something more unexpected like running a faulty code path only when in a zero-g environment on the Tower of Terror in Disneyland1. It’s important for any embedded engineer to understand how to debug and resolve this class of issue quickly.</description>
     </item>
     
     <item>
       <title>IEEE745浮点数表示法</title>
-      <link>uildDrafts/posts/ieee745/</link>
+      <link>https://fanyxok.github.io/posts/ieee745/</link>
       <pubDate>Fri, 22 Jul 2022 10:44:05 +0800</pubDate>
       
-      <guid>uildDrafts/posts/ieee745/</guid>
+      <guid>https://fanyxok.github.io/posts/ieee745/</guid>
       <description>32-bit 表示一个单精度浮点数 float
 $V=(-1)^s \times M \times 2^E$ 32-bit 分为3部分： S, E, M
 S: 符号位，1bit，0 表示正数， -1 表示负数 E: 指数位，8bit，取值[-127, 128]. M: 尾数位，23bit，取值[0, $2^{23}-1$]. 指数的底固定为2，指数有正数也有负数，但指数部分没有符号位，取一个中间值，小于中间值的表示负数，等于中间值的表示0，大于中间值的表示正数，中间值的定义如下：Bias=$2^{k-1}$-1, k表示E的bit数。实际的E为E-Bias.
@@ -90,10 +99,10 @@ E全为1，M不全为0时，表示NaN，不是一个数。</description>
     
     <item>
       <title>AES对称加密</title>
-      <link>uildDrafts/posts/aes/</link>
+      <link>https://fanyxok.github.io/posts/aes/</link>
       <pubDate>Thu, 21 Jul 2022 17:31:28 +0800</pubDate>
       
-      <guid>uildDrafts/posts/aes/</guid>
+      <guid>https://fanyxok.github.io/posts/aes/</guid>
       <description>AES 对称密钥加密中最流行的算法之一, 除加密以外还可以用于构建消息认证码, 伪随机函数等密码工具
 AES的区块长度固定为128比特，密钥长度则可以是128，192或256比特
 分组密码工作模式 使用同一个区块密码密钥对多于一块的数据进行加密
@@ -119,10 +128,10 @@ Padding ECB和CBC需要最后一块在加密前进行填充
     
     <item>
       <title>My First Post</title>
-      <link>uildDrafts/posts/my-first-post/</link>
+      <link>https://fanyxok.github.io/posts/my-first-post/</link>
       <pubDate>Tue, 19 Jul 2022 19:03:35 +0800</pubDate>
       
-      <guid>uildDrafts/posts/my-first-post/</guid>
+      <guid>https://fanyxok.github.io/posts/my-first-post/</guid>
       <description>Welcome The first post of hugo
 This is a second header The third The fouth Fifty Six? amazing
 A math equation: \(c^2 = a^2 + b^2\)
@@ -133,10 +142,10 @@ $$\begin{bmatrix} a &amp;amp; b \newline c &amp;amp; d \end{bmatrix}$$</descript
     
     <item>
       <title>Oblivious Transfer and Cyclic Group</title>
-      <link>uildDrafts/posts/otandcylicgroup/</link>
+      <link>https://fanyxok.github.io/posts/otandcylicgroup/</link>
       <pubDate>Tue, 19 Jul 2022 19:03:35 +0800</pubDate>
       
-      <guid>uildDrafts/posts/otandcylicgroup/</guid>
+      <guid>https://fanyxok.github.io/posts/otandcylicgroup/</guid>
       <description>Cyclic Group 定义 $$\langle\mathbb{G},q,g \rangle$$
 \(\mathbb{G}=\langle \mathbb{Z}_{n}, \cdot \rangle\)
 \(\mathbb{Z}_{n} \)是一个集合, {$0$&amp;hellip;$n-1$}.
@@ -157,10 +166,10 @@ More efficient oblivious transfer and extensions for faster secure computation</
     
     <item>
       <title></title>
-      <link>uildDrafts/posts/control-bluetooth-device-via-bluetoothctl/</link>
+      <link>https://fanyxok.github.io/posts/control-bluetooth-device-via-bluetoothctl/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>uildDrafts/posts/control-bluetooth-device-via-bluetoothctl/</guid>
+      <guid>https://fanyxok.github.io/posts/control-bluetooth-device-via-bluetoothctl/</guid>
       <description>Control a Bluetooth Device via Bluetoothctl 1. Overview In this tutorial, we’ll learn how to connect to a Bluetooth device via the terminal. This process involves configuring our Bluetooth controller, pairing it to our target device, and then finally connecting.
 2. Using the bluetoothctl Command BlueZ provides support for Bluetooth functionality and protocols through the bluetoothd daemon. To interact with bluetoothd from the terminal, we use the bluetoothctl command.
 Let’s begin by running bluetoothctl without any arguments:</description>
@@ -168,10 +177,10 @@ Let’s begin by running bluetoothctl without any arguments:</description>
     
     <item>
       <title></title>
-      <link>uildDrafts/posts/linux-kernel-module-programming-guide/</link>
+      <link>https://fanyxok.github.io/posts/linux-kernel-module-programming-guide/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>uildDrafts/posts/linux-kernel-module-programming-guide/</guid>
+      <guid>https://fanyxok.github.io/posts/linux-kernel-module-programming-guide/</guid>
       <description>Linux Kernel Module Programming Guide [TOC]
 Easy Begin 内核模块包 编程内核模块首先要安装内核模块包kmod.
 sudo apt-get install build-essential kmod 命令行的内核模块相关命令 sudo lsmod # 查看所有加载进内核的模块 sudo cat /proc/modules # 和lsmod有什么不同 sudo modinfo ABC_x.ko # 查看模块ABC的信息 sudo insmod ABC_x.ko # 向内核中加载模块ABC sudo rmmod ABC-x # 从内核中卸载模块ABC, 注意ABC_x.ko名称中的&amp;#39;_&amp;#39;字符会被内核自动替换成&amp;#39;-&amp;#39;字符 sudo journalctl --since &amp;#34;1 hour ago&amp;#34; | grep kernel # 查看过去一小时内的内核日志 编码前须知 版本. 如果编译模块A时include的内核头文件版本与加载模块A的内核版本不一致, 会导致加载失败. 如果必须要这样做, 例如模块A兼容多个内核版本, 需要启用CONFIG_MODVERSIONS编译制导. 命令行. 内核模块无法打印输出到屏幕,但可以记录日志信息然后读取日志信息到屏幕. SecureBoot. SecureBoot是UEFI的一个设置, 要求只会引导安全密钥签名过的模块. [Shell]ERROR: could not insert module. [dmesg]Lockdown: insmod: unsigned module loading is restricted; see man kernel lockdown.</description>

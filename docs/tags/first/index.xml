@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>first on 福岚溪森</title>
-    <link>uildDrafts/tags/first/</link>
+    <link>https://fanyxok.github.io/tags/first/</link>
     <description>Recent content in first on 福岚溪森</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 28 Apr 2023 15:45:15 +0800</lastBuildDate><atom:link href="uildDrafts/tags/first/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 28 Apr 2023 15:45:15 +0800</lastBuildDate><atom:link href="https://fanyxok.github.io/tags/first/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Yao&#39;s Protocol Impl in MPCFGO</title>
-      <link>uildDrafts/posts/p03-yao-impl/</link>
+      <link>https://fanyxok.github.io/posts/p03-yao-impl/</link>
       <pubDate>Fri, 28 Apr 2023 15:45:15 +0800</pubDate>
       
-      <guid>uildDrafts/posts/p03-yao-impl/</guid>
+      <guid>https://fanyxok.github.io/posts/p03-yao-impl/</guid>
       <description>Desc Text.</description>
     </item>
     

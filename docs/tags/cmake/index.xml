@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>CMake on 福岚溪森</title>
-    <link>uildDrafts/tags/cmake/</link>
+    <link>https://fanyxok.github.io/tags/cmake/</link>
     <description>Recent content in CMake on 福岚溪森</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 03 May 2023 23:38:47 +0800</lastBuildDate><atom:link href="uildDrafts/tags/cmake/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 03 May 2023 23:38:47 +0800</lastBuildDate><atom:link href="https://fanyxok.github.io/tags/cmake/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Example of Embedded CMakeLists Files</title>
-      <link>uildDrafts/posts/p05-example-of-embedded-cmakelists-files/</link>
+      <link>https://fanyxok.github.io/posts/p05-example-of-embedded-cmakelists-files/</link>
       <pubDate>Wed, 03 May 2023 23:38:47 +0800</pubDate>
       
-      <guid>uildDrafts/posts/p05-example-of-embedded-cmakelists-files/</guid>
+      <guid>https://fanyxok.github.io/posts/p05-example-of-embedded-cmakelists-files/</guid>
       <description>Desc Text.</description>
     </item>
     
