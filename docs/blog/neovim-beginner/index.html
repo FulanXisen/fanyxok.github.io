@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Neovim Beginner | 福岚溪森</title>
+<meta name="keywords" content="Neovim">
+<meta name="description" content="Neovim Design Tradeoff">
+<meta name="author" content="fanyuxin">
+<link rel="canonical" href="https://canonical.url/to/page">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.9cb3367f5e4a5f697c44cbda52b86e66409d5ab9544dea6c3de722558c552e2b.css" integrity="sha256-nLM2f15KX2l8RMvaUrhuZkCdWrlUTepsPeciVYxVLis=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://fanyxok.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://fanyxok.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://fanyxok.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://fanyxok.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://fanyxok.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><head>
+    
+</head><meta property="og:title" content="Neovim Beginner" />
+<meta property="og:description" content="Neovim Design Tradeoff" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fanyxok.github.io/blog/neovim-beginner/" />
+<meta property="og:image" content="https://fanyxok.github.io/%3Cimage%20path/url%3E" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2023-10-15T16:03:14&#43;08:00" />
+<meta property="article:modified_time" content="2023-10-15T16:03:14&#43;08:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://fanyxok.github.io/%3Cimage%20path/url%3E" />
+<meta name="twitter:title" content="Neovim Beginner"/>
+<meta name="twitter:description" content="Neovim Design Tradeoff"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Blogs",
+      "item": "https://fanyxok.github.io/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Neovim Beginner",
+      "item": "https://fanyxok.github.io/blog/neovim-beginner/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Neovim Beginner",
+  "name": "Neovim Beginner",
+  "description": "Neovim Design Tradeoff",
+  "keywords": [
+    "Neovim"
+  ],
+  "articleBody": "Neovim Beginner init.lua Install.sh plugins.lua is where we start to configure Neovim.\nAll Lua configuration files are under the lua folder (:h lua-require).\nStartup Screen Use alpha.nvim as the startup screen.\nThe configuration file is lua/config/alpha.lua.\nalpha.lua:\npcall is used to prevent errors requiring a non-existent module or a module with syntax errors. We specify an ASCII art header, some convenient shortcuts, and a footer to indicate the number of plugins, date and time, and a quote. Git use Neogit for version control.\nThe configuration file is lua/config/neogit.lua.\nlocal M = {}function M.setup() local status_ok, neogit = pcall(require, \"neogit\") if not status_ok then return end neogit.setup {} endreturn M pcall is used to prevent errors requiring a non-existent module or a module with syntax errors. For now, we use the default configuration for Neogit. options Besides Vimscript files, Lua files can be loaded automatically from special folders in your runtimepath (:h load-plugins). All *.vim files are sourced before *.lua files. We configure a few default settings by using after/plugin/defaults.lua.\ndefaults.lua\nWe configure as the Leader key (:h ).\nFor each setting, you can check out the help documentation for more details. We shall see how to further customize Neovim with sensible defaults later. We configure an autocmd to highlight the text when yanking or copying. We also configure a file type plugin (:h ftplugin) for Lua files with buffer-specific settings.\nA filetype plugin is like a global plugin, except it only sets options and defines mappings for the current buffer.\nvim.bo.shiftwidth = 2 vim.bo.tabstop = 2 vim.bo.softtabstop = 2 vim.bo.textwidth = 120 To remove the configuration, simply delete the ~/.config/nvim-beginner folder.\nIf we want to start nvb in a new terminal without installing all the plugins again, put the following lines in the RC files, e.g. .zshrc, or .bashrc.\nKey Mappings ans WhichKey Plugin Management Status Line Fuzzy File Search File Explorer Buffer Motion Built-in Completion Completion Plugin Auto Pairs LSP LSP using null-ls.nvim LSP Plugin Debuging using DAP Testing Debugging using vimspector Performance Snippets Lua Autocmd and Keymap Functions Color Scheme Remote Plugins Session Snippets using Lua Refactoring Code Annotation and Documentation Note Taking, Writing, Diagramming, and Presentation Source Code Control Window Bar User Interface Python Remote Debugging Python Code Refactoring Plugins for Key Mapping Code Folding Terminal Debugger GUI Cheatsheet and Coding Assistant Conventional Commits Database Explorer Code Context ",
+  "wordCount" : "391",
+  "inLanguage": "en",
+  "image":"https://fanyxok.github.io/%3Cimage%20path/url%3E","datePublished": "2023-10-15T16:03:14+08:00",
+  "dateModified": "2023-10-15T16:03:14+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "fanyuxin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://fanyxok.github.io/blog/neovim-beginner/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "福岚溪森",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://fanyxok.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://fanyxok.github.io" accesskey="h" title="福岚溪森 (Alt + H)">福岚溪森</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://fanyxok.github.io">Home</a>&nbsp;»&nbsp;<a href="https://fanyxok.github.io/blog/">Blogs</a></div>
+    <h1 class="post-title">
+      Neovim Beginner<sup><span class="entry-isdraft">&nbsp;&nbsp;[draft]</span></sup>
+    </h1>
+    <div class="post-description">
+      Neovim Design Tradeoff
+    </div>
+    <div class="post-meta">&lt;span title=&#39;2023-10-15 16:03:14 &#43;0800 CST&#39;&gt;October 15, 2023&lt;/span&gt;&amp;nbsp;·&amp;nbsp;2 min&amp;nbsp;·&amp;nbsp;391 words&amp;nbsp;·&amp;nbsp;fanyuxin&nbsp;|&nbsp;<a href="https://github.com/fanyxok/fanyxok.github.io/content/blog/neovim-beginner.md" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#neovim-beginner">Neovim Beginner</a>
+      <ul>
+        <li><a href="#initlua">init.lua</a>
+          <ul>
+            <li><a href="#installsh">Install.sh</a></li>
+            <li><a href="#startup-screen">Startup Screen</a></li>
+            <li><a href="#git">Git</a></li>
+            <li><a href="#options">options</a></li>
+          </ul>
+        </li>
+        <li><a href="#key-mappings-ans-whichkey">Key Mappings ans WhichKey</a></li>
+        <li><a href="#plugin-management">Plugin Management</a></li>
+        <li><a href="#status-line">Status Line</a></li>
+        <li><a href="#fuzzy-file-search">Fuzzy File Search</a></li>
+        <li><a href="#file-explorer">File Explorer</a></li>
+        <li><a href="#buffer">Buffer</a></li>
+        <li><a href="#motion">Motion</a></li>
+        <li><a href="#built-in-completion">Built-in Completion</a></li>
+        <li><a href="#completion-plugin">Completion Plugin</a></li>
+        <li><a href="#auto-pairs">Auto Pairs</a></li>
+        <li><a href="#lsp">LSP</a></li>
+        <li><a href="#lsp-using-null-lsnvim">LSP using null-ls.nvim</a></li>
+        <li><a href="#lsp-plugin">LSP Plugin</a></li>
+        <li><a href="#debuging-using-dap">Debuging using DAP</a></li>
+        <li><a href="#testing">Testing</a></li>
+        <li><a href="#debugging-using-vimspector">Debugging using vimspector</a></li>
+        <li><a href="#performance">Performance</a></li>
+        <li><a href="#snippets">Snippets</a></li>
+        <li><a href="#lua-autocmd-and-keymap-functions">Lua Autocmd and Keymap Functions</a></li>
+        <li><a href="#color-scheme">Color Scheme</a></li>
+        <li><a href="#remote-plugins">Remote Plugins</a></li>
+        <li><a href="#session">Session</a></li>
+        <li><a href="#snippets-using-lua">Snippets using Lua</a></li>
+        <li><a href="#refactoring">Refactoring</a></li>
+        <li><a href="#code-annotation-and-documentation">Code Annotation and Documentation</a></li>
+        <li><a href="#note-taking-writing-diagramming-and-presentation">Note Taking, Writing, Diagramming, and Presentation</a></li>
+        <li><a href="#source-code-control">Source Code Control</a></li>
+        <li><a href="#window-bar">Window Bar</a></li>
+        <li><a href="#user-interface">User Interface</a></li>
+        <li><a href="#python-remote-debugging">Python Remote Debugging</a></li>
+        <li><a href="#python-code-refactoring">Python Code Refactoring</a></li>
+        <li><a href="#plugins-for-key-mapping">Plugins for Key Mapping</a></li>
+        <li><a href="#code-folding">Code Folding</a></li>
+        <li><a href="#terminal-debugger">Terminal Debugger</a></li>
+        <li><a href="#gui">GUI</a></li>
+        <li><a href="#cheatsheet-and-coding-assistant">Cheatsheet and Coding Assistant</a></li>
+        <li><a href="#conventional-commits">Conventional Commits</a></li>
+        <li><a href="#database-explorer">Database Explorer</a></li>
+        <li><a href="#code-context">Code Context</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h1 id="neovim-beginner">Neovim Beginner<a hidden class="anchor" aria-hidden="true" href="#neovim-beginner">#</a></h1>
+<h2 id="initlua">init.lua<a hidden class="anchor" aria-hidden="true" href="#initlua">#</a></h2>
+<h3 id="installsh">Install.sh<a hidden class="anchor" aria-hidden="true" href="#installsh">#</a></h3>
+<p><code>plugins.lua</code> is where we start to configure Neovim.</p>
+<p>All Lua configuration files are under the lua folder (:h lua-require).</p>
+<h3 id="startup-screen">Startup Screen<a hidden class="anchor" aria-hidden="true" href="#startup-screen">#</a></h3>
+<p>Use alpha.nvim as the startup screen.</p>
+<p>The configuration file is <code>lua/config/alpha.lua</code>.</p>
+<p><code>alpha.lua</code>:</p>
+<ul>
+<li>pcall is used to prevent errors requiring a non-existent module or a module with syntax errors.</li>
+<li>We specify an ASCII art header, some convenient shortcuts, and a footer to indicate the number of plugins, date and time, and a quote.</li>
+</ul>
+<h3 id="git">Git<a hidden class="anchor" aria-hidden="true" href="#git">#</a></h3>
+<p>use <code>Neogit</code> for version control.</p>
+<p>The configuration file is <code>lua/config/neogit.lua</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-lua" data-lang="lua"><span style="display:flex;"><span><span style="color:#66d9ef">local</span> M <span style="color:#f92672">=</span> {}<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">M</span>.<span style="color:#a6e22e">setup</span>()
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">local</span> status_ok, neogit <span style="color:#f92672">=</span> pcall(require, <span style="color:#e6db74">&#34;neogit&#34;</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> status_ok <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>  neogit.setup {}
+</span></span><span style="display:flex;"><span>endreturn M
+</span></span></code></pre></div><ul>
+<li>pcall is used to prevent errors requiring a non-existent module or a module with syntax errors.</li>
+<li>For now, we use the default configuration for Neogit.</li>
+</ul>
+<h3 id="options">options<a hidden class="anchor" aria-hidden="true" href="#options">#</a></h3>
+<p>Besides Vimscript files, Lua files can be loaded automatically from special folders in your runtimepath (:h load-plugins). All *.vim files are sourced before *.lua files.
+We configure a few default settings by using after/plugin/defaults.lua.</p>
+<p>defaults.lua</p>
+<p>We configure <!-- raw HTML omitted --> as the Leader key (:h <!-- raw HTML omitted -->).</p>
+<p>For each setting, you can check out the help documentation for more details. We shall see how to further customize Neovim with sensible defaults later.
+We configure an autocmd to highlight the text when yanking or copying.
+We also configure a file type plugin (:h ftplugin) for Lua files with buffer-specific settings.</p>
+<p>A filetype plugin is like a global plugin, except it only sets options and
+defines mappings for the current buffer.</p>
+<p>vim.bo.shiftwidth = 2
+vim.bo.tabstop = 2
+vim.bo.softtabstop = 2
+vim.bo.textwidth = 120
+To remove the configuration, simply delete the ~/.config/nvim-beginner folder.</p>
+<p>If we want to start nvb in a new terminal without installing all the plugins again, put the following lines in the RC files, e.g. .zshrc, or .bashrc.</p>
+<h2 id="key-mappings-ans-whichkey">Key Mappings ans WhichKey<a hidden class="anchor" aria-hidden="true" href="#key-mappings-ans-whichkey">#</a></h2>
+<h2 id="plugin-management">Plugin Management<a hidden class="anchor" aria-hidden="true" href="#plugin-management">#</a></h2>
+<h2 id="status-line">Status Line<a hidden class="anchor" aria-hidden="true" href="#status-line">#</a></h2>
+<h2 id="fuzzy-file-search">Fuzzy File Search<a hidden class="anchor" aria-hidden="true" href="#fuzzy-file-search">#</a></h2>
+<h2 id="file-explorer">File Explorer<a hidden class="anchor" aria-hidden="true" href="#file-explorer">#</a></h2>
+<h2 id="buffer">Buffer<a hidden class="anchor" aria-hidden="true" href="#buffer">#</a></h2>
+<h2 id="motion">Motion<a hidden class="anchor" aria-hidden="true" href="#motion">#</a></h2>
+<h2 id="built-in-completion">Built-in Completion<a hidden class="anchor" aria-hidden="true" href="#built-in-completion">#</a></h2>
+<h2 id="completion-plugin">Completion Plugin<a hidden class="anchor" aria-hidden="true" href="#completion-plugin">#</a></h2>
+<h2 id="auto-pairs">Auto Pairs<a hidden class="anchor" aria-hidden="true" href="#auto-pairs">#</a></h2>
+<h2 id="lsp">LSP<a hidden class="anchor" aria-hidden="true" href="#lsp">#</a></h2>
+<h2 id="lsp-using-null-lsnvim">LSP using null-ls.nvim<a hidden class="anchor" aria-hidden="true" href="#lsp-using-null-lsnvim">#</a></h2>
+<h2 id="lsp-plugin">LSP Plugin<a hidden class="anchor" aria-hidden="true" href="#lsp-plugin">#</a></h2>
+<h2 id="debuging-using-dap">Debuging using DAP<a hidden class="anchor" aria-hidden="true" href="#debuging-using-dap">#</a></h2>
+<h2 id="testing">Testing<a hidden class="anchor" aria-hidden="true" href="#testing">#</a></h2>
+<h2 id="debugging-using-vimspector">Debugging using vimspector<a hidden class="anchor" aria-hidden="true" href="#debugging-using-vimspector">#</a></h2>
+<h2 id="performance">Performance<a hidden class="anchor" aria-hidden="true" href="#performance">#</a></h2>
+<h2 id="snippets">Snippets<a hidden class="anchor" aria-hidden="true" href="#snippets">#</a></h2>
+<h2 id="lua-autocmd-and-keymap-functions">Lua Autocmd and Keymap Functions<a hidden class="anchor" aria-hidden="true" href="#lua-autocmd-and-keymap-functions">#</a></h2>
+<h2 id="color-scheme">Color Scheme<a hidden class="anchor" aria-hidden="true" href="#color-scheme">#</a></h2>
+<h2 id="remote-plugins">Remote Plugins<a hidden class="anchor" aria-hidden="true" href="#remote-plugins">#</a></h2>
+<h2 id="session">Session<a hidden class="anchor" aria-hidden="true" href="#session">#</a></h2>
+<h2 id="snippets-using-lua">Snippets using Lua<a hidden class="anchor" aria-hidden="true" href="#snippets-using-lua">#</a></h2>
+<h2 id="refactoring">Refactoring<a hidden class="anchor" aria-hidden="true" href="#refactoring">#</a></h2>
+<h2 id="code-annotation-and-documentation">Code Annotation and Documentation<a hidden class="anchor" aria-hidden="true" href="#code-annotation-and-documentation">#</a></h2>
+<h2 id="note-taking-writing-diagramming-and-presentation">Note Taking, Writing, Diagramming, and Presentation<a hidden class="anchor" aria-hidden="true" href="#note-taking-writing-diagramming-and-presentation">#</a></h2>
+<h2 id="source-code-control">Source Code Control<a hidden class="anchor" aria-hidden="true" href="#source-code-control">#</a></h2>
+<h2 id="window-bar">Window Bar<a hidden class="anchor" aria-hidden="true" href="#window-bar">#</a></h2>
+<h2 id="user-interface">User Interface<a hidden class="anchor" aria-hidden="true" href="#user-interface">#</a></h2>
+<h2 id="python-remote-debugging">Python Remote Debugging<a hidden class="anchor" aria-hidden="true" href="#python-remote-debugging">#</a></h2>
+<h2 id="python-code-refactoring">Python Code Refactoring<a hidden class="anchor" aria-hidden="true" href="#python-code-refactoring">#</a></h2>
+<h2 id="plugins-for-key-mapping">Plugins for Key Mapping<a hidden class="anchor" aria-hidden="true" href="#plugins-for-key-mapping">#</a></h2>
+<h2 id="code-folding">Code Folding<a hidden class="anchor" aria-hidden="true" href="#code-folding">#</a></h2>
+<h2 id="terminal-debugger">Terminal Debugger<a hidden class="anchor" aria-hidden="true" href="#terminal-debugger">#</a></h2>
+<h2 id="gui">GUI<a hidden class="anchor" aria-hidden="true" href="#gui">#</a></h2>
+<h2 id="cheatsheet-and-coding-assistant">Cheatsheet and Coding Assistant<a hidden class="anchor" aria-hidden="true" href="#cheatsheet-and-coding-assistant">#</a></h2>
+<h2 id="conventional-commits">Conventional Commits<a hidden class="anchor" aria-hidden="true" href="#conventional-commits">#</a></h2>
+<h2 id="database-explorer">Database Explorer<a hidden class="anchor" aria-hidden="true" href="#database-explorer">#</a></h2>
+<h2 id="code-context">Code Context<a hidden class="anchor" aria-hidden="true" href="#code-context">#</a></h2>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://fanyxok.github.io/tags/neovim/">Neovim</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://fanyxok.github.io/blog/pulseaudio/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>PulseAudio Under the Hood</span>
+  </a>
+  <a class="next" href="https://fanyxok.github.io/blog/embedded_system_from_zero_to_main/">
+    <span class="title">Next »</span>
+    <br>
+    <span>Embedded System from Zero to Main()</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://fanyxok.github.io">福岚溪森</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

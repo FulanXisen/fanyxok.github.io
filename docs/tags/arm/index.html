@@ -5,12 +5,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>ARM | 福岚溪森</title>
+<title>Arm | 福岚溪森</title>
 <meta name="keywords" content="">
 <meta name="description" content="This is a pure personal blog......">
 <meta name="author" content="fanyuxin">
 <link rel="canonical" href="https://fanyxok.github.io/tags/arm/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.8b523f1730c922e314350296d83fd666efa16519ca136320a93df674d00b6325.css" integrity="sha256-i1I/FzDJIuMUNQKW2D/WZu&#43;hZRnKE2MgqT32dNALYyU=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.9cb3367f5e4a5f697c44cbda52b86e66409d5ab9544dea6c3de722558c552e2b.css" integrity="sha256-nLM2f15KX2l8RMvaUrhuZkCdWrlUTepsPeciVYxVLis=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://fanyxok.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://fanyxok.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://fanyxok.github.io/favicon-32x32.png">
@@ -57,13 +57,13 @@
     </style>
 </noscript><head>
     
-</head><meta property="og:title" content="ARM" />
+</head><meta property="og:title" content="Arm" />
 <meta property="og:description" content="This is a pure personal blog......" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://fanyxok.github.io/tags/arm/" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="ARM"/>
+<meta name="twitter:title" content="Arm"/>
 <meta name="twitter:description" content="This is a pure personal blog......"/>
 
 </head>
@@ -114,29 +114,9 @@
 <main class="main"> 
 <header class="page-header"><div class="breadcrumbs"><a href="https://fanyxok.github.io">Home</a>&nbsp;»&nbsp;<a href="https://fanyxok.github.io/tags/">Tags</a></div>
   <h1>
-    ARM
+    Arm
   </h1>
 </header>
-
-<article class="post-entry tag-entry"> 
-<figure class="entry-cover"><img loading="lazy" src="https://fanyxok.github.io/%3Cimage%20path/url%3E" alt="">
-</figure>
-  <header class="entry-header">
-    <h2>A Practical guide to ARM Cortex-M Exception Handling
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>04 Sep 2019 by Chris Coleman
-几乎所有嵌入式系统都在某种程度上依赖于处理异步事件的能力。 例如，它从加速度计读取外部传感器数据，以便计算步数 或处理周期性计时器事件以触发RTOS的上下文切换。
-在本文中，我们将深入研究ARM Cortex-M 的Exception Model如何支持异步事件的处理。 本文将介绍支持的不同异常类型、术语(NVIC、ISR、Priority)、configuration registers及其常用设置、与Exception有关的Advanced Topic以及一些用C编写的examples。
-注意:在大多数情况下，所有Cortex-M处理器(ARMv6-M、ARMv7-M和ARMv8-M体系结构)的异常处理机制是相同的。本文将在下面的相关章节中指出它们的差异。
-ARM Exception Model Overview ARM specification将Exception定义为“a condition that changes the normal flow of control in a program” 1.
-你会经常看到&#34;Exception&#34;和&#34;Interrupt&#34;交替出现. 在ARM文档中, “Interrupt&#34;用来描述&#34;Exception&#34;的一种. Exception包含以下3部分标识信息:
-Exception Number - 表示特定类型Exception的唯一编号(从1开始). 这个编号也用作Vector Table的offset, 这种类型的Exception对应routine的address可以在这里找到. 这样的routine通常被称为Exception Handler或者Interrupt Service Routine (ISR),它是在Exception触发时会被执行的函数. 当Exception被触发时,ARM硬件会自动的从Vector Table中寻找对应的函数指针并执行. Priority Level / Priority Number - 每种Exception都有一个优先级. 大部分exception的Priority Number是可配置的. 反直觉的地方是, 更小的priority number意味着更高的优先级. 所以如果priority level 1的exception和priority level 2的exception同时发生, priority level 1的exception会先被处理....</p>
-  </div>
-  <footer class="entry-footer"><span title='2023-05-24 20:29:59 +0800 CST'>May 24, 2023</span>&nbsp;·&nbsp;21 min&nbsp;·&nbsp;4399 words&nbsp;·&nbsp;Me</footer>
-  <a class="entry-link" aria-label="post link to A Practical guide to ARM Cortex-M Exception Handling" href="https://fanyxok.github.io/posts/tech/p07-arm-cortex-m-exceptions-and-nvic/"></a>
-</article>
 
 <article class="post-entry tag-entry"> 
 <figure class="entry-cover"><img loading="lazy" src="https://fanyxok.github.io/%3Cimage%20path/url%3E" alt="">
@@ -152,8 +132,37 @@ Exception Number - 表示特定类型Exception的唯一编号(从1开始). 这�
 我们将探索在ARM Cortex-M33架构上使用MSP Limit和PSP Limit寄存器来检测堆栈溢出。我们将在Renesas DA1469x上进行实现，并查看检测堆栈溢出的实际示例。此外，我们还将查看MSPLIM和PSPLIM功能不足的情况下的补充选项。
 Table of Contents Basic Terminology How does it work? Implementing the Limit Registers Initializing the MSPLIM Register Initializing the PSPLIM Register Setting up the UsageFault_Handler Testing our Implementation Limitations and Further Improvements Stack Canary FreeRTOS Buffer Overflow protection Compiler Enabled Overflow Detection GCC SSP Example Practical implementations for GCC stack Canaries Closing References Basic Terminology The ARM Cortex-M33 introduced two new stack limit registers, PSPLIM and MSPLIM 1....</p>
   </div>
-  <footer class="entry-footer"><span title='2023-05-03 14:28:46 +0800 CST'>May 3, 2023</span>&nbsp;·&nbsp;11 min&nbsp;·&nbsp;2308 words&nbsp;·&nbsp;Me</footer>
-  <a class="entry-link" aria-label="post link to A Guide to Using ARM Stack Limit Registers" href="https://fanyxok.github.io/posts/tech/p04-using-psp-msp-limit-registers-for-stack-overflow/"></a>
+  <footer class="entry-footer">&lt;span title=&#39;2023-05-03 14:28:46 &#43;0800 CST&#39;&gt;May 3, 2023&lt;/span&gt;&amp;nbsp;·&amp;nbsp;11 min&amp;nbsp;·&amp;nbsp;2308 words&amp;nbsp;·&amp;nbsp;Me</footer>
+  <a class="entry-link" aria-label="post link to A Guide to Using ARM Stack Limit Registers" href="https://fanyxok.github.io/blog/p04-using-psp-msp-limit-registers-for-stack-overflow/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>A Practical guide to ARM Cortex-M Exception Handling
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>几乎所有嵌入式系统都在某种程度上依赖于处理异步事件的能力。 例如，它从加速度计读取外部传感器数据，以便计算步数 或处理周期性计时器事件以触发RTOS的上下文切换。
+在本文中，我们将深入研究ARM Cortex-M 的Exception Model如何支持异步事件的处理。 本文将介绍支持的不同异常类型、术语(NVIC、ISR、Priority)、configuration registers及其常用设置、与Exception有关的Advanced Topic以及一些用C编写的examples。
+注意:在大多数情况下，所有Cortex-M处理器(ARMv6-M、ARMv7-M和ARMv8-M体系结构)的异常处理机制是相同的。本文将在下面的相关章节中指出它们的差异。
+ARM Exception Model Overview ARM specification将Exception定义为“a condition that changes the normal flow of control in a program” 1.
+你会经常看到&#34;Exception&#34;和&#34;Interrupt&#34;交替出现. 在ARM文档中, “Interrupt&#34;用来描述&#34;Exception&#34;的一种. Exception包含以下3部分标识信息:
+Exception Number - 表示特定类型Exception的唯一编号(从1开始). 这个编号也用作Vector Table的offset, 这种类型的Exception对应routine的address可以在这里找到. 这样的routine通常被称为Exception Handler或者Interrupt Service Routine (ISR),它是在Exception触发时会被执行的函数. 当Exception被触发时,ARM硬件会自动的从Vector Table中寻找对应的函数指针并执行. Priority Level / Priority Number - 每种Exception都有一个优先级. 大部分exception的Priority Number是可配置的. 反直觉的地方是, 更小的priority number意味着更高的优先级. 所以如果priority level 1的exception和priority level 2的exception同时发生, priority level 1的exception会先被处理. 当本文说一个exception有最高优先级时, 意味着这个exception有最小的Priority Number. 如果两个exception有相同的Priority Number, Exception Number更小的那个会先被处理....</p>
+  </div>
+  <footer class="entry-footer">21 min&amp;nbsp;·&amp;nbsp;fanyuxin</footer>
+  <a class="entry-link" aria-label="post link to A Practical guide to ARM Cortex-M Exception Handling" href="https://fanyxok.github.io/blog/armv-m-exception/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>ARM Cortex-M RTOS Context Switching
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p></p>
+  </div>
+  <footer class="entry-footer">0 min&amp;nbsp;·&amp;nbsp;fanyuxin</footer>
+  <a class="entry-link" aria-label="post link to ARM Cortex-M RTOS Context Switching" href="https://fanyxok.github.io/blog/armv-m-context-switch/"></a>
 </article>
     </main>
     

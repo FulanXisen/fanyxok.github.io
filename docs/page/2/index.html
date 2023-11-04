@@ -2,7 +2,7 @@
 <html lang="en" dir="auto">
 
 <head>
-	<meta name="generator" content="Hugo 0.111.3"><meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.120.2"><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
@@ -11,7 +11,7 @@
 <meta name="description" content="This is a pure personal blog......">
 <meta name="author" content="fanyuxin">
 <link rel="canonical" href="https://fanyxok.github.io/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.8b523f1730c922e314350296d83fd666efa16519ca136320a93df674d00b6325.css" integrity="sha256-i1I/FzDJIuMUNQKW2D/WZu&#43;hZRnKE2MgqT32dNALYyU=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.9cb3367f5e4a5f697c44cbda52b86e66409d5ab9544dea6c3de722558c552e2b.css" integrity="sha256-nLM2f15KX2l8RMvaUrhuZkCdWrlUTepsPeciVYxVLis=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://fanyxok.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://fanyxok.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://fanyxok.github.io/favicon-32x32.png">
@@ -130,25 +130,12 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>How to debug a HardFault on an ARM Cortex-M MCU
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>How to debug a HardFault on an ARM Cortex-M MCU 20 Nov 2019 by Chris Coleman
-Faults happen on embedded devices all the time for a variety of reasons – ranging from something as simple as a NULL pointer dereference to something more unexpected like running a faulty code path only when in a zero-g environment on the Tower of Terror in Disneyland1. It’s important for any embedded engineer to understand how to debug and resolve this class of issue quickly....</p>
-  </div>
-  <footer class="entry-footer"><span title='2023-04-27 21:21:59 +0800 CST'>April 27, 2023</span>&nbsp;·&nbsp;31 min&nbsp;·&nbsp;fanyuxin</footer>
-  <a class="entry-link" aria-label="post link to How to debug a HardFault on an ARM Cortex-M MCU" href="https://fanyxok.github.io/posts/tech/p01-cortex-m-fault/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>IEEE745浮点数表示法
+    <h2>IEEE 745 floating point representation
     </h2>
   </header>
   <div class="entry-content">
     <p>32-bit 表示一个单精度浮点数 float
-$V=(-1)^s \times M \times 2^E$ 32-bit 分为3部分： S, E, M
+$V=(-1)^s \times M \times 2^E$ Bit Segments 32-bit 分为3部分： S, E, M
 S: 符号位，1bit，0 表示正数， -1 表示负数 E: 指数位，8bit，取值[-127, 128]. M: 尾数位，23bit，取值[0, $2^{23}-1$]. 指数的底固定为2，指数有正数也有负数，但指数部分没有符号位，取一个中间值，小于中间值的表示负数，等于中间值的表示0，大于中间值的表示正数，中间值的定义如下：Bias=$2^{k-1}$-1, k表示E的bit数。实际的E为E-Bias.
 尾数部分隐藏了小数点前的1，实际为1.M。M转换为十进制从高位开始计算： $1&#43;b_{22}\times\frac{1}{2}&#43;b_{21}\times\frac{1}{4}&#43;…&#43;b_{0}\times\frac{1}{2^{23}}$
 规格化的表示，E不是全0，也不是全1，M任意取值
@@ -156,8 +143,8 @@ E全为0时，表示&#43;0.0, -0.0和接近0.0的值
 E全为1，M全为0时，表示无穷，符号位区分正无穷和负无穷
 E全为1，M不全为0时，表示NaN，不是一个数。</p>
   </div>
-  <footer class="entry-footer"><span title='2022-07-22 10:44:05 +0800 CST'>July 22, 2022</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;fanyuxin</footer>
-  <a class="entry-link" aria-label="post link to IEEE745浮点数表示法" href="https://fanyxok.github.io/posts/tech/ieee745/"></a>
+  <footer class="entry-footer">&lt;span title=&#39;2022-07-22 10:44:05 &#43;0800 CST&#39;&gt;July 22, 2022&lt;/span&gt;&amp;nbsp;·&amp;nbsp;1 min&amp;nbsp;·&amp;nbsp;fanyuxin</footer>
+  <a class="entry-link" aria-label="post link to IEEE 745 floating point representation" href="https://fanyxok.github.io/blog/ieee745/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -188,8 +175,8 @@ Padding ECB和CBC需要最后一块在加密前进行填充
 其他 消息认证码（MAC）通常由块密码得到，例如CBC-MAC（英语：CBC-MAC），OMAC（英语：One-key_MAC）和PMAC（英语：PMAC_(cryptography)）。
 认证加密也采用块密码作为其中的一部，其同时使用加密和MAC以提供保密性和数据完整性，例如IAPM（英语：IAPM_(mode)），CCM（英语：CCM_mode），CWC（英语：CWC_mode），EAX（英语：EAX_mode），GCM（英语：Galois/Counter_Mode）和OCB（英语：OCB_mode）。</p>
   </div>
-  <footer class="entry-footer"><span title='2022-07-21 17:31:28 +0800 CST'>July 21, 2022</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;fanyuxin</footer>
-  <a class="entry-link" aria-label="post link to AES对称加密" href="https://fanyxok.github.io/posts/tech/aes/"></a>
+  <footer class="entry-footer">&lt;span title=&#39;2022-07-21 17:31:28 &#43;0800 CST&#39;&gt;July 21, 2022&lt;/span&gt;&amp;nbsp;·&amp;nbsp;1 min&amp;nbsp;·&amp;nbsp;fanyuxin</footer>
+  <a class="entry-link" aria-label="post link to AES对称加密" href="https://fanyxok.github.io/blog/aes/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -205,8 +192,8 @@ full line equation: $$ e^e = \pi $$
 A Table a a b b A complex latex equation $$\begin{array}{cc} a &amp; b \\ c &amp; d \end{array}$$
 $$\begin{bmatrix} a &amp; b \newline c &amp; d \end{bmatrix}$$</p>
   </div>
-  <footer class="entry-footer"><span title='2022-07-19 19:03:35 +0800 CST'>July 19, 2022</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;fanyuxin</footer>
-  <a class="entry-link" aria-label="post link to My First Post" href="https://fanyxok.github.io/posts/tech/my-first-post/"></a>
+  <footer class="entry-footer">&lt;span title=&#39;2022-07-19 19:03:35 &#43;0800 CST&#39;&gt;July 19, 2022&lt;/span&gt;&amp;nbsp;·&amp;nbsp;1 min&amp;nbsp;·&amp;nbsp;fanyuxin</footer>
+  <a class="entry-link" aria-label="post link to My First Post" href="https://fanyxok.github.io/blog/my-first-post/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -232,8 +219,8 @@ for $i = 1$ to $k$ : if $h^{q/p_{i}}=1$ return “$h$ is not a generator” retu
 当gcd($x,q$)=1时, $h$也是$\mathbb{G}$的一个生成元. Oblivious Transfer from Cyclic Group Reference:
 More efficient oblivious transfer and extensions for faster secure computation...</p>
   </div>
-  <footer class="entry-footer"><span title='2022-07-19 19:03:35 +0800 CST'>July 19, 2022</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;fanyuxin</footer>
-  <a class="entry-link" aria-label="post link to Oblivious Transfer and Cyclic Group" href="https://fanyxok.github.io/posts/tech/otandcylicgroup/"></a>
+  <footer class="entry-footer">&lt;span title=&#39;2022-07-19 19:03:35 &#43;0800 CST&#39;&gt;July 19, 2022&lt;/span&gt;&amp;nbsp;·&amp;nbsp;2 min&amp;nbsp;·&amp;nbsp;fanyuxin</footer>
+  <a class="entry-link" aria-label="post link to Oblivious Transfer and Cyclic Group" href="https://fanyxok.github.io/blog/otandcylicgroup/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -242,12 +229,11 @@ More efficient oblivious transfer and extensions for faster secure computation..
     </h2>
   </header>
   <div class="entry-content">
-    <p>Control a Bluetooth Device via Bluetoothctl 1. Overview In this tutorial, we’ll learn how to connect to a Bluetooth device via the terminal. This process involves configuring our Bluetooth controller, pairing it to our target device, and then finally connecting.
-2. Using the bluetoothctl Command BlueZ provides support for Bluetooth functionality and protocols through the bluetoothd daemon. To interact with bluetoothd from the terminal, we use the bluetoothctl command.
-Let’s begin by running bluetoothctl without any arguments:...</p>
+    <p>SSH to RPI (Ethernet Cable) ssh fanyx@pi.local where pi is the hostname of rpi.
+This instruction doesn’t need a address.</p>
   </div>
-  <footer class="entry-footer">6 min&nbsp;·&nbsp;fanyuxin</footer>
-  <a class="entry-link" aria-label="post link to " href="https://fanyxok.github.io/posts/tech/control-bluetooth-device-via-bluetoothctl/"></a>
+  <footer class="entry-footer">1 min&amp;nbsp;·&amp;nbsp;fanyuxin</footer>
+  <a class="entry-link" aria-label="post link to " href="https://fanyxok.github.io/blog/device-rpi-4b/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -260,8 +246,51 @@ Let’s begin by running bluetoothctl without any arguments:...</p>
 Easy Begin 内核模块包 编程内核模块首先要安装内核模块包kmod.
 sudo apt-get install build-essential kmod 命令行的内核模块相关命令 sudo lsmod # 查看所有加载进内核的模块 sudo cat /proc/modules # 和lsmod有什么不同 sudo modinfo ABC_x.ko # 查看模块ABC的信息 sudo insmod ABC_x.ko # 向内核中加载模块ABC sudo rmmod ABC-x # 从内核中卸载模块ABC, 注意ABC_x.ko名称中的&#39;_&#39;字符会被内核自动替换成&#39;-&#39;字符 sudo journalctl --since &#34;1 hour ago&#34; | grep kernel # 查看过去一小时内的内核日志 编码前须知 版本. 如果编译模块A时include的内核头文件版本与加载模块A的内核版本不一致, 会导致加载失败. 如果必须要这样做, 例如模块A兼容多个内核版本, 需要启用CONFIG_MODVERSIONS编译制导. 命令行. 内核模块无法打印输出到屏幕,但可以记录日志信息然后读取日志信息到屏幕. SecureBoot. SecureBoot是UEFI的一个设置, 要求只会引导安全密钥签名过的模块. [Shell]ERROR: could not insert module. [dmesg]Lockdown: insmod: unsigned module loading is restricted; see man kernel lockdown....</p>
   </div>
-  <footer class="entry-footer">9 min&nbsp;·&nbsp;fanyuxin</footer>
-  <a class="entry-link" aria-label="post link to " href="https://fanyxok.github.io/posts/tech/linux-kernel-module-programming-guide/"></a>
+  <footer class="entry-footer">9 min&amp;nbsp;·&amp;nbsp;fanyuxin</footer>
+  <a class="entry-link" aria-label="post link to " href="https://fanyxok.github.io/blog/linux-kernel-module-programming-guide/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>A Practical guide to ARM Cortex-M Exception Handling
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>几乎所有嵌入式系统都在某种程度上依赖于处理异步事件的能力。 例如，它从加速度计读取外部传感器数据，以便计算步数 或处理周期性计时器事件以触发RTOS的上下文切换。
+在本文中，我们将深入研究ARM Cortex-M 的Exception Model如何支持异步事件的处理。 本文将介绍支持的不同异常类型、术语(NVIC、ISR、Priority)、configuration registers及其常用设置、与Exception有关的Advanced Topic以及一些用C编写的examples。
+注意:在大多数情况下，所有Cortex-M处理器(ARMv6-M、ARMv7-M和ARMv8-M体系结构)的异常处理机制是相同的。本文将在下面的相关章节中指出它们的差异。
+ARM Exception Model Overview ARM specification将Exception定义为“a condition that changes the normal flow of control in a program” 1.
+你会经常看到&#34;Exception&#34;和&#34;Interrupt&#34;交替出现. 在ARM文档中, “Interrupt&#34;用来描述&#34;Exception&#34;的一种. Exception包含以下3部分标识信息:
+Exception Number - 表示特定类型Exception的唯一编号(从1开始). 这个编号也用作Vector Table的offset, 这种类型的Exception对应routine的address可以在这里找到. 这样的routine通常被称为Exception Handler或者Interrupt Service Routine (ISR),它是在Exception触发时会被执行的函数. 当Exception被触发时,ARM硬件会自动的从Vector Table中寻找对应的函数指针并执行. Priority Level / Priority Number - 每种Exception都有一个优先级. 大部分exception的Priority Number是可配置的. 反直觉的地方是, 更小的priority number意味着更高的优先级. 所以如果priority level 1的exception和priority level 2的exception同时发生, priority level 1的exception会先被处理. 当本文说一个exception有最高优先级时, 意味着这个exception有最小的Priority Number. 如果两个exception有相同的Priority Number, Exception Number更小的那个会先被处理....</p>
+  </div>
+  <footer class="entry-footer">21 min&amp;nbsp;·&amp;nbsp;fanyuxin</footer>
+  <a class="entry-link" aria-label="post link to A Practical guide to ARM Cortex-M Exception Handling" href="https://fanyxok.github.io/blog/armv-m-exception/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>ARM Cortex-M RTOS Context Switching
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p></p>
+  </div>
+  <footer class="entry-footer">0 min&amp;nbsp;·&amp;nbsp;fanyuxin</footer>
+  <a class="entry-link" aria-label="post link to ARM Cortex-M RTOS Context Switching" href="https://fanyxok.github.io/blog/armv-m-context-switch/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Control Bluetooth Device via Bluetoothctl
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Control a Bluetooth Device via Bluetoothctl 1. Overview In this tutorial, we’ll learn how to connect to a Bluetooth device via the terminal. This process involves configuring our Bluetooth controller, pairing it to our target device, and then finally connecting.
+2. Using the bluetoothctl Command BlueZ provides support for Bluetooth functionality and protocols through the bluetoothd daemon. To interact with bluetoothd from the terminal, we use the bluetoothctl command.
+Let’s begin by running bluetoothctl without any arguments:...</p>
+  </div>
+  <footer class="entry-footer">6 min&amp;nbsp;·&amp;nbsp;fanyuxin</footer>
+  <a class="entry-link" aria-label="post link to Control Bluetooth Device via Bluetoothctl" href="https://fanyxok.github.io/blog/control-bluetooth-device-via-bluetoothctl/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

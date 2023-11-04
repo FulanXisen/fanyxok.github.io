@@ -2,22 +2,43 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://fanyxok.github.io/blog/</loc>
+    <lastmod>2023-11-04T15:53:37+00:00</lastmod>
+  </url><url>
+    <loc>https://fanyxok.github.io/categories/</loc>
+    <lastmod>2023-11-04T15:53:37+00:00</lastmod>
+  </url><url>
+    <loc>https://fanyxok.github.io/tags/linux/</loc>
+    <lastmod>2023-11-04T15:53:37+00:00</lastmod>
+  </url><url>
+    <loc>https://fanyxok.github.io/blog/pulseaudio/</loc>
+    <lastmod>2023-11-04T15:53:37+00:00</lastmod>
+  </url><url>
+    <loc>https://fanyxok.github.io/tags/sound/</loc>
+    <lastmod>2023-11-04T15:53:37+00:00</lastmod>
+  </url><url>
+    <loc>https://fanyxok.github.io/tags/</loc>
+    <lastmod>2023-11-04T15:53:37+00:00</lastmod>
+  </url><url>
+    <loc>https://fanyxok.github.io/categories/technology/</loc>
+    <lastmod>2023-11-04T15:53:37+00:00</lastmod>
+  </url><url>
+    <loc>https://fanyxok.github.io/</loc>
+    <lastmod>2023-11-04T15:53:37+00:00</lastmod>
+  </url><url>
+    <loc>https://fanyxok.github.io/tags/neovim/</loc>
+    <lastmod>2023-10-15T16:03:14+08:00</lastmod>
+  </url><url>
+    <loc>https://fanyxok.github.io/blog/neovim-beginner/</loc>
+    <lastmod>2023-10-15T16:03:14+08:00</lastmod>
+  </url><url>
     <loc>https://fanyxok.github.io/about/</loc>
     <lastmod>2023-10-14T23:26:24+08:00</lastmod>
   </url><url>
     <loc>https://fanyxok.github.io/tags/tags/</loc>
     <lastmod>2023-10-14T23:26:24+08:00</lastmod>
   </url><url>
-    <loc>https://fanyxok.github.io/tags/</loc>
-    <lastmod>2023-10-14T23:26:24+08:00</lastmod>
-  </url><url>
-    <loc>https://fanyxok.github.io/</loc>
-    <lastmod>2023-10-14T23:26:24+08:00</lastmod>
-  </url><url>
     <loc>https://fanyxok.github.io/tags/bare-matel/</loc>
-    <lastmod>2023-10-14T16:40:08+08:00</lastmod>
-  </url><url>
-    <loc>https://fanyxok.github.io/posts/</loc>
     <lastmod>2023-10-14T16:40:08+08:00</lastmod>
   </url><url>
     <loc>https://fanyxok.github.io/tags/cortex-m/</loc>
@@ -26,10 +47,7 @@
     <loc>https://fanyxok.github.io/tags/embedded/</loc>
     <lastmod>2023-10-14T16:40:08+08:00</lastmod>
   </url><url>
-    <loc>https://fanyxok.github.io/posts/tech/embedded_system_from_zero_to_main/</loc>
-    <lastmod>2023-10-14T16:40:08+08:00</lastmod>
-  </url><url>
-    <loc>https://fanyxok.github.io/posts/tech/</loc>
+    <loc>https://fanyxok.github.io/blog/embedded_system_from_zero_to_main/</loc>
     <lastmod>2023-10-14T16:40:08+08:00</lastmod>
   </url><url>
     <loc>https://fanyxok.github.io/tags/dbus/</loc>
@@ -38,46 +56,31 @@
     <loc>https://fanyxok.github.io/tags/ipc/</loc>
     <lastmod>2023-09-21T22:39:17+08:00</lastmod>
   </url><url>
-    <loc>https://fanyxok.github.io/tags/linux/</loc>
+    <loc>https://fanyxok.github.io/blog/linux-dbus/</loc>
     <lastmod>2023-09-21T22:39:17+08:00</lastmod>
-  </url><url>
-    <loc>https://fanyxok.github.io/posts/tech/linux-dbus/</loc>
-    <lastmod>2023-09-21T22:39:17+08:00</lastmod>
-  </url><url>
-    <loc>https://fanyxok.github.io/tags/rpi/</loc>
-    <lastmod>2023-09-19T22:03:19+08:00</lastmod>
-  </url><url>
-    <loc>https://fanyxok.github.io/posts/tech/device-rpi-4b/</loc>
-    <lastmod>2023-09-19T22:03:19+08:00</lastmod>
   </url><url>
     <loc>https://fanyxok.github.io/tags/vim/</loc>
     <lastmod>2023-09-10T23:18:43+08:00</lastmod>
   </url><url>
-    <loc>https://fanyxok.github.io/posts/tech/neovim-usage/</loc>
+    <loc>https://fanyxok.github.io/blog/neovim-usage/</loc>
     <lastmod>2023-09-10T23:18:43+08:00</lastmod>
-  </url><url>
-    <loc>https://fanyxok.github.io/posts/tech/p07-arm-cortex-m-exceptions-and-nvic/</loc>
-    <lastmod>2023-05-24T20:29:59+08:00</lastmod>
-  </url><url>
-    <loc>https://fanyxok.github.io/tags/arm/</loc>
-    <lastmod>2023-05-24T20:29:59+08:00</lastmod>
-  </url><url>
-    <loc>https://fanyxok.github.io/tags/exception/</loc>
-    <lastmod>2023-05-24T20:29:59+08:00</lastmod>
   </url><url>
     <loc>https://fanyxok.github.io/tags/linker-script/</loc>
     <lastmod>2023-05-04T17:58:33+08:00</lastmod>
   </url><url>
-    <loc>https://fanyxok.github.io/posts/tech/p06-the-most-thoroughly-commented-linker-script/</loc>
+    <loc>https://fanyxok.github.io/blog/p06-the-most-thoroughly-commented-linker-script/</loc>
     <lastmod>2023-05-04T17:58:33+08:00</lastmod>
   </url><url>
     <loc>https://fanyxok.github.io/tags/cmake/</loc>
     <lastmod>2023-05-03T23:38:47+08:00</lastmod>
   </url><url>
-    <loc>https://fanyxok.github.io/posts/tech/p05-example-of-embedded-cmakelists-files/</loc>
+    <loc>https://fanyxok.github.io/blog/p05-example-of-embedded-cmakelists-files/</loc>
     <lastmod>2023-05-03T23:38:47+08:00</lastmod>
   </url><url>
-    <loc>https://fanyxok.github.io/posts/tech/p04-using-psp-msp-limit-registers-for-stack-overflow/</loc>
+    <loc>https://fanyxok.github.io/blog/p04-using-psp-msp-limit-registers-for-stack-overflow/</loc>
+    <lastmod>2023-05-03T14:28:46+08:00</lastmod>
+  </url><url>
+    <loc>https://fanyxok.github.io/tags/arm/</loc>
     <lastmod>2023-05-03T14:28:46+08:00</lastmod>
   </url><url>
     <loc>https://fanyxok.github.io/tags/stack-over-flow/</loc>
@@ -86,39 +89,38 @@
     <loc>https://fanyxok.github.io/tags/first/</loc>
     <lastmod>2023-04-28T15:45:15+08:00</lastmod>
   </url><url>
-    <loc>https://fanyxok.github.io/posts/tech/p03-yao-impl/</loc>
+    <loc>https://fanyxok.github.io/blog/p03-yao-impl/</loc>
     <lastmod>2023-04-28T15:45:15+08:00</lastmod>
   </url><url>
-    <loc>https://fanyxok.github.io/posts/tech/p02-cortex-m-context-switching/</loc>
+    <loc>https://fanyxok.github.io/blog/p01-cortex-m-fault/</loc>
     <lastmod>2023-04-27T21:21:59+08:00</lastmod>
   </url><url>
-    <loc>https://fanyxok.github.io/posts/tech/p01-cortex-m-fault/</loc>
-    <lastmod>2023-04-27T21:21:59+08:00</lastmod>
-  </url><url>
-    <loc>https://fanyxok.github.io/posts/tech/ieee745/</loc>
+    <loc>https://fanyxok.github.io/blog/ieee745/</loc>
     <lastmod>2022-07-22T10:44:05+08:00</lastmod>
   </url><url>
-    <loc>https://fanyxok.github.io/posts/tech/aes/</loc>
+    <loc>https://fanyxok.github.io/blog/aes/</loc>
     <lastmod>2022-07-21T17:31:28+08:00</lastmod>
   </url><url>
-    <loc>https://fanyxok.github.io/posts/tech/my-first-post/</loc>
+    <loc>https://fanyxok.github.io/blog/my-first-post/</loc>
     <lastmod>2022-07-19T19:03:35+08:00</lastmod>
   </url><url>
-    <loc>https://fanyxok.github.io/posts/tech/otandcylicgroup/</loc>
+    <loc>https://fanyxok.github.io/blog/otandcylicgroup/</loc>
     <lastmod>2022-07-19T19:03:35+08:00</lastmod>
   </url><url>
-    <loc>https://fanyxok.github.io/posts/tech/control-bluetooth-device-via-bluetoothctl/</loc>
+    <loc>https://fanyxok.github.io/blog/device-rpi-4b/</loc>
   </url><url>
-    <loc>https://fanyxok.github.io/posts/tech/linux-kernel-module-programming-guide/</loc>
+    <loc>https://fanyxok.github.io/blog/linux-kernel-module-programming-guide/</loc>
   </url><url>
-    <loc>https://fanyxok.github.io/categories/</loc>
+    <loc>https://fanyxok.github.io/blog/armv-m-exception/</loc>
   </url><url>
-    <loc>https://fanyxok.github.io/posts/life/</loc>
+    <loc>https://fanyxok.github.io/blog/armv-m-context-switch/</loc>
   </url><url>
-    <loc>https://fanyxok.github.io/posts/read/</loc>
+    <loc>https://fanyxok.github.io/tags/bluetooth/</loc>
   </url><url>
-    <loc>https://fanyxok.github.io/search/</loc>
+    <loc>https://fanyxok.github.io/blog/control-bluetooth-device-via-bluetoothctl/</loc>
   </url><url>
-    <loc>https://fanyxok.github.io/archives/</loc>
+    <loc>https://fanyxok.github.io/categories/hardware/</loc>
+  </url><url>
+    <loc>https://fanyxok.github.io/tags/rtos/</loc>
   </url>
 </urlset>

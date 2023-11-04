@@ -2,7 +2,7 @@
 <html lang="en" dir="auto">
 
 <head>
-	<meta name="generator" content="Hugo 0.111.3"><meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.120.2"><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
@@ -11,7 +11,7 @@
 <meta name="description" content="This is a pure personal blog......">
 <meta name="author" content="fanyuxin">
 <link rel="canonical" href="https://fanyxok.github.io/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.8b523f1730c922e314350296d83fd666efa16519ca136320a93df674d00b6325.css" integrity="sha256-i1I/FzDJIuMUNQKW2D/WZu&#43;hZRnKE2MgqT32dNALYyU=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.9cb3367f5e4a5f697c44cbda52b86e66409d5ab9544dea6c3de722558c552e2b.css" integrity="sha256-nLM2f15KX2l8RMvaUrhuZkCdWrlUTepsPeciVYxVLis=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://fanyxok.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://fanyxok.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://fanyxok.github.io/favicon-32x32.png">
@@ -165,6 +165,38 @@
 </article>
 
 <article class="post-entry"> 
+  <header class="entry-header">
+    <h2>PulseAudio Under the Hood
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Diagram of PulseAudio Pipewire is an alternative. Preface I’m working on the Roc Toolkit open-source project, a development kit for realtime audio streaming over the network. You can read more about the project in these two articles: 1, 2.
+We decided to implement a set of PulseAudio modules that will allow PulseAudio to use Roc as a network transport. Many Linux distros employ PulseAudio, and their users will be able to improve network service quality without changing the workflow....</p>
+  </div>
+  <footer class="entry-footer">&lt;span title=&#39;2023-11-04 15:53:37.903 &#43;0000 UTC&#39;&gt;November 4, 2023&lt;/span&gt;&amp;nbsp;·&amp;nbsp;164 min&amp;nbsp;·&amp;nbsp;fanyuxin</footer>
+  <a class="entry-link" aria-label="post link to PulseAudio Under the Hood" href="https://fanyxok.github.io/blog/pulseaudio/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover"><img loading="lazy" src="https://fanyxok.github.io/%3Cimage%20path/url%3E" alt="">
+</figure>
+  <header class="entry-header">
+    <h2>Neovim Beginner<sup><span class="entry-isdraft">&nbsp;&nbsp;[draft]</span></sup>
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Neovim Beginner init.lua Install.sh plugins.lua is where we start to configure Neovim.
+All Lua configuration files are under the lua folder (:h lua-require).
+Startup Screen Use alpha.nvim as the startup screen.
+The configuration file is lua/config/alpha.lua.
+alpha.lua:
+pcall is used to prevent errors requiring a non-existent module or a module with syntax errors. We specify an ASCII art header, some convenient shortcuts, and a footer to indicate the number of plugins, date and time, and a quote....</p>
+  </div>
+  <footer class="entry-footer">&lt;span title=&#39;2023-10-15 16:03:14 &#43;0800 CST&#39;&gt;October 15, 2023&lt;/span&gt;&amp;nbsp;·&amp;nbsp;2 min&amp;nbsp;·&amp;nbsp;391 words&amp;nbsp;·&amp;nbsp;fanyuxin</footer>
+  <a class="entry-link" aria-label="post link to Neovim Beginner" href="https://fanyxok.github.io/blog/neovim-beginner/"></a>
+</article>
+
+<article class="post-entry"> 
 <figure class="entry-cover"><img loading="lazy" src="https://fanyxok.github.io/%3Cimage%20path/url%3E" alt="">
 </figure>
   <header class="entry-header">
@@ -176,8 +208,8 @@
 Digging into the ARMv6-M Technical Reference Manual, which is the underlying architecture manual for the Cortex-M0&#43;, we can find some pseudo-code that describes reset behavior:
 // B1.5.5 TakeReset() // ============ TakeReset() VTOR = Zeros(32); for i = 0 to 12 R[i] = bits(32) UNKNOWN; bits(32) vectortable = VTOR; CurrentMode = Mode_Thread; LR = bits(32) UNKNOWN; // Value must be initialised by software APSR = bits(32) UNKNOWN; // Flags UNPREDICTABLE from reset IPSR&lt;5:0&gt; = Zeros(6); // Exception number cleared at reset PRIMASK....</p>
   </div>
-  <footer class="entry-footer"><span title='2023-10-14 16:40:08 +0800 CST'>October 14, 2023</span>&nbsp;·&nbsp;59 min&nbsp;·&nbsp;12415 words&nbsp;·&nbsp;fanyuxin</footer>
-  <a class="entry-link" aria-label="post link to Embedded System from Zero to Main()" href="https://fanyxok.github.io/posts/tech/embedded_system_from_zero_to_main/"></a>
+  <footer class="entry-footer">&lt;span title=&#39;2023-10-14 16:40:08 &#43;0800 CST&#39;&gt;October 14, 2023&lt;/span&gt;&amp;nbsp;·&amp;nbsp;59 min&amp;nbsp;·&amp;nbsp;12415 words&amp;nbsp;·&amp;nbsp;fanyuxin</footer>
+  <a class="entry-link" aria-label="post link to Embedded System from Zero to Main()" href="https://fanyxok.github.io/blog/embedded_system_from_zero_to_main/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -213,23 +245,8 @@ Digging into the ARMv6-M Technical Reference Manual, which is the underlying arc
 4. Using DBus 现在我们了解了DBus以及它在Linux桌面中的使用，让我们探讨它在Linux系统中的实际用途。
 4.1. With System Services DBus最常见的用途是与系统服务进行交互。系统服务和守护进程通过DBus接口公开其功能，允许其他应用程序和服务与它们连接。...</p>
   </div>
-  <footer class="entry-footer"><span title='2023-09-21 22:39:17 +0800 CST'>September 21, 2023</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;419 words&nbsp;·&nbsp;福岚溪森</footer>
-  <a class="entry-link" aria-label="post link to Linux DBus IPC System" href="https://fanyxok.github.io/posts/tech/linux-dbus/"></a>
-</article>
-
-<article class="post-entry"> 
-<figure class="entry-cover"><img loading="lazy" src="https://fanyxok.github.io/%3Cimage%20path/url%3E" alt="">
-</figure>
-  <header class="entry-header">
-    <h2>Things About RPI 4B
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>SSH to RPI (Ethernet Cable) ssh fanyx@pi.local where pi is the hostname of rpi.
-This instruction doesn’t need a address.</p>
-  </div>
-  <footer class="entry-footer"><span title='2023-09-19 22:03:19 +0800 CST'>September 19, 2023</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;20 words&nbsp;·&nbsp;Me</footer>
-  <a class="entry-link" aria-label="post link to Things About RPI 4B" href="https://fanyxok.github.io/posts/tech/device-rpi-4b/"></a>
+  <footer class="entry-footer">&lt;span title=&#39;2023-09-21 22:39:17 &#43;0800 CST&#39;&gt;September 21, 2023&lt;/span&gt;&amp;nbsp;·&amp;nbsp;2 min&amp;nbsp;·&amp;nbsp;419 words&amp;nbsp;·&amp;nbsp;福岚溪森</footer>
+  <a class="entry-link" aria-label="post link to Linux DBus IPC System" href="https://fanyxok.github.io/blog/linux-dbus/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -251,28 +268,8 @@ This instruction doesn’t need a address.</p>
 查找定义 函数的定义可能会出现在不同的位置, 由编译宏开关控制真实采用的定义. 所以查找符号要有确定当前环境宏定义的能力, 才能找到正确的定义.
 查找引用 与函数有多个定义类似, 相同签名的不同函数定义也分别有其应用. 它们不一定是互斥的, 也可能是相交或者包含等等关系....</p>
   </div>
-  <footer class="entry-footer"><span title='2023-09-10 23:18:43 +0800 CST'>September 10, 2023</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;77 words&nbsp;·&nbsp;Me</footer>
-  <a class="entry-link" aria-label="post link to 我的Neovim心得" href="https://fanyxok.github.io/posts/tech/neovim-usage/"></a>
-</article>
-
-<article class="post-entry"> 
-<figure class="entry-cover"><img loading="lazy" src="https://fanyxok.github.io/%3Cimage%20path/url%3E" alt="">
-</figure>
-  <header class="entry-header">
-    <h2>A Practical guide to ARM Cortex-M Exception Handling
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>04 Sep 2019 by Chris Coleman
-几乎所有嵌入式系统都在某种程度上依赖于处理异步事件的能力。 例如，它从加速度计读取外部传感器数据，以便计算步数 或处理周期性计时器事件以触发RTOS的上下文切换。
-在本文中，我们将深入研究ARM Cortex-M 的Exception Model如何支持异步事件的处理。 本文将介绍支持的不同异常类型、术语(NVIC、ISR、Priority)、configuration registers及其常用设置、与Exception有关的Advanced Topic以及一些用C编写的examples。
-注意:在大多数情况下，所有Cortex-M处理器(ARMv6-M、ARMv7-M和ARMv8-M体系结构)的异常处理机制是相同的。本文将在下面的相关章节中指出它们的差异。
-ARM Exception Model Overview ARM specification将Exception定义为“a condition that changes the normal flow of control in a program” 1.
-你会经常看到&#34;Exception&#34;和&#34;Interrupt&#34;交替出现. 在ARM文档中, “Interrupt&#34;用来描述&#34;Exception&#34;的一种. Exception包含以下3部分标识信息:
-Exception Number - 表示特定类型Exception的唯一编号(从1开始). 这个编号也用作Vector Table的offset, 这种类型的Exception对应routine的address可以在这里找到. 这样的routine通常被称为Exception Handler或者Interrupt Service Routine (ISR),它是在Exception触发时会被执行的函数. 当Exception被触发时,ARM硬件会自动的从Vector Table中寻找对应的函数指针并执行. Priority Level / Priority Number - 每种Exception都有一个优先级. 大部分exception的Priority Number是可配置的. 反直觉的地方是, 更小的priority number意味着更高的优先级. 所以如果priority level 1的exception和priority level 2的exception同时发生, priority level 1的exception会先被处理....</p>
-  </div>
-  <footer class="entry-footer"><span title='2023-05-24 20:29:59 +0800 CST'>May 24, 2023</span>&nbsp;·&nbsp;21 min&nbsp;·&nbsp;4399 words&nbsp;·&nbsp;Me</footer>
-  <a class="entry-link" aria-label="post link to A Practical guide to ARM Cortex-M Exception Handling" href="https://fanyxok.github.io/posts/tech/p07-arm-cortex-m-exceptions-and-nvic/"></a>
+  <footer class="entry-footer">&lt;span title=&#39;2023-09-10 23:18:43 &#43;0800 CST&#39;&gt;September 10, 2023&lt;/span&gt;&amp;nbsp;·&amp;nbsp;1 min&amp;nbsp;·&amp;nbsp;77 words&amp;nbsp;·&amp;nbsp;Me</footer>
+  <a class="entry-link" aria-label="post link to 我的Neovim心得" href="https://fanyxok.github.io/blog/neovim-usage/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -289,8 +286,8 @@ The most thoroughly commented linker script (probably) 链接脚本控制着链�
 完整的脚本和注释转录如下.
 /* The Most Thoroughly Commented Linker Script in The World This is a linker script for the Atmel/Microchip SAM D21 with an absolutely obscene amount of documentation. */ /* OUTPUT_FORMAT configures the linker to use a platform-specific BFD backend to generate ELF files. BFD backends instruct the linker on how to properly create the ELF sections for a given platform....</p>
   </div>
-  <footer class="entry-footer"><span title='2023-05-04 17:58:33 +0800 CST'>May 4, 2023</span>&nbsp;·&nbsp;21 min&nbsp;·&nbsp;4282 words&nbsp;·&nbsp;Me</footer>
-  <a class="entry-link" aria-label="post link to 最透彻的链接器脚本注释" href="https://fanyxok.github.io/posts/tech/p06-the-most-thoroughly-commented-linker-script/"></a>
+  <footer class="entry-footer">&lt;span title=&#39;2023-05-04 17:58:33 &#43;0800 CST&#39;&gt;May 4, 2023&lt;/span&gt;&amp;nbsp;·&amp;nbsp;21 min&amp;nbsp;·&amp;nbsp;4282 words&amp;nbsp;·&amp;nbsp;Me</footer>
+  <a class="entry-link" aria-label="post link to 最透彻的链接器脚本注释" href="https://fanyxok.github.io/blog/p06-the-most-thoroughly-commented-linker-script/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -305,8 +302,8 @@ The most thoroughly commented linker script (probably) 链接脚本控制着链�
 Many embedded software engineers have had to deal with build systems that are either non cross-platform or a part of the IDE they are using, don’t offer easy composability or per-library configuration, provide no testing support or ways to generate or package files without using a third party scripting language.
 CMake is a build system that offers solutions to many of those problems and is already well adopted in the world of traditional software development....</p>
   </div>
-  <footer class="entry-footer"><span title='2023-05-03 23:38:47 +0800 CST'>May 3, 2023</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;1127 words&nbsp;·&nbsp;Me</footer>
-  <a class="entry-link" aria-label="post link to Example of Embedded CMakeLists Files" href="https://fanyxok.github.io/posts/tech/p05-example-of-embedded-cmakelists-files/"></a>
+  <footer class="entry-footer">&lt;span title=&#39;2023-05-03 23:38:47 &#43;0800 CST&#39;&gt;May 3, 2023&lt;/span&gt;&amp;nbsp;·&amp;nbsp;6 min&amp;nbsp;·&amp;nbsp;1127 words&amp;nbsp;·&amp;nbsp;Me</footer>
+  <a class="entry-link" aria-label="post link to Example of Embedded CMakeLists Files" href="https://fanyxok.github.io/blog/p05-example-of-embedded-cmakelists-files/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -323,8 +320,8 @@ CMake is a build system that offers solutions to many of those problems and is a
 我们将探索在ARM Cortex-M33架构上使用MSP Limit和PSP Limit寄存器来检测堆栈溢出。我们将在Renesas DA1469x上进行实现，并查看检测堆栈溢出的实际示例。此外，我们还将查看MSPLIM和PSPLIM功能不足的情况下的补充选项。
 Table of Contents Basic Terminology How does it work? Implementing the Limit Registers Initializing the MSPLIM Register Initializing the PSPLIM Register Setting up the UsageFault_Handler Testing our Implementation Limitations and Further Improvements Stack Canary FreeRTOS Buffer Overflow protection Compiler Enabled Overflow Detection GCC SSP Example Practical implementations for GCC stack Canaries Closing References Basic Terminology The ARM Cortex-M33 introduced two new stack limit registers, PSPLIM and MSPLIM 1....</p>
   </div>
-  <footer class="entry-footer"><span title='2023-05-03 14:28:46 +0800 CST'>May 3, 2023</span>&nbsp;·&nbsp;11 min&nbsp;·&nbsp;2308 words&nbsp;·&nbsp;Me</footer>
-  <a class="entry-link" aria-label="post link to A Guide to Using ARM Stack Limit Registers" href="https://fanyxok.github.io/posts/tech/p04-using-psp-msp-limit-registers-for-stack-overflow/"></a>
+  <footer class="entry-footer">&lt;span title=&#39;2023-05-03 14:28:46 &#43;0800 CST&#39;&gt;May 3, 2023&lt;/span&gt;&amp;nbsp;·&amp;nbsp;11 min&amp;nbsp;·&amp;nbsp;2308 words&amp;nbsp;·&amp;nbsp;Me</footer>
+  <a class="entry-link" aria-label="post link to A Guide to Using ARM Stack Limit Registers" href="https://fanyxok.github.io/blog/p04-using-psp-msp-limit-registers-for-stack-overflow/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -338,21 +335,21 @@ Table of Contents Basic Terminology How does it work? Implementing the Limit Reg
     <p>Yao’s Protocol Theory Impl Yao’s Protocol in MPCFGO Type Struct Let’s declare a struct to represent a Yao’s Protocol variable.
 // Yshare The label and pointer are stored in a []byte, [0:len-1]byte, is the label, and [len-1]byte is the pointer type Yshare struct { // Yshare is a share of l bit, Plaintext is a l-bit number Plaintext pub.PubNum wValue [][]byte // wValue[i] is the i-th bit&#39;s label and pointer, activated wTable [][2][]byte // wValue[i][0] is the i-th bit&#39;s label and pointer of value 0, wValue[i][1] of value 1 } Yshare contains three fields:...</p>
   </div>
-  <footer class="entry-footer"><span title='2023-04-28 15:45:15 +0800 CST'>April 28, 2023</span>&nbsp;·&nbsp;9 min&nbsp;·&nbsp;1814 words&nbsp;·&nbsp;Me</footer>
-  <a class="entry-link" aria-label="post link to Yao&#39;s Protocol Impl in MPCFGO" href="https://fanyxok.github.io/posts/tech/p03-yao-impl/"></a>
+  <footer class="entry-footer">&lt;span title=&#39;2023-04-28 15:45:15 &#43;0800 CST&#39;&gt;April 28, 2023&lt;/span&gt;&amp;nbsp;·&amp;nbsp;9 min&amp;nbsp;·&amp;nbsp;1814 words&amp;nbsp;·&amp;nbsp;Me</footer>
+  <a class="entry-link" aria-label="post link to Yao&#39;s Protocol Impl in MPCFGO" href="https://fanyxok.github.io/blog/p03-yao-impl/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>ARM Cortex-M RTOS Context Switching
+    <h2>How to debug a HardFault on an ARM Cortex-M MCU
     </h2>
   </header>
   <div class="entry-content">
-    <p>ARM Cortex-M RTOS Context Switching 30 Oct 2019 by Chris Coleman
-Many embedded systems reach a level of complexity where having a basic set of scheduling primitives and ability to run different tasks can be helpful. The operation of switching from one task to another is known as a context switch. A Real Time Operating System (RTOS) will typically provide this functionality. Having a foundational knowledge of how the core of an RTOS works can be a valuable skill set for an embedded engineer to have....</p>
+    <p>How to debug a HardFault on an ARM Cortex-M MCU 20 Nov 2019 by Chris Coleman
+Faults happen on embedded devices all the time for a variety of reasons – ranging from something as simple as a NULL pointer dereference to something more unexpected like running a faulty code path only when in a zero-g environment on the Tower of Terror in Disneyland1. It’s important for any embedded engineer to understand how to debug and resolve this class of issue quickly....</p>
   </div>
-  <footer class="entry-footer"><span title='2023-04-27 21:21:59 +0800 CST'>April 27, 2023</span>&nbsp;·&nbsp;31 min&nbsp;·&nbsp;fanyuxin</footer>
-  <a class="entry-link" aria-label="post link to ARM Cortex-M RTOS Context Switching" href="https://fanyxok.github.io/posts/tech/p02-cortex-m-context-switching/"></a>
+  <footer class="entry-footer">&lt;span title=&#39;2023-04-27 21:21:59 &#43;0800 CST&#39;&gt;April 27, 2023&lt;/span&gt;&amp;nbsp;·&amp;nbsp;31 min&amp;nbsp;·&amp;nbsp;fanyuxin</footer>
+  <a class="entry-link" aria-label="post link to How to debug a HardFault on an ARM Cortex-M MCU" href="https://fanyxok.github.io/blog/p01-cortex-m-fault/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

@@ -9,10 +9,10 @@
     <lastBuildDate>Thu, 04 May 2023 17:58:33 +0800</lastBuildDate><atom:link href="https://fanyxok.github.io/tags/linker-script/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>最透彻的链接器脚本注释</title>
-      <link>https://fanyxok.github.io/posts/tech/p06-the-most-thoroughly-commented-linker-script/</link>
+      <link>https://fanyxok.github.io/blog/p06-the-most-thoroughly-commented-linker-script/</link>
       <pubDate>Thu, 04 May 2023 17:58:33 +0800</pubDate>
       
-      <guid>https://fanyxok.github.io/posts/tech/p06-the-most-thoroughly-commented-linker-script/</guid>
+      <guid>https://fanyxok.github.io/blog/p06-the-most-thoroughly-commented-linker-script/</guid>
       <description>一份嵌入式固件链接器脚本`.ld`的讲解</description>
     </item>
     

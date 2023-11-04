@@ -6,7 +6,34 @@
     <description>Recent content in Tags on 福岚溪森</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 14 Oct 2023 23:26:24 +0800</lastBuildDate><atom:link href="https://fanyxok.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 04 Nov 2023 15:53:37 +0000</lastBuildDate><atom:link href="https://fanyxok.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux</title>
+      <link>https://fanyxok.github.io/tags/linux/</link>
+      <pubDate>Sat, 04 Nov 2023 15:53:37 +0000</pubDate>
+      
+      <guid>https://fanyxok.github.io/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Sound</title>
+      <link>https://fanyxok.github.io/tags/sound/</link>
+      <pubDate>Sat, 04 Nov 2023 15:53:37 +0000</pubDate>
+      
+      <guid>https://fanyxok.github.io/tags/sound/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Neovim</title>
+      <link>https://fanyxok.github.io/tags/neovim/</link>
+      <pubDate>Sun, 15 Oct 2023 16:03:14 +0800</pubDate>
+      
+      <guid>https://fanyxok.github.io/tags/neovim/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>tags</title>
       <link>https://fanyxok.github.io/tags/tags/</link>
@@ -62,47 +89,11 @@
     </item>
     
     <item>
-      <title>Linux</title>
-      <link>https://fanyxok.github.io/tags/linux/</link>
-      <pubDate>Thu, 21 Sep 2023 22:39:17 +0800</pubDate>
-      
-      <guid>https://fanyxok.github.io/tags/linux/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>RPI</title>
-      <link>https://fanyxok.github.io/tags/rpi/</link>
-      <pubDate>Tue, 19 Sep 2023 22:03:19 +0800</pubDate>
-      
-      <guid>https://fanyxok.github.io/tags/rpi/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>vim</title>
       <link>https://fanyxok.github.io/tags/vim/</link>
       <pubDate>Sun, 10 Sep 2023 23:18:43 +0800</pubDate>
       
       <guid>https://fanyxok.github.io/tags/vim/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>ARM</title>
-      <link>https://fanyxok.github.io/tags/arm/</link>
-      <pubDate>Wed, 24 May 2023 20:29:59 +0800</pubDate>
-      
-      <guid>https://fanyxok.github.io/tags/arm/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>exception</title>
-      <link>https://fanyxok.github.io/tags/exception/</link>
-      <pubDate>Wed, 24 May 2023 20:29:59 +0800</pubDate>
-      
-      <guid>https://fanyxok.github.io/tags/exception/</guid>
       <description></description>
     </item>
     
@@ -125,6 +116,15 @@
     </item>
     
     <item>
+      <title>Arm</title>
+      <link>https://fanyxok.github.io/tags/arm/</link>
+      <pubDate>Wed, 03 May 2023 14:28:46 +0800</pubDate>
+      
+      <guid>https://fanyxok.github.io/tags/arm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Stack Over Flow</title>
       <link>https://fanyxok.github.io/tags/stack-over-flow/</link>
       <pubDate>Wed, 03 May 2023 14:28:46 +0800</pubDate>
@@ -139,6 +139,24 @@
       <pubDate>Fri, 28 Apr 2023 15:45:15 +0800</pubDate>
       
       <guid>https://fanyxok.github.io/tags/first/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Bluetooth</title>
+      <link>https://fanyxok.github.io/tags/bluetooth/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fanyxok.github.io/tags/bluetooth/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>RTOS</title>
+      <link>https://fanyxok.github.io/tags/rtos/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fanyxok.github.io/tags/rtos/</guid>
       <description></description>
     </item>
     

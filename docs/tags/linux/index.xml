@@ -6,14 +6,32 @@
     <description>Recent content in Linux on 福岚溪森</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 21 Sep 2023 22:39:17 +0800</lastBuildDate><atom:link href="https://fanyxok.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 04 Nov 2023 15:53:37 +0000</lastBuildDate><atom:link href="https://fanyxok.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>PulseAudio Under the Hood</title>
+      <link>https://fanyxok.github.io/blog/pulseaudio/</link>
+      <pubDate>Sat, 04 Nov 2023 15:53:37 +0000</pubDate>
+      
+      <guid>https://fanyxok.github.io/blog/pulseaudio/</guid>
+      <description>Linux Sound System -- PulseAudio</description>
+    </item>
+    
     <item>
       <title>Linux DBus IPC System</title>
-      <link>https://fanyxok.github.io/posts/tech/linux-dbus/</link>
+      <link>https://fanyxok.github.io/blog/linux-dbus/</link>
       <pubDate>Thu, 21 Sep 2023 22:39:17 +0800</pubDate>
       
-      <guid>https://fanyxok.github.io/posts/tech/linux-dbus/</guid>
+      <guid>https://fanyxok.github.io/blog/linux-dbus/</guid>
       <description>DBus is an inter-process communication system in Linux environment for both singleton and distributed system.</description>
+    </item>
+    
+    <item>
+      <title>Control Bluetooth Device via Bluetoothctl</title>
+      <link>https://fanyxok.github.io/blog/control-bluetooth-device-via-bluetoothctl/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fanyxok.github.io/blog/control-bluetooth-device-via-bluetoothctl/</guid>
+      <description>Bluez and Bluetoothclt in Linux Bluetooth System</description>
     </item>
     
   </channel>

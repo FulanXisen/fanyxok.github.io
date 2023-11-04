@@ -9,10 +9,10 @@
     <lastBuildDate>Sat, 14 Oct 2023 16:40:08 +0800</lastBuildDate><atom:link href="https://fanyxok.github.io/tags/cortex-m/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Embedded System from Zero to Main()</title>
-      <link>https://fanyxok.github.io/posts/tech/embedded_system_from_zero_to_main/</link>
+      <link>https://fanyxok.github.io/blog/embedded_system_from_zero_to_main/</link>
       <pubDate>Sat, 14 Oct 2023 16:40:08 +0800</pubDate>
       
-      <guid>https://fanyxok.github.io/posts/tech/embedded_system_from_zero_to_main/</guid>
+      <guid>https://fanyxok.github.io/blog/embedded_system_from_zero_to_main/</guid>
       <description>Setup a bare matel C environment, linker scripts, bootloader, libc</description>
     </item>
     

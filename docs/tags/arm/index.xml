@@ -1,28 +1,37 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>ARM on 福岚溪森</title>
+    <title>Arm on 福岚溪森</title>
     <link>https://fanyxok.github.io/tags/arm/</link>
-    <description>Recent content in ARM on 福岚溪森</description>
+    <description>Recent content in Arm on 福岚溪森</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 24 May 2023 20:29:59 +0800</lastBuildDate><atom:link href="https://fanyxok.github.io/tags/arm/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 03 May 2023 14:28:46 +0800</lastBuildDate><atom:link href="https://fanyxok.github.io/tags/arm/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>A Practical guide to ARM Cortex-M Exception Handling</title>
-      <link>https://fanyxok.github.io/posts/tech/p07-arm-cortex-m-exceptions-and-nvic/</link>
-      <pubDate>Wed, 24 May 2023 20:29:59 +0800</pubDate>
+      <title>A Guide to Using ARM Stack Limit Registers</title>
+      <link>https://fanyxok.github.io/blog/p04-using-psp-msp-limit-registers-for-stack-overflow/</link>
+      <pubDate>Wed, 03 May 2023 14:28:46 +0800</pubDate>
       
-      <guid>https://fanyxok.github.io/posts/tech/p07-arm-cortex-m-exceptions-and-nvic/</guid>
-      <description>ARM Cortex-M Exceptions and NVIC.</description>
+      <guid>https://fanyxok.github.io/blog/p04-using-psp-msp-limit-registers-for-stack-overflow/</guid>
+      <description>Desc Text.</description>
     </item>
     
     <item>
-      <title>A Guide to Using ARM Stack Limit Registers</title>
-      <link>https://fanyxok.github.io/posts/tech/p04-using-psp-msp-limit-registers-for-stack-overflow/</link>
-      <pubDate>Wed, 03 May 2023 14:28:46 +0800</pubDate>
+      <title>A Practical guide to ARM Cortex-M Exception Handling</title>
+      <link>https://fanyxok.github.io/blog/armv-m-exception/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://fanyxok.github.io/posts/tech/p04-using-psp-msp-limit-registers-for-stack-overflow/</guid>
-      <description>Desc Text.</description>
+      <guid>https://fanyxok.github.io/blog/armv-m-exception/</guid>
+      <description>ARM Cortex-M serials Exception Handling</description>
+    </item>
+    
+    <item>
+      <title>ARM Cortex-M RTOS Context Switching</title>
+      <link>https://fanyxok.github.io/blog/armv-m-context-switch/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fanyxok.github.io/blog/armv-m-context-switch/</guid>
+      <description></description>
     </item>
     
   </channel>
